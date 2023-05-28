@@ -28,7 +28,7 @@ exports.webHook = async (req, res) => {
 
             try {
                 state = req.body.entry[0].changes[0].value.messages[0].interactive.button_reply.id;
-                await axios(request.updateState(from, id));
+                await axios(request.updateState(from, state));
             } catch (err) {
                 console.log('Não há estado no momento ', err)
             }
