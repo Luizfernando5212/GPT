@@ -24,7 +24,18 @@ exports.textMessage = (from, message) => {
 
 }
 
-exports.interactiveMessage = (from, message, buttons, user) => {
+exports.interactiveMessage = (from, message, buttons) => {
+    console.log(message);
+    console.log(buttons)
+    console.log(buttons.map((name, index) => {
+        return {
+            type: 'reply',
+            reply: {
+                id: index + 1,
+                title: name
+            }
+        }
+    }))
     if (message instanceof Object) {
         let body = {
             method: "POST",
@@ -39,7 +50,7 @@ exports.interactiveMessage = (from, message, buttons, user) => {
                     type: "button",
                     header: {
                         type: 'text',
-                        text: message.header + ' ' + user
+                        text: message.header
                     },
                     body: {
                         text: message.body,
