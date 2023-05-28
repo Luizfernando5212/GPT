@@ -1,6 +1,6 @@
-exports.url = (numbeId, token) => {
+exports.url = (numberId, token) => {
     "https://graph.facebook.com/v12.0/" +
-        numbeId +
+        numberId +
         "/messages?access_token=" +
         token
 }

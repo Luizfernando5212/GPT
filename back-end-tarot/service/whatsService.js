@@ -1,5 +1,5 @@
 require('dotenv').config();
-const url = require('../util/urls');
+const facebook = require('../util/urls');
 const request = require('../util/requestBuilder');
 const fetch = require('node-fetch-commonjs');
 
@@ -29,7 +29,7 @@ exports.webHook = async (req, res) => {
                 let nome = req.body.entry[0].changes[0].value.contacts[0].profile.name;
 
                 try {
-                    await fetch(url(phone_number_id, token),
+                    await fetch(facebook.url(phone_number_id, token),
                         request.interactiveMessage(from, {
                             header: `Olá, seja bem vindo ${nome}`,
                             body: 'O que gostaria de realizar hoje ?'
@@ -48,7 +48,7 @@ exports.webHook = async (req, res) => {
                         .button_reply.id;
 
                 try {
-                    await fetch(url(phone_number_id, token),
+                    await fetch(facebook.url(phone_number_id, token),
                     request.textMessage(from, `Iremos te encaminhar para ${msg_body}`))
                     res.sendStatus(200);
                 } catch (err) {
