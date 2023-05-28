@@ -56,7 +56,7 @@ exports.webHook = async (req, res) => {
 
                 try {
                     await axios(request.textMessage(from, `Iremos te encaminhar para ${msg_body}`, token, phone_number_id))
-                    console.log(typeof id)
+                    console.log(id)
                     if (id == 1) {
                         await axios(request.fullMessage(from, {
                             header: `Link de compra`,
