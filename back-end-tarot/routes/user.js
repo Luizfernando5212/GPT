@@ -16,7 +16,7 @@ router.put('/:id', userController.updateUser);
 
 router.put('/state/:phone', userController.updateState);
 
-router.put('/question/:phone', userController.updateState);
+router.put('/question/:phone', userController.updateQuestion);
 
 router.get('/', userController.getUsers);
 
