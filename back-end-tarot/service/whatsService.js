@@ -9,18 +9,6 @@ exports.webHook = async (req, res) => {
     // let type = body.entry[0].changes[0].value.messages[0].type;
     let message;
 
-    if (body &&
-        body.entry[0] &&
-        body.entry[0].changes[0] &&
-        body.entry[0].changes[0].value &&
-        body.entry[0].changes[0].value.messages[0]) {
-        if (body.entry[0].changes[0].value.messages[0].text && body.entry[0].changes[0].value.messages[0].text.body) {
-            message = body.entry[0].changes[0].value.messages[0].text.body;
-        } else if (body.entry[0].changes[0].value.messages[0].interactive && body.entry[0].changes[0].value.messages[0].interactive.action && body.entry[0].changes[0].value.messages[0].interactive.action.buttons && body.entry[0].changes[0].value.messages[0].interactive.action.buttons.id) {
-            message = body.entry[0].changes[0].value.messages[0].interactive.action.buttons.id;
-        }
-    }
-
     console.log(JSON.stringify(body));
 
     if (body.object) {
@@ -50,7 +38,7 @@ exports.webHook = async (req, res) => {
             } else if (body.entry[0].changes[0].value.messages[0].interactive &&
                 body.entry[0].changes[0].value.messages[0].interactive.button_reply &&
                 body.entry[0].changes[0].value.messages[0].interactive.button_reply.id) {
-                    
+
                 let msg_body =
                     req.body.entry[0].changes[0].value.messages[0].interactive
                         .button_reply.title;
