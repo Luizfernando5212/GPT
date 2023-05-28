@@ -12,6 +12,6 @@ router.post('/login', userController.verifyUser);
 
 router.post('/', userController.newUser);
 
-router.get('/', auth.authenticateToken, userController.getUsers);
+router.get('/', userController.getUsers);
 
 module.exports = router;
