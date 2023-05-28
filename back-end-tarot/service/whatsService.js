@@ -12,8 +12,8 @@ exports.webHook = async (req, res) => {
     let message;
     let usuario;
     let state;
-    console.log(body.entry[0].changes[0].value.messages[0].timestamp);
-    console.log(Date.now() / 1000)
+    // console.log(body.entry[0].changes[0].value.messages[0].timestamp);
+    // console.log(Date.now() / 1000)
     // id = await axios()
 
     // console.log(JSON.stringify(body));
@@ -28,7 +28,12 @@ exports.webHook = async (req, res) => {
             let from = req.body.entry[0].changes[0].value.messages[0].from; // extract the phone number from the webhook payload
 
             try {
-                state = req.body.entry[0].changes[0].value.messages[0].interactive.button_reply.id;
+                try {
+                    state = req.body.entry[0].changes[0].value.messages[0].interactive.button_reply.id;
+                } catch (err) {
+                    state = req.body.entry[0].changes[0].value.messages[0].interactive.list_reply.id;
+                }
+                
                 await axios(request.updateState(from, state));
             } catch (err) {
                 console.log('Não há estado no momento ', err)
