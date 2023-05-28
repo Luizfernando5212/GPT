@@ -4,9 +4,6 @@ var cookieParser = require('cookie-parser');
 var cors = require('cors');
 var bodyParser = require('body-parser');
 
-
-var logger = require('morgan');
-
 const conn = require('./connection/db');
 
 var modelRouter = require('./routes/model');
