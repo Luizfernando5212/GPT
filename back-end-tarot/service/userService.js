@@ -38,7 +38,6 @@ exports.verifyUserByPhone = async (req, res) => {
 }
 
 exports.getUsers = async (req, res) => {
-    console.lof(req)
     try {
         const users = await User.find();
         console.log(users)

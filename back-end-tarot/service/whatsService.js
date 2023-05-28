@@ -20,7 +20,8 @@ exports.webHook = async (req, res) => {
             let phone_number_id = body.entry[0].changes[0].value.metadata.phone_number_id;
             let from = req.body.entry[0].changes[0].value.messages[0].from; // extract the phone number from the webhook payload
 
-            if (body.entry[0].changes[0].value.messages[0].text && body.entry[0].changes[0].value.messages[0].text.body) {
+            if (body.entry[0].changes[0].value.messages[0].text && 
+                body.entry[0].changes[0].value.messages[0].text.body) {
                 message = body.entry[0].changes[0].value.messages[0].text.body;
                 let nome = req.body.entry[0].changes[0].value.contacts[0].profile.name;
 
