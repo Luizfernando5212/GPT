@@ -171,6 +171,7 @@ exports.interactiveListMessage = (from, message, buttons, token, number, i) => {
             }
         }
     }
+    return body;
 }
 
 exports.getTokens = (from) => {
