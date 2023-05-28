@@ -47,7 +47,7 @@ exports.webHook = async (req, res) => {
             } else if (body.entry[0].changes[0].value.messages[0].interactive &&
                 body.entry[0].changes[0].value.messages[0].interactive.button_reply &&
                 body.entry[0].changes[0].value.messages[0].interactive.button_reply.id &&
-                body.entry[0].changes[0].value.messages[0].timestamp > Date.now() /1000 - 1) {
+                body.entry[0].changes[0].value.messages[0].timestamp > Date.now() /1000 - 1.5) {
 
                 let msg_body =
                     req.body.entry[0].changes[0].value.messages[0].interactive
