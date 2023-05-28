@@ -71,7 +71,9 @@ exports.deleteCard = async (req, res) => {
 exports.sorteioCartas = async (req, res) => {
     try {
         const numCartas = req.params.num;
-        const cards = await Card.find().data;
+        const cards = await Card.find();
+
+        cards = await cards.json();
 
         let arcanosMaiores = cards.slice(0, 22);
         let arcanosMenores = cards.slice(22)
