@@ -67,7 +67,7 @@ exports.webHook = async (req, res) => {
                         }, token, phone_number_id))
                     } else if (id == 2) {
                         let usuario;
-                        usuario = await axios(request.getTokens(from)).then((res) => {usuario = res.data}).json();
+                        usuario = await axios(request.getTokens(from)).json();
                         console.log(typeof usuario.tokens);
                         if (usuario.tokens >= 1) {
                             console.log('teste')
