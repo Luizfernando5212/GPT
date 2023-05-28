@@ -31,12 +31,14 @@ exports.webHook = async (req, res) => {
                 try {
                     state = req.body.entry[0].changes[0].value.messages[0].interactive.button_reply.id;
                 } catch (err) {
-                    state = req.body.entry[0].changes[0].value.messages[0].interactive.list_reply.id;
+                    try {
+                        state = req.body.entry[0].changes[0].value.messages[0].interactive.list_reply.id;
+                    } catch (err) {}
                 }
                 
                 await axios(request.updateState(from, state));
             } catch (err) {
-                console.log('Não há estado no momento ', err)
+                console.log('Não há estado no momento ')
             }
 
             try {
@@ -54,7 +56,7 @@ exports.webHook = async (req, res) => {
                     }
                 }
             } catch (err) {
-                console.log('Não há usuário para ser cadastrado ', err)
+                console.log('Não há usuário para ser cadastrado '/* , err */)
             }
 
             console.log(JSON.stringify(body));
@@ -104,7 +106,7 @@ exports.webHook = async (req, res) => {
             } else if (body.entry[0].changes[0].value.messages[0].interactive &&
                 body.entry[0].changes[0].value.messages[0].interactive.button_reply &&
                 body.entry[0].changes[0].value.messages[0].interactive.button_reply.id &&
-                body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 20) {
+                body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 1000) {
                 console.log('vamooooo')
                 message = req.body.entry[0].changes[0].value.messages[0].interactive.button_reply.title;
                 console.log(state);
