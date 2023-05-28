@@ -1,12 +1,15 @@
+const facebook = require('./urls');
 
-exports.textMessage = (from, message, token) => {
+
+exports.textMessage = (from, message, token, number) => {
     let body = {
         method: "POST",
+        url: facebook.url(number, token),
         headers: {
             'Authorization': `Bearer ${token}`,
             "Content-Type": "application/json",
         },
-        body: {
+        data: {
             messaging_product: "whatsapp",
             to: from,
             type: "text",
@@ -40,11 +43,12 @@ exports.interactiveMessage = (from, message, buttons, token) => {
     if (message instanceof Object) {
         let body = {
             method: "POST",
+            url: facebook.url(number, token),
             headers: {
                 Authorization: "Bearer " + token,
                 "Content-Type": "application/json",
             },
-            body: {
+            data: {
                 messaging_product: "whatsapp",
                 recipient_type: "individual",
                 to: from,
@@ -74,7 +78,7 @@ exports.interactiveMessage = (from, message, buttons, token) => {
                 // text: { body: "Ack: " + followUp },
             },
         }
-        console.log(body.body.interactive)
+        console.log(body.data.interactive)
         return body;
     } else {
         let body = {
@@ -82,7 +86,7 @@ exports.interactiveMessage = (from, message, buttons, token) => {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: {
+            data: {
                 messaging_product: "whatsapp",
                 recipient_type: "individual",
                 to: from,
@@ -106,7 +110,7 @@ exports.interactiveMessage = (from, message, buttons, token) => {
                 }
             },
         }
-        console.log(body.body.interactive.action.buttons);
+        console.log(body.data.interactive.action.buttons);
         return body;
     }
 }

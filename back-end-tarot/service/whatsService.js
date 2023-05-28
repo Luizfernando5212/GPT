@@ -1,7 +1,7 @@
 require('dotenv').config();
 const facebook = require('../util/urls');
 const request = require('../util/requestBuilder');
-const fetch = require('node-fetch-commonjs');
+axios = require("axios").default;
 
 const token = process.env.WHATSAPP_TOKEN;
 
@@ -29,11 +29,10 @@ exports.webHook = async (req, res) => {
                 let nome = req.body.entry[0].changes[0].value.contacts[0].profile.name;
 
                 try {
-                    const response = await fetch(facebook.url(phone_number_id, token),
-                        request.interactiveMessage(from, {
-                            header: `Olá, seja bem vindo ${nome}`,
-                            body: 'O que gostaria de realizar hoje ?'
-                        }, ['Comprar tokens', 'Jogar'], token));
+                    const response = await axios(request.interactiveMessage(from, {
+                        header: `Olá, seja bem vindo ${nome}`,
+                        body: 'O que gostaria de realizar hoje ?'
+                    }, ['Comprar tokens', 'Jogar'], token, phone_number_id));
                     console.log(response)
                     res.status(200).json(response);
                 } catch (err) {
@@ -49,8 +48,7 @@ exports.webHook = async (req, res) => {
                         .button_reply.id;
 
                 try {
-                    await fetch(facebook.url(phone_number_id, token),
-                        request.textMessage(from, `Iremos te encaminhar para ${msg_body}`, token))
+                    await axios(request.textMessage(from, `Iremos te encaminhar para ${msg_body}`, token, phone_number_id))
                     res.sendStatus(200);
                 } catch (err) {
                     console.log("Deu ruim ", err);
