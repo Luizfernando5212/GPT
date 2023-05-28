@@ -104,7 +104,7 @@ exports.webHook = async (req, res) => {
             } else if (body.entry[0].changes[0].value.messages[0].interactive &&
                 body.entry[0].changes[0].value.messages[0].interactive.button_reply &&
                 body.entry[0].changes[0].value.messages[0].interactive.button_reply.id &&
-                body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 5) {
+                body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 20) {
                 console.log('vamooooo')
                 message = req.body.entry[0].changes[0].value.messages[0].interactive.button_reply.title;
                 console.log(state);
@@ -117,10 +117,6 @@ exports.webHook = async (req, res) => {
                             footer: 'www.google.com.br'
                         }, token, phone_number_id))
                     } else if (state == 2) {
-                        // let usuario;
-                        // usuario = await axios(request.getUser(from));
-                        // console.log(usuario.data)
-                        // console.log(typeof usuario.data.tokens);
                         if (usuario.tokens >= 1) {
                             await axios(request.textMessage(from, `Escreva *agora* a pergunta que gostaria de ser respondida.`,
                                 token, phone_number_id))
