@@ -1,48 +1,27 @@
 
-exports.textMessage = (from, message, user) => {
-    if (user === undefined) {
-        let body = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
+exports.textMessage = (from, message) => {
+    let body = {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        data: {
+            messaging_product: "whatsapp",
+            to: from,
+            type: "text",
+            text: {
+                preview_url: true,
+                body: message,
             },
-            data: {
-                messaging_product: "whatsapp",
-                to: from,
-                type: "text",
-                text: {
-                    preview_url: true,
-                    body: message,
-                },
-    
-                // text: { body: "Ack: " + followUp },
-            },
-        }
-        return body;
-    } else {
-        let body = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            data: {
-                messaging_product: "whatsapp",
-                to: from,
-                type: "text",
-                text: {
-                    preview_url: true,
-                    body: message + ' ' + user,
-                },
-    
-                // text: { body: "Ack: " + followUp },
-            },
-        }
-        return body;
+
+            // text: { body: "Ack: " + followUp },
+        },
     }
-    
+    return body;
+
 }
 
-exports.interactiveMessage = (from, message, user, buttons) => {
+exports.interactiveMessage = (from, message, buttons, user) => {
     if (message instanceof Object) {
         let body = {
             method: "POST",
