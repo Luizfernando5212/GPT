@@ -61,7 +61,7 @@ exports.webHook = async (req, res) => {
                 let nome = req.body.entry[0].changes[0].value.contacts[0].profile.name;
 
                 // Caso do usuário fazer a pergunta
-                if (state !== 0) {
+                if (state !== 0 && state !== 3) {
                     try {
                         await axios(request.textMessage(from, `Você já está em uma sessão, selecione uma das opções acima`,
                             token, phone_number_id))
