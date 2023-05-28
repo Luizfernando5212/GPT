@@ -5,7 +5,7 @@ exports.textMessage = (from, message) => {
         headers: {
             "Content-Type": "application/json",
         },
-        data: {
+        body: {
             messaging_product: "whatsapp",
             to: from,
             type: "text",
@@ -28,7 +28,7 @@ exports.interactiveMessage = (from, message, buttons, user) => {
             headers: {
                 "Content-Type": "application/json",
             },
-            data: {
+            body: {
                 messaging_product: "whatsapp",
                 to: from,
                 type: "interactive",
@@ -65,7 +65,7 @@ exports.interactiveMessage = (from, message, buttons, user) => {
             headers: {
                 "Content-Type": "application/json",
             },
-            data: {
+            body: {
                 messaging_product: "whatsapp",
                 to: from,
                 type: "interactive",
