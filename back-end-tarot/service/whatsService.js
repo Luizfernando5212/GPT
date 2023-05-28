@@ -12,7 +12,7 @@ const array = []
 exports.webHook = async (req, res) => {
     let body = req.body;
 
-    console.log(body);
+    console.log(JSON.stringify(body));
 
     if (req.body.object) {
         if (
@@ -33,7 +33,7 @@ exports.webHook = async (req, res) => {
                         request.interactiveMessage(from, {
                             header: `Olá, seja bem vindo ${nome}`,
                             body: 'O que gostaria de realizar hoje ?'
-                        }, ['Comprar tokens', 'Jogar']))
+                        }, ['Comprar tokens', 'Jogar']));
                     res.sendStatus(200);
                 } catch (err) {
                     console.log("Deu ruim ", err);
