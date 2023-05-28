@@ -67,6 +67,7 @@ exports.webHook = async (req, res) => {
                             footer: 'www.google.com.br'
                         }, token, phone_number_id))
                     } else if (id === 2) {
+                        await axios(request.textMessage(from, `Link do jogo`, token, phone_number_id))
                     }
                     res.sendStatus(200);
                 } catch (err) {
