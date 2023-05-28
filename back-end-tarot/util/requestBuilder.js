@@ -182,10 +182,7 @@ exports.getUser = (from) => {
         url: facebook.getUser(from),
         headers: {
             "Content-Type": "application/json",
-        },
-        data: {
-            phone: from,
-        },
+        }
     }
     return body;
 }

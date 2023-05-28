@@ -12,7 +12,8 @@ exports.webHook = async (req, res) => {
     let message;
     let usuario;
     let state;
-
+    console.log(body.entry[0].changes[0].value.messages[0].timestamp);
+    console.log(Date.now() / 1000)
     // id = await axios()
 
     // console.log(JSON.stringify(body));
@@ -85,8 +86,8 @@ exports.webHook = async (req, res) => {
             } else if (body.entry[0].changes[0].value.messages[0].interactive &&
                 body.entry[0].changes[0].value.messages[0].interactive.button_reply &&
                 body.entry[0].changes[0].value.messages[0].interactive.button_reply.id &&
-                body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 1.5) {
-
+                body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 5) {
+                console.log('vamooooo')
                 message = req.body.entry[0].changes[0].value.messages[0].interactive.button_reply.title;
                 console.log(state);
                 try {
