@@ -1,8 +1,12 @@
 require('dotenv').config();
 const url = require('../util/urls');
 const request = require('../util/requestBuilder');
+const fetch = require('node-fetch');
 
 const token = process.env.WHATSAPP_TOKEN;
+
+const array = []
+
 
 
 exports.webHook = async (req, res) => {
@@ -23,8 +27,6 @@ exports.webHook = async (req, res) => {
             if ("text" in req.body.entry[0].changes[0].value.messages[0]) {
                 let msg_body = req.body.entry[0].changes[0].value.messages[0].text.body;
                 let nome = req.body.entry[0].changes[0].value.contacts[0].profile.name;
-
-
 
                 try {
                     await fetch(url(phone_number_id, token),
