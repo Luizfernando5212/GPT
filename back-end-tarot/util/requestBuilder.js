@@ -59,15 +59,22 @@ exports.interactiveMessage = (from, message, buttons, token) => {
                         text: message.body,
                     },
                     action: {
-                        buttons: buttons.map((name, index) => {
-                            return {
-                                type: 'reply',
+                        buttons: [
+                            {
+                                type: "reply",
                                 reply: {
-                                    id: index + 1,
-                                    title: name
+                                    id: "UNIQUE_BUTTON_ID_1",
+                                    title: "BUTTON_TITLE_1"
+                                }
+                            },
+                            {
+                                type: "reply",
+                                reply: {
+                                    id: "UNIQUE_BUTTON_ID_2",
+                                    title: "BUTTON_TITLE_2"
                                 }
                             }
-                        })
+                        ]
                     },
                 },
 
