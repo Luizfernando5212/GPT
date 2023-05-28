@@ -33,7 +33,7 @@ exports.webHook = async (req, res) => {
                         request.interactiveMessage(from, {
                             header: `Olá, seja bem vindo ${nome}`,
                             body: 'O que gostaria de realizar hoje ?'
-                        }, ['Comprar tokens', 'Jogar']));
+                        }, ['Comprar tokens', 'Jogar'], token));
                     console.log(response)
                     res.status(200).json(response);
                 } catch (err) {
@@ -49,8 +49,8 @@ exports.webHook = async (req, res) => {
                         .button_reply.id;
 
                 try {
-                    await fetch(facebook.url(phone_number_id, token),
-                        request.textMessage(from, `Iremos te encaminhar para ${msg_body}`))
+                    await fetch(facebook.url(phone_number_id),
+                        request.textMessage(from, `Iremos te encaminhar para ${msg_body}`, token))
                     res.sendStatus(200);
                 } catch (err) {
                     console.log("Deu ruim ", err);

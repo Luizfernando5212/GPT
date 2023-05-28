@@ -1,8 +1,9 @@
 
-exports.textMessage = (from, message) => {
+exports.textMessage = (from, message, token) => {
     let body = {
         method: "POST",
         headers: {
+            Authorization: "Bearer " + token,
             "Content-Type": "application/json",
         },
         body: {
@@ -24,7 +25,7 @@ exports.textMessage = (from, message) => {
 
 }
 
-exports.interactiveMessage = (from, message, buttons) => {
+exports.interactiveMessage = (from, message, buttons, token) => {
     console.log(message);
     console.log(buttons)
     console.log(buttons.map((name, index) => {
@@ -40,6 +41,7 @@ exports.interactiveMessage = (from, message, buttons) => {
         let body = {
             method: "POST",
             headers: {
+                Authorization: "Bearer " + token,
                 "Content-Type": "application/json",
             },
             body: {
