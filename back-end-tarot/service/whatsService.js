@@ -65,18 +65,18 @@ exports.webHook = async (req, res) => {
                     } else if (id == 2) {
                         let usuario;
                         usuario = await axios(request.getTokens(from));
-                        console.log(usuario)
-                        console.log(typeof usuario.tokens);
-                        if (usuario.tokens >= 1) {
+                        console.log(usuario.data)
+                        console.log(typeof usuario.data.tokens);
+                        if (usuario.data.tokens >= 1) {
                             console.log('teste')
                             var possibilidades = [1, 2, 3, 4, 5, 6, 8, 10, 20];
                             const cartas = [];
                             for (const i of possibilidades) {
-                                if (usuario.tokens >= i) cartas.push(`${i} ${i === 1 ? 'carta' : 'cartas'}`);
+                                if (usuario.data.tokens >= i) cartas.push(`${i} ${i === 1 ? 'carta' : 'cartas'}`);
                             }
                             // Faça a sua pergunta
                             await axios(request.interactiveMessage(from,
-                                `Você possui ${usuario.tokens} tokens. Escolha a quantidade de cartas que deseja sortear`,
+                                `Você possui ${usuario.data.tokens} tokens. Escolha a quantidade de cartas que deseja sortear`,
                                 cartas, token, phone_number_id, 3));
                         }
                     } else if (id >= 3) {
