@@ -144,6 +144,7 @@ exports.webHook = async (req, res) => {
                 try {
                     if (state >= 4 && state <= 12) {
                         const cartasSorteadas = await axios(request.sorteioCartas(possibilidades[state - 4]));
+                        console.log(cartasSorteadas)
                         let combinacoes = '';
                         if (cartasSorteadas.menores) {
                             for (let i = 0; i <= cartasSorteadas.menores.length; i++) {
