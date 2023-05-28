@@ -1,5 +1,4 @@
 require('dotenv').config();
-const facebook = require('../util/urls');
 const request = require('../util/requestBuilder');
 const axios = require("axios").default;
 
