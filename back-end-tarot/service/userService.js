@@ -24,6 +24,19 @@ exports.verifyUser = async (req, res) => {
     }
 }
 
+exports.verifyUserByPhone = async (req, res) => {
+    const { phone } = req.body;
+
+    try {
+        const user = await User.findOne({ phone: phone });
+        console.log(user);
+
+        res.json(user);
+    } catch (err) {
+        res.status(401).json({ message: 'Invalid phone number.' })
+    }
+}
+
 exports.getUsers = async (req, res) => {
     console.lof(req)
     try {
@@ -37,10 +50,11 @@ exports.getUsers = async (req, res) => {
 
 exports.newUser = async (req, res) => {
     try {
-        const { username, password } = req.body;
+        const { username, password, phone } = req.body;
         var user = new User({
             username: username,
-            password: password
+            password: password,
+            phone: phone
         })
 
         const response = await user.save();
@@ -52,7 +66,7 @@ exports.newUser = async (req, res) => {
 }
 
 exports.updadeUser = async (req, res) => {
-    try{
+    try {
         const { user } = req.body;
         const oldUser = await User.findById(user.id);
 

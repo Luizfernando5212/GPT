@@ -6,21 +6,34 @@ const token = process.env.WHATSAPP_TOKEN;
 
 exports.webHook = async (req, res) => {
     let body = req.body;
+    let type = body.entry[0].changes[0].value.messages[0].type;
+    let message;
+
+    if (body &&
+        body.entry[0] &&
+        body.entry[0].changes[0] &&
+        body.entry[0].changes[0].value &&
+        body.entry[0].changes[0].value.messages[0]) {
+        if (body.entry[0].changes[0].value.messages[0].text && body.entry[0].changes[0].value.messages[0].text.body) {
+            message = body.entry[0].changes[0].value.messages[0].text.body;
+        } else if (body.entry[0].changes[0].value.messages[0].interactive && body.entry[0].changes[0].value.messages[0].interactive.action && body.entry[0].changes[0].value.messages[0].interactive.action.buttons && body.entry[0].changes[0].value.messages[0].interactive.action.buttons.id) {
+            message = body.entry[0].changes[0].value.messages[0].interactive.action.buttons.id;
+        }
+    }
 
     console.log(JSON.stringify(body));
 
-    if (req.body.object) {
-        if (
-            req.body.entry &&
-            req.body.entry[0].changes &&
-            req.body.entry[0].changes[0] &&
-            req.body.entry[0].changes[0].value.messages &&
-            req.body.entry[0].changes[0].value.messages[0]
-        ) {
-            let phone_number_id = req.body.entry[0].changes[0].value.metadata.phone_number_id;
+    if (body.object) {
+        if (body &&
+            body.entry[0] &&
+            body.entry[0].changes[0] &&
+            body.entry[0].changes[0].value &&
+            body.entry[0].changes[0].value.messages[0]) {
+            let phone_number_id = body.entry[0].changes[0].value.metadata.phone_number_id;
             let from = req.body.entry[0].changes[0].value.messages[0].from; // extract the phone number from the webhook payload
-            if ("text" in req.body.entry[0].changes[0].value.messages[0]) {
-                let msg_body = req.body.entry[0].changes[0].value.messages[0].text.body;
+
+            if (body.entry[0].changes[0].value.messages[0].text && body.entry[0].changes[0].value.messages[0].text.body) {
+                message = body.entry[0].changes[0].value.messages[0].text.body;
                 let nome = req.body.entry[0].changes[0].value.contacts[0].profile.name;
 
                 try {
@@ -28,12 +41,16 @@ exports.webHook = async (req, res) => {
                         header: `Olá, seja bem vindo ${nome}`,
                         body: 'O que gostaria de realizar hoje ?'
                     }, ['Comprar tokens', 'Jogar'], token, phone_number_id));
-                    res.status(200).json(response);
+                    res.status(200).send(response);
                 } catch (err) {
                     console.log("Deu ruim ", err);
                     res.sendStatus(400);
                 }
-            } else {
+
+            } else if (body.entry[0].changes[0].value.messages[0].interactive &&
+                body.entry[0].changes[0].value.messages[0].interactive.button_reply &&
+                body.entry[0].changes[0].value.messages[0].interactive.button_reply.id) {
+                    
                 let msg_body =
                     req.body.entry[0].changes[0].value.messages[0].interactive
                         .button_reply.title;
@@ -43,6 +60,14 @@ exports.webHook = async (req, res) => {
 
                 try {
                     await axios(request.textMessage(from, `Iremos te encaminhar para ${msg_body}`, token, phone_number_id))
+                    if (id === 1) {
+                        await axios(request.compraMessage(from, {
+                            header: `Link de compra`,
+                            body: 'Entre no link abaixo para realizar a compra, após a compra você receberá um código para utilizar no jogo',
+                            footer: 'www.google.com.br'
+                        }, token, phone_number_id))
+                    } else if (id === 2) {
+                    }
                     res.sendStatus(200);
                 } catch (err) {
                     console.log("Deu ruim ", err);
