@@ -100,6 +100,7 @@ exports.interactiveMessage = (from, message, buttons, token, number, i) => {
     } else {
         let body = {
             method: "POST",
+            url: facebook.url(number, token),
             headers: {
                 "Content-Type": "application/json",
             },
@@ -133,8 +134,8 @@ exports.interactiveMessage = (from, message, buttons, token, number, i) => {
 
 exports.getTokens = async (from) => {
     let body = {
-        method: "GET",
-        url: await facebook.getUser(from),
+        method: "POST",
+        url: facebook.getUser(from),
         headers: {
             "Content-Type": "application/json",
         },
@@ -168,4 +169,5 @@ exports.completion = (pergunta) => {
             pergunta: "whatsapp",
         }
     }
+    return body;
 }
