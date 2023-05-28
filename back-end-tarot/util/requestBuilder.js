@@ -1,5 +1,5 @@
 
-exports.textMessage = (message, user) => {
+exports.textMessage = (from, message, user) => {
     if (user === undefined) {
         let body = {
             method: "POST",
@@ -42,9 +42,9 @@ exports.textMessage = (message, user) => {
     
 }
 
-exports.interactiveMessage = (message, user, buttons) => {
+exports.interactiveMessage = (from, message, user, buttons) => {
     if (message instanceof Object) {
-        body = {
+        let body = {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -78,8 +78,10 @@ exports.interactiveMessage = (message, user, buttons) => {
                 // text: { body: "Ack: " + followUp },
             },
         }
+
+        return body;
     } else {
-        body = {
+        let body = {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -107,5 +109,7 @@ exports.interactiveMessage = (message, user, buttons) => {
                 },
             },
         }
+
+        return body;
     }
 }

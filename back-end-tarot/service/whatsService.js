@@ -28,7 +28,7 @@ exports.webHook = async (req, res) => {
 
                 try {
                     await fetch(url(phone_number_id, token),
-                        request.interactiveMessage({
+                        request.interactiveMessage(from, {
                             header: `Olá, seja bem vindo ${nome}`,
                             body: 'O que gostaria de realizar hoje ?'
                         }, ['Comprar tokens', 'Jogar']))
@@ -47,7 +47,7 @@ exports.webHook = async (req, res) => {
 
                 try {
                     await fetch(url(phone_number_id, token),
-                    request.textMessage(`Iremos te encaminhar para ${msg_body}`))
+                    request.textMessage(from, `Iremos te encaminhar para ${msg_body}`))
                     res.sendStatus(200);
                 } catch (err) {
                     console.log("Deu ruim ", err);
