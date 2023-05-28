@@ -12,7 +12,7 @@ const array = []
 exports.webHook = async (req, res) => {
     let body = req.body;
 
-    if (req.body.entry[0].changes[0].statuses[0].status === 'sent') console.log(JSON.stringify(body));
+    console.log(JSON.stringify(body));
 
     if (req.body.object) {
         if (
