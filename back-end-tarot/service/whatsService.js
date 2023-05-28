@@ -29,7 +29,7 @@ exports.webHook = async (req, res) => {
 
             if (body.entry[0].changes[0].value.messages[0].text &&
                 body.entry[0].changes[0].value.messages[0].text.body &&
-                body.entry[0].changes[0].value.messages[0].timestamp > Date.now() /1000 - 1) {
+                body.entry[0].changes[0].value.messages[0].timestamp > Date.now() /1000 - 5) {
                 message = body.entry[0].changes[0].value.messages[0].text.body;
                 let nome = req.body.entry[0].changes[0].value.contacts[0].profile.name;
 
@@ -46,7 +46,8 @@ exports.webHook = async (req, res) => {
 
             } else if (body.entry[0].changes[0].value.messages[0].interactive &&
                 body.entry[0].changes[0].value.messages[0].interactive.button_reply &&
-                body.entry[0].changes[0].value.messages[0].interactive.button_reply.id) {
+                body.entry[0].changes[0].value.messages[0].interactive.button_reply.id &&
+                body.entry[0].changes[0].value.messages[0].timestamp > Date.now() /1000 - 2) {
 
                 let msg_body =
                     req.body.entry[0].changes[0].value.messages[0].interactive
