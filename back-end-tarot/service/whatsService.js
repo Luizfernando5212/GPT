@@ -6,13 +6,12 @@ const axios = require("axios").default;
 const token = process.env.WHATSAPP_TOKEN;
 
 const pergunta = "O que o futuro me reserva?";
-let id = 0;
 
 exports.webHook = async (req, res) => {
     let body = req.body;
     let message;
     let usuario;
-    let id;
+    let state;
 
     // id = await axios()
 
@@ -28,7 +27,7 @@ exports.webHook = async (req, res) => {
             let from = req.body.entry[0].changes[0].value.messages[0].from; // extract the phone number from the webhook payload
 
             try {
-                id = req.body.entry[0].changes[0].value.messages[0].interactive.button_reply.id;
+                state = req.body.entry[0].changes[0].value.messages[0].interactive.button_reply.id;
                 await axios(request.updateState(from, id));
             } catch (err) {
                 console.log('Não há estado no momento ', err)
@@ -38,10 +37,10 @@ exports.webHook = async (req, res) => {
                 let response = await axios(request.getUser(from));
                 if (response.status === 200) {
                     usuario = response.data;
-                    id = usuario._id;
+                    state = usuario.state;
 
                     console.log('Usuário já cadastrado ', usuario)
-                    console.log('id ', id)
+                    console.log('state ', state)
                 } else {
                     let response = await axios(request.postUser(from, req.body.entry[0].changes[0].value.contacts[0].profile.name));
                     if(response.status === 200) {
@@ -61,7 +60,7 @@ exports.webHook = async (req, res) => {
                 let nome = req.body.entry[0].changes[0].value.contacts[0].profile.name;
 
                 // Caso do usuário fazer a pergunta
-                if (id !== 0) {
+                if (state !== 0) {
                     try {
                         await axios(request.textMessage(from, `Você já está em uma sessão, selecione uma das opções acima`,
                             token, phone_number_id))
@@ -89,16 +88,16 @@ exports.webHook = async (req, res) => {
                 body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 1.5) {
 
                 message = req.body.entry[0].changes[0].value.messages[0].interactive.button_reply.title;
-                console.log(id);
+                console.log(state);
                 try {
                     await axios(request.textMessage(from, `Iremos te encaminhar para ${msg_body}`, token, phone_number_id))
-                    if (id == 1) {
+                    if (state == 1) {
                         await axios(request.fullMessage(from, {
                             header: `Link de compra`,
                             body: 'Entre no link abaixo para realizar a compra, após a compra você receberá um código para utilizar no jogo',
                             footer: 'www.google.com.br'
                         }, token, phone_number_id))
-                    } else if (id == 2) {
+                    } else if (state == 2) {
                         // let usuario;
                         // usuario = await axios(request.getUser(from));
                         // console.log(usuario.data)
@@ -110,7 +109,7 @@ exports.webHook = async (req, res) => {
                         } else {
                             await axios(request.textMessage(from, `Você não possui tokens suficientes`, token, phone_number_id))
                         }
-                    } else if (id === 3) {
+                    } else if (state === 3) {
                         if (usuario.tokens >= 1) {
                             console.log('teste')
                             var possibilidades = [1, 2, 3, 4, 5, 6, 8, 10, 20];
@@ -123,8 +122,8 @@ exports.webHook = async (req, res) => {
                                 `Você possui ${usuario.data.tokens} tokens. Escolha a quantidade de cartas que deseja sortear`,
                                 cartas, token, phone_number_id, 4));
                         }
-                    } else if (id >= 4 && id <= 12) {
-                        const cartasSorteadas = await axios(request.sorteioCartas(possibilidades[id - 3]));
+                    } else if (state >= 4 && state <= 12) {
+                        const cartasSorteadas = await axios(request.sorteioCartas(possibilidades[state - 4]));
                         let combinacoes = '';
                         if (cartasSorteadas.menores) {
                             for (let i = 0; i <= cartasSorteadas.menores.length; i++) {
