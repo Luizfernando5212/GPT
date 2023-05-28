@@ -17,6 +17,9 @@ exports.textMessage = (from, message) => {
             // text: { body: "Ack: " + followUp },
         },
     }
+
+    console.log(body);
+
     return body;
 
 }
@@ -57,7 +60,7 @@ exports.interactiveMessage = (from, message, buttons, user) => {
                 // text: { body: "Ack: " + followUp },
             },
         }
-
+        console.log(body);
         return body;
     } else {
         let body = {
@@ -88,7 +91,7 @@ exports.interactiveMessage = (from, message, buttons, user) => {
                 },
             },
         }
-
+        console.log(body);
         return body;
     }
 }
