@@ -91,7 +91,7 @@ exports.webHook = async (req, res) => {
                 message = req.body.entry[0].changes[0].value.messages[0].interactive.button_reply.title;
                 console.log(state);
                 try {
-                    await axios(request.textMessage(from, `Iremos te encaminhar para ${msg_body}`, token, phone_number_id))
+                    await axios(request.textMessage(from, `Iremos te encaminhar para ${message}`, token, phone_number_id))
                     if (state == 1) {
                         await axios(request.fullMessage(from, {
                             header: `Link de compra`,
