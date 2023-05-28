@@ -12,6 +12,7 @@ exports.webHook = async (req, res) => {
     let message;
     let usuario;
     let state;
+    var possibilidades = [1, 2, 3, 4, 5, 6, 8, 10, 20]
     // console.log(body.entry[0].changes[0].value.messages[0].timestamp);
     // console.log(Date.now() / 1000)
     // id = await axios()
@@ -75,7 +76,6 @@ exports.webHook = async (req, res) => {
                 if (state === 3) {
                     if (usuario.tokens >= 1) {
                         console.log('teste')
-                        var possibilidades = [1, 2, 3, 4, 5, 6, 8, 10, 20];
                         const cartas = [];
                         for (const i of possibilidades) {
                             if (usuario.tokens >= i) cartas.push(`${i} ${i === 1 ? 'carta' : 'cartas'}`);
@@ -129,44 +129,6 @@ exports.webHook = async (req, res) => {
                             await axios(request.updateState(from, 3))
                         } else {
                             await axios(request.textMessage(from, `Você não possui tokens suficientes`, token, phone_number_id))
-                        }
-                    } else if (state === 3) {
-                        if (usuario.tokens >= 1) {
-                            console.log('teste')
-                            var possibilidades = [1, 2, 3, 4, 5, 6, 8, 10, 20];
-                            const cartas = [];
-                            for (const i of possibilidades) {
-                                if (usuario.tokens >= i) cartas.push(`${i} ${i === 1 ? 'carta' : 'cartas'}`);
-                            }
-                            // Faça a sua pergunta
-                            await axios(request.interactiveListMessage(from,
-                                `Você possui *${usuario.tokens}* tokens. Escolha a quantidade de cartas que deseja sortear`,
-                                cartas, token, phone_number_id, 4));
-                        }
-                    } else if (state >= 4 && state <= 12) {
-                        const cartasSorteadas = await axios(request.sorteioCartas(possibilidades[state - 4]));
-                        let combinacoes = '';
-                        if (cartasSorteadas.menores) {
-                            for (let i = 0; i <= cartasSorteadas.menores.length; i++) {
-                                combinacoes += `${i + 1}ª combinação` + ' -> ' + cartasSorteadas.maiores[i] +
-                                    ' e ' + cartasSorteadas.menores[i] + '\n'
-                            }
-                            await axios(request.fullMessage(from, {
-                                header: `Suas cartas são:`,
-                                body: combinacoes,
-                                footer: 'Sua pergunta será respondida em alguns momentos!!'
-                            }, token, phone_number_id));
-                            const response = await axios(request.completionMessage(user.question, cartasSorteadas));
-                            if (response.status !== 200) {
-                                await axios(request.textMessage(from, `Não foi possível responder sua pergunta, tente novamente mais tarde`,
-                                    token, phone_number_id))
-                            } else {
-                                await axios(request.textMessage(from, response.result, token, phone_number_id));
-                                await axios(request.textMessage(from, 'Obrigado por utilizar o nosso serviço', token, phone_number_id));
-                                await axios(request.updateState(from, 0));
-                                await axios(request.updateQuestion(from, ''));
-                            }
-                            // let response = await axios(request.interactiveMessage(from))
                         }
                     }
                     res.sendStatus(200);
