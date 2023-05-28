@@ -29,7 +29,7 @@ exports.webHook = async (req, res) => {
 
             if (body.entry[0].changes[0].value.messages[0].text &&
                 body.entry[0].changes[0].value.messages[0].text.body &&
-                body.entry[0].changes[0].value.messages[0].timestamp > Date.now() /1000 - 5) {
+                body.entry[0].changes[0].value.messages[0].timestamp > Date.now() /1000 - 1) {
                 message = body.entry[0].changes[0].value.messages[0].text.body;
                 let nome = req.body.entry[0].changes[0].value.contacts[0].profile.name;
 
@@ -65,7 +65,8 @@ exports.webHook = async (req, res) => {
                             footer: 'www.google.com.br'
                         }, token, phone_number_id))
                     } else if (id == 2) {
-                        const usuario = await axios(facebook.getUser(from), request.getTokens());
+                        let usuario;
+                        await axios(request.getTokens(from)).then((res) => {usuario = res.data});
                         console.log(usuario);
                         if (usuario.tokens >= 1) {
                             var possibilidades = [1, 2, 3, 4, 5, 6, 8, 10, 20];

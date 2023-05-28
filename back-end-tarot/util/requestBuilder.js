@@ -134,13 +134,14 @@ exports.interactiveMessage = (from, message, buttons, token, number, i) => {
 
 exports.getTokens = async (from) => {
     let body = {
-        method: "POST",
+        method: "GET",
+        url: facebook.getUser(from),
         headers: {
             "Content-Type": "application/json",
         },
         data: {
             phone: from,
-        }
+        },
     }
     console.log(body)
     return body;
