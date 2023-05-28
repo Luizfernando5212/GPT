@@ -28,7 +28,7 @@ exports.textMessage = (from, message, token, number) => {
 
 }
 
-exports.interactiveMessage = (from, message, buttons, token) => {
+exports.interactiveMessage = (from, message, buttons, token, number) => {
     console.log(message);
     console.log(buttons)
     console.log(buttons.map((name, index) => {
