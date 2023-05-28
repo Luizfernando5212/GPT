@@ -135,7 +135,6 @@ exports.interactiveMessage = (from, message, buttons, token, number, i) => {
 exports.getTokens = async (from) => {
     let body = {
         method: "POST",
-        url: facebook.getUser(from),
         headers: {
             "Content-Type": "application/json",
         },

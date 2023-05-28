@@ -1,5 +1,6 @@
 require('dotenv').config();
 const request = require('../util/requestBuilder');
+const facebook = require('../util/urls');
 const axios = require("axios").default;
 
 const token = process.env.WHATSAPP_TOKEN;
@@ -64,7 +65,7 @@ exports.webHook = async (req, res) => {
                             footer: 'www.google.com.br'
                         }, token, phone_number_id))
                     } else if (id == 2) {
-                        const usuario = await axios(request.getTokens(from));
+                        const usuario = await axios(facebook.getUser(from), request.getTokens());
                         console.log(usuario);
                         if (usuario.tokens >= 1) {
                             var possibilidades = [1, 2, 3, 4, 5, 6, 8, 10, 20];
