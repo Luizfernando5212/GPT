@@ -77,6 +77,7 @@ exports.newUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
     try {
         const { user } = req.body;
+        console.log(user)
         const oldUser = await User.findById(user.id);
 
         oldUser.tokens += user.tokens;
