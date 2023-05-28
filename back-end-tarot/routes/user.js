@@ -14,6 +14,10 @@ router.post('/', userController.newUser);
 
 router.put('/:id', userController.updateUser);
 
+router.put('/state/:phone', userController.updateState);
+
+router.put('/question/:phone', userController.updateState);
+
 router.get('/', userController.getUsers);
 
 router.get('/:phone', userController.getUserByPhone);

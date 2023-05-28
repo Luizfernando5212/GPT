@@ -1,6 +1,7 @@
 const Card = require('../models/cards');
 var fs = require('fs');
 
+var x;
 
 exports.getCards = async (req, res) => {
     try {

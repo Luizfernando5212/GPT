@@ -31,7 +31,7 @@ exports.getUserByPhone = async (req, res) => {
     try {
         const user = await User.findOne({ phone: phone });
 
-        res.json(user);
+        res.status(200).json(user);
     } catch (err) {
         res.status(401).json({ message: 'Invalid phone number.' })
     }
@@ -57,6 +57,7 @@ exports.newUser = async (req, res) => {
                 phone: phone
             })
 
+            await State.create({ phone: phone });
             const response = await user.save();
             res.json(response);
         } else {
@@ -66,6 +67,7 @@ exports.newUser = async (req, res) => {
                 phone: phone
             })
 
+            await State.create({ phone: phone });
             const response = await user.save();
             res.json(response);
         }
@@ -91,5 +93,40 @@ exports.updateUser = async (req, res) => {
     } catch (err) {
         console.log(err);
     }
+}
 
+exports.updateState = async (req, res) => {
+    try {
+        const user = {
+            state: req.body.state
+        }
+        console.log(user);
+
+        const oldUser = await User.findOne({ phone: req.params.phone });
+
+        oldUser.state = user.state;
+
+        const response = await User.findByIdAndUpdate(oldUser.id, oldUser);
+        res.json(response);
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+exports.updateQuestion = async (req, res) => {
+    try {
+        const user = {
+            question: req.body.question
+        }
+        console.log(user);
+
+        const oldUser = await User.findOne({ phone: req.params.phone });
+
+        oldUser.question = user.question;
+
+        const response = await User.findByIdAndUpdate(oldUser.id, oldUser);
+        res.json(response);
+    } catch (err) {
+        console.log(err);
+    }
 }

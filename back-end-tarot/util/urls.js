@@ -8,6 +8,18 @@ exports.getUser =  (phone) => {
     return 'https://tarotai.onrender.com/user/' + phone
 }
 
+exports.postUser = () => {
+    return 'https://tarotai.onrender.com/user'
+}
+
+exports.updateState = (phone) => {
+    return 'https://tarotai.onrender.com/user/state/' + phone
+}
+
+exports.updateQuestion = (phone) => {
+    return 'https://tarotai.onrender.com/user/qustion/' + phone
+}
+
 exports.sorteio = (num) => {
     return `https://tarotai.onrender.com/card/sorteio/${num}`
 }

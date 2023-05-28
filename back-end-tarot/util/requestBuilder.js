@@ -176,7 +176,7 @@ exports.interactiveListMessage = (from, message, buttons, token, number, i) => {
     return body;
 }
 
-exports.getTokens = (from) => {
+exports.getUser = (from) => {
     let body = {
         method: "GET",
         url: facebook.getUser(from),
@@ -187,6 +187,51 @@ exports.getTokens = (from) => {
             phone: from,
         },
     }
+    return body;
+}
+
+exports.postUser = (from, name) => {
+    let body = {
+        method: "POST",
+        url: facebook.postUser(),
+        headers: {
+            "Content-Type": "application/json",
+        },
+        data: {
+            phone: from,
+            name: name,
+        },
+    }
+    return body;
+}
+
+exports.updateState = (from, state) => {
+    let body = {
+        method: "PUT",
+        url: facebook.updateState(from),
+        headers: {
+            "Content-Type": "application/json",
+        },
+        data: {
+            state: state,
+        },
+    }
+
+    return body;
+}
+
+exports.updateQuestion = (from, question) => {
+    let body = {
+        method: "PUT",
+        url: facebook.updateQuestion(from),
+        headers: {
+            "Content-Type": "application/json",
+        },
+        data: {
+            question: question,
+        },
+    }
+
     return body;
 }
 
@@ -201,7 +246,7 @@ exports.sorteioCartas = (number) => {
     return body;
 }
 
-exports.completion = (pergunta) => {
+exports.completion = (pergunta, cartasSorteadas) => {
     let body = {
         method: "POST",
         url: facebook.url(number, token),
@@ -209,7 +254,8 @@ exports.completion = (pergunta) => {
             "Content-Type": "application/json",
         },
         data: {
-            pergunta: "whatsapp",
+            cartasSorteadas,
+            pergunta: pergunta,
         }
     }
     return body;

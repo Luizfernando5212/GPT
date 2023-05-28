@@ -6,11 +6,15 @@ const axios = require("axios").default;
 const token = process.env.WHATSAPP_TOKEN;
 
 const pergunta = "O que o futuro me reserva?";
+let id = 0;
 
 exports.webHook = async (req, res) => {
     let body = req.body;
-    // let type = body.entry[0].changes[0].value.messages[0].type;
     let message;
+    let usuario;
+    let id;
+
+    // id = await axios()
 
     // console.log(JSON.stringify(body));
 
@@ -22,38 +26,63 @@ exports.webHook = async (req, res) => {
             req.body.entry[0].changes[0].value.messages[0]) {
             let phone_number_id = body.entry[0].changes[0].value.metadata.phone_number_id;
             let from = req.body.entry[0].changes[0].value.messages[0].from; // extract the phone number from the webhook payload
-            console.log(body.entry[0].changes[0].value.messages[0].timestamp)
-            console.log((Date.now() / 1000) - 5)
+
+            try {
+                id = req.body.entry[0].changes[0].value.messages[0].interactive.button_reply.id;
+                await axios(request.updateState(from, id));
+            } catch (err) {
+                console.log('Não há estado no momento ', err)
+            }
+
+            try {
+                let response = await axios(request.getUser(from));
+                if (response.status === 200) {
+                    usuario = response.data;
+                    id = usuario._id;
+                } else {
+                    await axios(request.postUser(from, req.body.entry[0].changes[0].value.contacts[0].profile.name));
+                }
+            } catch (err) {
+                console.log('Não há usuário para ser cadastrado ', err)
+            }
+
 
             if (body.entry[0].changes[0].value.messages[0].text &&
                 body.entry[0].changes[0].value.messages[0].text.body &&
-                body.entry[0].changes[0].value.messages[0].timestamp > Date.now() /1000 - 5) {
+                body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 5) {
                 message = body.entry[0].changes[0].value.messages[0].text.body;
                 let nome = req.body.entry[0].changes[0].value.contacts[0].profile.name;
 
-                try {
-                    await axios(request.interactiveMessage(from, {
-                        header: `Olá, seja bem vindo ${nome}`,
-                        body: 'O que gostaria de realizar hoje ?'
-                    }, ['Comprar tokens', 'Jogar'], token, phone_number_id, 1));
-                    res.status(200);
-                } catch (err) {
-                    console.log("Deu ruim ", err);
-                    res.sendStatus(400);
+                // Caso do usuário fazer a pergunta
+                if (id !== 0) {
+                    try {
+                        await axios(request.textMessage(from, `Você já está em uma sessão, selecione uma das opções acima`,
+                            token, phone_number_id))
+                        res.status(200);
+                    } catch (err) {
+                        console.log("Deu ruim ", err);
+                        res.sendStatus(400);
+                    }
+                } else {
+                    try {
+                        await axios(request.interactiveMessage(from, {
+                            header: `Olá, seja bem vindo ${nome}`,
+                            body: 'O que gostaria de realizar hoje ?'
+                        }, ['Comprar tokens', 'Jogar'], token, phone_number_id, 1));
+                        res.status(200);
+                    } catch (err) {
+                        console.log("Deu ruim ", err);
+                        res.sendStatus(400);
+                    }
                 }
 
             } else if (body.entry[0].changes[0].value.messages[0].interactive &&
                 body.entry[0].changes[0].value.messages[0].interactive.button_reply &&
                 body.entry[0].changes[0].value.messages[0].interactive.button_reply.id &&
-                body.entry[0].changes[0].value.messages[0].timestamp > Date.now() /1000 - 1.5) {
+                body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 1.5) {
 
-                let msg_body =
-                    req.body.entry[0].changes[0].value.messages[0].interactive
-                        .button_reply.title;
-                let id =
-                    req.body.entry[0].changes[0].value.messages[0].interactive
-                        .button_reply.id;
-
+                message = req.body.entry[0].changes[0].value.messages[0].interactive.button_reply.title;
+                console.log(id);
                 try {
                     await axios(request.textMessage(from, `Iremos te encaminhar para ${msg_body}`, token, phone_number_id))
                     if (id == 1) {
@@ -63,11 +92,19 @@ exports.webHook = async (req, res) => {
                             footer: 'www.google.com.br'
                         }, token, phone_number_id))
                     } else if (id == 2) {
-                        let usuario;
-                        usuario = await axios(request.getTokens(from));
-                        console.log(usuario.data)
-                        console.log(typeof usuario.data.tokens);
-                        if (usuario.data.tokens >= 1) {
+                        // let usuario;
+                        // usuario = await axios(request.getUser(from));
+                        // console.log(usuario.data)
+                        // console.log(typeof usuario.data.tokens);
+                        if (usuario.tokens >= 1) {
+                            await axios(request.textMessage(from, `Escreva agora a pergunta que gostaria de ser respondida.`,
+                                token, phone_number_id))
+                            await axios(request.updateState(from, 3))
+                        } else {
+                            await axios(request.textMessage(from, `Você não possui tokens suficientes`, token, phone_number_id))
+                        }
+                    } else if (id === 3) {
+                        if (usuario.tokens >= 1) {
                             console.log('teste')
                             var possibilidades = [1, 2, 3, 4, 5, 6, 8, 10, 20];
                             const cartas = [];
@@ -77,9 +114,9 @@ exports.webHook = async (req, res) => {
                             // Faça a sua pergunta
                             await axios(request.interactiveListMessage(from,
                                 `Você possui ${usuario.data.tokens} tokens. Escolha a quantidade de cartas que deseja sortear`,
-                                cartas, token, phone_number_id, 3));
+                                cartas, token, phone_number_id, 4));
                         }
-                    } else if (id >= 3) {
+                    } else if (id >= 4 && id <= 12) {
                         const cartasSorteadas = await axios(request.sorteioCartas(possibilidades[id - 3]));
                         let combinacoes = '';
                         if (cartasSorteadas.menores) {
@@ -90,12 +127,20 @@ exports.webHook = async (req, res) => {
                             await axios(request.fullMessage(from, {
                                 header: `Suas cartas são:`,
                                 body: combinacoes,
-                                footer: 'Digite a sua pergunta para receber a resposta'
+                                footer: 'Sua pergunta será respondida em alguns momentos!!'
                             }, token, phone_number_id));
-
-                            let response = await axios(request.interactiveMessage(from))
+                            const response = await axios(request.completionMessage(user.question, cartasSorteadas));
+                            if (response.status !== 200) {
+                                await axios(request.textMessage(from, `Não foi possível responder sua pergunta, tente novamente mais tarde`,
+                                    token, phone_number_id))
+                            } else {
+                                await axios(request.textMessage(from, response.result, token, phone_number_id));
+                                await axios(request.textMessage(from, 'Obrigado por utilizar o nosso serviço', token, phone_number_id));
+                                await axios(request.updateState(from, 0));
+                                await axios(request.updateQuestion(from, ''));
+                            }
+                            // let response = await axios(request.interactiveMessage(from))
                         }
-                        await axios(request.textMessage(from, `Suas cartas são: ${cartasSorteadas.data}`, token, phone_number_id));
                     }
                     res.sendStatus(200);
                 } catch (err) {
