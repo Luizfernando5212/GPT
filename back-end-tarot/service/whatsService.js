@@ -27,15 +27,19 @@ exports.webHook = async (req, res) => {
             let phone_number_id = body.entry[0].changes[0].value.metadata.phone_number_id;
             let from = req.body.entry[0].changes[0].value.messages[0].from; // extract the phone number from the webhook payload
 
+
+            // console.log(body.entry[0].changes[0].value.messages[0].timestamp);
+            // console.log(Date.now() / 1000)
+
             try {
                 try {
                     state = req.body.entry[0].changes[0].value.messages[0].interactive.button_reply.id;
                 } catch (err) {
                     try {
                         state = req.body.entry[0].changes[0].value.messages[0].interactive.list_reply.id;
-                    } catch (err) {}
+                    } catch (err) { }
                 }
-                
+
                 await axios(request.updateState(from, state));
             } catch (err) {
                 console.log('Não há estado no momento ')
@@ -106,7 +110,7 @@ exports.webHook = async (req, res) => {
             } else if (body.entry[0].changes[0].value.messages[0].interactive &&
                 body.entry[0].changes[0].value.messages[0].interactive.button_reply &&
                 body.entry[0].changes[0].value.messages[0].interactive.button_reply.id &&
-                body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 1000) {
+                body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 5) {
                 console.log('vamooooo')
                 message = req.body.entry[0].changes[0].value.messages[0].interactive.button_reply.title;
                 console.log(state);
@@ -166,6 +170,41 @@ exports.webHook = async (req, res) => {
                         }
                     }
                     res.sendStatus(200);
+                } catch (err) {
+                    console.log("Deu ruim ", err);
+                    res.sendStatus(400);
+                }
+            } else if (body.entry[0].changes[0].value.messages[0].interactive &&
+                body.entry[0].changes[0].value.messages[0].interactive.list_reply &&
+                body.entry[0].changes[0].value.messages[0].interactive.list_reply.id &&
+                body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 5) {
+                try {
+                    if (state >= 4 && state <= 12) {
+                        const cartasSorteadas = await axios(request.sorteioCartas(possibilidades[state - 4]));
+                        let combinacoes = '';
+                        if (cartasSorteadas.menores) {
+                            for (let i = 0; i <= cartasSorteadas.menores.length; i++) {
+                                combinacoes += `${i + 1}ª combinação` + ' -> ' + cartasSorteadas.maiores[i] +
+                                    ' e ' + cartasSorteadas.menores[i] + '\n'
+                            }
+                            await axios(request.fullMessage(from, {
+                                header: `Suas cartas são:`,
+                                body: combinacoes,
+                                footer: 'Sua pergunta será respondida em alguns momentos!!'
+                            }, token, phone_number_id));
+                            const response = await axios(request.completionMessage(user.question, cartasSorteadas));
+                            if (response.status !== 200) {
+                                await axios(request.textMessage(from, `Não foi possível responder sua pergunta, tente novamente mais tarde`,
+                                    token, phone_number_id))
+                            } else {
+                                await axios(request.textMessage(from, response.result, token, phone_number_id));
+                                await axios(request.textMessage(from, 'Obrigado por utilizar o nosso serviço', token, phone_number_id));
+                                await axios(request.updateState(from, 0));
+                                await axios(request.updateQuestion(from, ''));
+                            }
+                            // let response = await axios(request.interactiveMessage(from))
+                        }
+                    }
                 } catch (err) {
                     console.log("Deu ruim ", err);
                     res.sendStatus(400);
