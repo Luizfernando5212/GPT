@@ -12,7 +12,7 @@ const array = []
 exports.webHook = async (req, res) => {
     let body = req.body;
 
-    console.log(JSON.stringify(body));
+    console.log(body);
 
     if (req.body.object) {
         if (

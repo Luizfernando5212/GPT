@@ -49,7 +49,7 @@ exports.interactiveMessage = (from, message, buttons, user) => {
                             return {
                                 type: 'reply',
                                 reply: {
-                                    id: index,
+                                    id: index + 1,
                                     title: name
                                 }
                             }
@@ -60,7 +60,7 @@ exports.interactiveMessage = (from, message, buttons, user) => {
                 // text: { body: "Ack: " + followUp },
             },
         }
-        console.log(body);
+        console.log(body.action.buttons);
         return body;
     } else {
         let body = {
@@ -82,7 +82,7 @@ exports.interactiveMessage = (from, message, buttons, user) => {
                             return {
                                 type: 'reply',
                                 reply: {
-                                    id: index,
+                                    id: index + 1,
                                     title: name
                                 }
                             }
@@ -91,7 +91,7 @@ exports.interactiveMessage = (from, message, buttons, user) => {
                 },
             },
         }
-        console.log(body);
+        console.log(body.action.buttons);
         return body;
     }
 }
