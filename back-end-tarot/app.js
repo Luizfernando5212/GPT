@@ -16,7 +16,7 @@ var whatsRouter = require('./routes/whats');
 var app = express();
 const PORT = process.env.PORT || 3000
 
-app.use(logger('dev'));
+// app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
