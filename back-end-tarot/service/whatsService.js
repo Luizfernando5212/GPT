@@ -6,7 +6,7 @@ const token = process.env.WHATSAPP_TOKEN;
 
 exports.webHook = async (req, res) => {
     let body = req.body;
-    let type = body.entry[0].changes[0].value.messages[0].type;
+    // let type = body.entry[0].changes[0].value.messages[0].type;
     let message;
 
     if (body &&
