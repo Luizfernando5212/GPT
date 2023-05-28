@@ -57,13 +57,13 @@ exports.webHook = async (req, res) => {
                 try {
                     await axios(request.textMessage(from, `Iremos te encaminhar para ${msg_body}`, token, phone_number_id))
                     console.log(typeof id)
-                    if (id === 1) {
+                    if (id == 1) {
                         await axios(request.fullMessage(from, {
                             header: `Link de compra`,
                             body: 'Entre no link abaixo para realizar a compra, após a compra você receberá um código para utilizar no jogo',
                             footer: 'www.google.com.br'
                         }, token, phone_number_id))
-                    } else if (id === 2) {
+                    } else if (id == 2) {
                         const usuario = await axios(request.getTokens(from));
                         console.log(usuario);
                         if (usuario.tokens >= 1) {
