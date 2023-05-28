@@ -68,8 +68,9 @@ exports.webHook = async (req, res) => {
                     } else if (id == 2) {
                         let usuario;
                         usuario = await axios(request.getTokens(from)).then((res) => {usuario = res.data});
-                        console.log(usuario);
+                        console.log(typeof usuario.tokens);
                         if (usuario.tokens >= 1) {
+                            console.log('teste')
                             var possibilidades = [1, 2, 3, 4, 5, 6, 8, 10, 20];
                             const cartas = [];
                             for (const i of possibilidades) {
