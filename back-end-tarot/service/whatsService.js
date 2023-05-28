@@ -29,7 +29,7 @@ exports.webHook = async (req, res) => {
 
             if (body.entry[0].changes[0].value.messages[0].text &&
                 body.entry[0].changes[0].value.messages[0].text.body &&
-                body.entry[0].changes[0].value.messages[0].timestamp > Date.now() /1000 - 5) {
+                body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 5) {
                 message = body.entry[0].changes[0].value.messages[0].text.body;
                 let nome = req.body.entry[0].changes[0].value.contacts[0].profile.name;
 
@@ -47,7 +47,7 @@ exports.webHook = async (req, res) => {
             } else if (body.entry[0].changes[0].value.messages[0].interactive &&
                 body.entry[0].changes[0].value.messages[0].interactive.button_reply &&
                 body.entry[0].changes[0].value.messages[0].interactive.button_reply.id &&
-                body.entry[0].changes[0].value.messages[0].timestamp > Date.now() /1000 - 1.5) {
+                body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 1.5) {
 
                 let msg_body =
                     req.body.entry[0].changes[0].value.messages[0].interactive
@@ -68,9 +68,18 @@ exports.webHook = async (req, res) => {
                     } else if (id == 2) {
                         let usuario;
                         try {
-                           usuario = await axios(request.getTokens(from))
+                            usuario = await axios({
+                                method: "GET",
+                                url: facebook.getUser(from),
+                                headers: {
+                                    "Content-Type": "application/json",
+                                },
+                                data: {
+                                    phone: from,
+                                },
+                            })
 
-                        } catch(err) {
+                        } catch (err) {
                             console.log(err);
                         }
                         console.log(usuario);
