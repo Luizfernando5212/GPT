@@ -102,6 +102,7 @@ exports.interactiveMessage = (from, message, buttons, token, number, i) => {
             method: "POST",
             url: facebook.url(number, token),
             headers: {
+                Authorization: "Bearer " + token,
                 "Content-Type": "application/json",
             },
             data: {
@@ -142,6 +143,7 @@ exports.interactiveListMessage = (from, message, buttons, token, number, i) => {
         method: "POST",
         url: facebook.url(number, token),
         headers: {
+            Authorization: "Bearer " + token,
             "Content-Type": "application/json",
         },
         data: {
