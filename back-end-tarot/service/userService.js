@@ -50,16 +50,26 @@ exports.getUsers = async (req, res) => {
 
 exports.newUser = async (req, res) => {
     try {
-        const { username, password, phone } = req.body;
-        var user = new User({
-            username: username,
-            password: password,
-            phone: phone
-        })
+        if (req.body.password && req.body.username && req.body.phone) {
+            const { username, password, phone } = req.body;
+            var user = new User({
+                username: username,
+                password: password,
+                phone: phone
+            })
 
-        const response = await user.save();
+            const response = await user.save();
+            res.json(response);
+        } else {
+            const { username, phone } = req.body;
+            var user = new User({
+                username: username,
+                phone: phone
+            })
 
-        res.json(response);
+            const response = await user.save();
+            res.json(response);
+        }
     } catch (err) {
         console.log(err);
     }
