@@ -44,7 +44,7 @@ exports.interactiveMessage = (from, message, buttons) => {
             },
             body: {
                 messaging_product: "whatsapp",
-                to: '5511976002488',
+                to: from,
                 type: "interactive",
                 interactive: {
                     type: "button",
@@ -71,7 +71,7 @@ exports.interactiveMessage = (from, message, buttons) => {
                 // text: { body: "Ack: " + followUp },
             },
         }
-        console.log(body.body.interactive.action.buttons);
+        console.log(body.body.interactive.action);
         console.log(body)
         return body;
     } else {
