@@ -82,7 +82,7 @@ exports.webHook = async (req, res) => {
                         }
                         // Faça a sua pergunta
                         await axios(request.interactiveListMessage(from,
-                            `Você possui ${usuario.tokens} tokens. Escolha a quantidade de cartas que deseja sortear`,
+                            `Você possui *${usuario.tokens}* tokens. Escolha a quantidade de cartas que deseja sortear`,
                             cartas, token, phone_number_id, 4));
                     }
                 } else if (state !== 0) {
@@ -140,6 +140,7 @@ exports.webHook = async (req, res) => {
                 body.entry[0].changes[0].value.messages[0].interactive.list_reply &&
                 body.entry[0].changes[0].value.messages[0].interactive.list_reply.id &&
                 body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 5) {
+                    console.log('1239uajosmduisa')
                 try {
                     if (state >= 4 && state <= 12) {
                         const cartasSorteadas = await axios(request.sorteioCartas(possibilidades[state - 4]));
