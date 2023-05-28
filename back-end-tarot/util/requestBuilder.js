@@ -74,7 +74,7 @@ exports.interactiveMessage = (from, message, buttons, token) => {
                 // text: { body: "Ack: " + followUp },
             },
         }
-        console.log(body.interactive)
+        console.log(body.body.interactive)
         return body;
     } else {
         let body = {
