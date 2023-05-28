@@ -49,7 +49,7 @@ exports.webHook = async (req, res) => {
                         .button_reply.id;
 
                 try {
-                    await fetch(facebook.url(phone_number_id),
+                    await fetch(facebook.url(phone_number_id, token),
                         request.textMessage(from, `Iremos te encaminhar para ${msg_body}`, token))
                     res.sendStatus(200);
                 } catch (err) {

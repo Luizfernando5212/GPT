@@ -1,5 +1,7 @@
-exports.url = (numberId) => {
+exports.url = (numberId, token) => {
 
-    return "https://graph.facebook.com/v16.0/" + numberId +
-        "/messages";
+    return "https://graph.facebook.com/v12.0/" +
+    numberId +
+    "/messages?access_token=" +
+    token;
 }
