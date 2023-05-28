@@ -44,7 +44,7 @@ exports.webHook = async (req, res) => {
                     console.log('state ', state)
                 } else {
                     let response = await axios(request.postUser(from, req.body.entry[0].changes[0].value.contacts[0].profile.name));
-                    if(response.status === 200) {
+                    if (response.status === 200) {
                         console.log('Usuário cadastrado ');
                     }
                 }
@@ -61,7 +61,20 @@ exports.webHook = async (req, res) => {
                 let nome = req.body.entry[0].changes[0].value.contacts[0].profile.name;
 
                 // Caso do usuário fazer a pergunta
-                if (state !== 0 && state !== 3) {
+                if (state === 3) {
+                    if (usuario.tokens >= 1) {
+                        console.log('teste')
+                        var possibilidades = [1, 2, 3, 4, 5, 6, 8, 10, 20];
+                        const cartas = [];
+                        for (const i of possibilidades) {
+                            if (usuario.data.tokens >= i) cartas.push(`${i} ${i === 1 ? 'carta' : 'cartas'}`);
+                        }
+                        // Faça a sua pergunta
+                        await axios(request.interactiveListMessage(from,
+                            `Você possui ${usuario.data.tokens} tokens. Escolha a quantidade de cartas que deseja sortear`,
+                            cartas, token, phone_number_id, 4));
+                    }
+                } else if (state !== 0) {
                     try {
                         await axios(request.textMessage(from, `Você já está em uma sessão, selecione uma das opções acima`,
                             token, phone_number_id))

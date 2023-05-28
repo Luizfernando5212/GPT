@@ -213,7 +213,6 @@ exports.updateState = (from, state) => {
             state: state,
         },
     }
-
     return body;
 }
 
