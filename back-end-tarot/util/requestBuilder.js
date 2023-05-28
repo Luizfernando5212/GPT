@@ -143,7 +143,6 @@ exports.getTokens = (from) => {
             phone: from,
         },
     }
-    console.log(body)
     return body;
 }
 

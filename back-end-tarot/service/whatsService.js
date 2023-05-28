@@ -58,7 +58,6 @@ exports.webHook = async (req, res) => {
 
                 try {
                     await axios(request.textMessage(from, `Iremos te encaminhar para ${msg_body}`, token, phone_number_id))
-                    console.log(id)
                     if (id == 1) {
                         await axios(request.fullMessage(from, {
                             header: `Link de compra`,
@@ -67,7 +66,7 @@ exports.webHook = async (req, res) => {
                         }, token, phone_number_id))
                     } else if (id == 2) {
                         let usuario;
-                        usuario = await axios(request.getTokens(from)).json();
+                        usuario = await axios(request.getTokens(from));
                         console.log(typeof usuario.tokens);
                         if (usuario.tokens >= 1) {
                             console.log('teste')
