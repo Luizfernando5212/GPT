@@ -26,7 +26,7 @@ exports.webHook = async (req, res) => {
 
             if (body.entry[0].changes[0].value.messages[0].text &&
                 body.entry[0].changes[0].value.messages[0].text.body &&
-                body.entry[0].changes[0].value.messages[0].timestamp > new Date().getTime() - 60 * 5) {
+                body.entry[0].changes[0].value.messages[0].timestamp > Date.now() - 100 * 60) {
                 message = body.entry[0].changes[0].value.messages[0].text.body;
                 let nome = req.body.entry[0].changes[0].value.contacts[0].profile.name;
 
