@@ -20,6 +20,10 @@ cardController = {
 
     deleteCard: async (req, res) => {
         service.deleteCard(req, res);
+    },
+
+    sorteioCartas: async (req, res) => {
+        service.sorteioCartas(req, res);
     }
 }
 

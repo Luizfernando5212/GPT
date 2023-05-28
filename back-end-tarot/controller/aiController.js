@@ -11,6 +11,9 @@ aiController = {
     },
     verificaAfirmacoes: async (req, res) => {
         service.verificaQtdAfirmacoes(req, res);
+    },
+    responseCompletionWhats: async (req, res) => {
+        service.completionWhats(req, res);
     }
 }
 

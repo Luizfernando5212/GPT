@@ -24,8 +24,9 @@ exports.verifyUser = async (req, res) => {
     }
 }
 
-exports.verifyUserByPhone = async (req, res) => {
-    const { phone } = req.body;
+exports.getUserByPhone = async (req, res) => {
+    // const phone = req.body;
+    const phone = req.params.phone;
 
     try {
         const user = await User.findOne({ phone: phone });

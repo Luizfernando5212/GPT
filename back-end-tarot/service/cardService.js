@@ -66,3 +66,43 @@ exports.deleteCard = async (req, res) => {
         console.log(err);
     }
 }
+
+exports.sorteioCartas = async (req, res) => {
+    try {
+        const numCartas = req.params.num;
+        const cards = await Card.find().json();
+
+        let arcanosMaiores = cards.slice(0, 22);
+        let arcanosMenores = cards.slice(22)
+        let cartasMaiores = [];
+        let cartasMenores = [];
+
+        if (numCartas <= 5) {
+            while (cartasMaiores.length < numCartas) {
+                let i = Math.floor(Math.random() * 22);
+
+                if (!cartasMaiores.includes(arcanosMaiores[i].name)) {
+                    cartasMaiores.push(arcanosMaiores[i].name);
+                }
+            }
+            res.status(200).json({ maiores: cartasMaiores });
+            return;
+        } else {
+            while (cartasMaiores.length < numCartas/2 && cartasMenores < numCartas/2) {
+                let i = Math.floor(Math.random() * 22);
+                let j = Math.floor(Math.random() * 22);
+
+                if (!cartasMaiores.includes(arcanosMaiores[i].name) && cartasMaiores.length < numCartas/2) {
+                    cartasMaiores.push(arcanosMaiores[i].name);
+                }
+    
+                if (!cartasMenores.includes(arcanosMenores[j].name) && cartasMenores.length < numCartas/2) {
+                    cartasMenores.push(arcanosMenores[j].name);
+                }
+            }
+            res.status(200).json({ maiores: cartasMaiores, menores: cartasMenores });
+        }
+    } catch (err) {
+        console.log(err);
+    }
+}

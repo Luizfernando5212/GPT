@@ -8,5 +8,6 @@ router.put('/:id', cardController.updateCard);
 router.post('/', cardController.insertCard);
 router.get("/:id", cardController.cardDetail);
 router.get('/', cardController.cardsList);
+router.get('/sorteio/:num', cardController.sorteioCartas);
 
 module.exports = router;

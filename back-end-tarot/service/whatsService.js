@@ -4,6 +4,8 @@ const axios = require("axios").default;
 
 const token = process.env.WHATSAPP_TOKEN;
 
+const pergunta = "O que o futuro me reserva?";
+
 exports.webHook = async (req, res) => {
     let body = req.body;
     // let type = body.entry[0].changes[0].value.messages[0].type;
@@ -22,7 +24,7 @@ exports.webHook = async (req, res) => {
             console.log(body.entry[0].changes[0].value.messages[0].timestamp)
             console.log(Date.now())
 
-            if (body.entry[0].changes[0].value.messages[0].text && 
+            if (body.entry[0].changes[0].value.messages[0].text &&
                 body.entry[0].changes[0].value.messages[0].text.body &&
                 body.entry[0].changes[0].value.messages[0].timestamp > new Date().getTime() - 60 * 5) {
                 message = body.entry[0].changes[0].value.messages[0].text.body;
@@ -32,7 +34,7 @@ exports.webHook = async (req, res) => {
                     const response = await axios(request.interactiveMessage(from, {
                         header: `Olá, seja bem vindo ${nome}`,
                         body: 'O que gostaria de realizar hoje ?'
-                    }, ['Comprar tokens', 'Jogar'], token, phone_number_id));
+                    }, ['Comprar tokens', 'Jogar'], token, phone_number_id, 1));
                     res.status(200).send(response);
                 } catch (err) {
                     console.log("Deu ruim ", err);
@@ -53,13 +55,41 @@ exports.webHook = async (req, res) => {
                 try {
                     await axios(request.textMessage(from, `Iremos te encaminhar para ${msg_body}`, token, phone_number_id))
                     if (id === 1) {
-                        await axios(request.compraMessage(from, {
+                        await axios(request.fullMessage(from, {
                             header: `Link de compra`,
                             body: 'Entre no link abaixo para realizar a compra, após a compra você receberá um código para utilizar no jogo',
                             footer: 'www.google.com.br'
                         }, token, phone_number_id))
                     } else if (id === 2) {
-                        await axios(request.textMessage(from, `Link do jogo`, token, phone_number_id))
+                        const usuario = await axios(request.getTokens(from));
+                        if (usuario.tokens >= 1) {
+                            var possibilidades = [1, 2, 3, 4, 5, 6, 8, 10, 20];
+                            const cartas = [];
+                            for (const i of possibilidades) {
+                                if (usuario.tokens >= i) cartas.push(`${i} ${i === 1 ? 'carta' : 'cartas'}`);
+                            }
+                            // Faça a sua pergunta
+                            await axios(request.interactiveMessage(from,
+                                `Você possui ${usuario.tokens} tokens. Escolha a quantidade de cartas que deseja sortear`,
+                                cartas, token, phone_number_id, 3));
+                        }
+                    } else if (id >= 3) {
+                        const cartasSorteadas = await axios(request.sorteioCartas(possibilidades[id - 3]));
+                        let combinacoes = '';
+                        if (cartasSorteadas.menores) {
+                            for (let i = 0; i <= cartasSorteadas.menores.length; i++) {
+                                combinacoes += `${i + 1}ª combinação` + ' -> ' + cartasSorteadas.maiores[i] +
+                                    ' e ' + cartasSorteadas.menores[i] + '\n'
+                            }
+                            await axios(request.fullMessage(from, {
+                                header: `Suas cartas são:`,
+                                body: combinacoes,
+                                footer: 'Digite a sua pergunta para receber a resposta'
+                            }, token, phone_number_id));
+
+                            let response = await axios(request.interactiveMessage(from))
+                        }
+                        await axios(request.textMessage(from, `Suas cartas são: ${cartasSorteadas.data}`, token, phone_number_id));
                     }
                     res.sendStatus(200);
                 } catch (err) {
