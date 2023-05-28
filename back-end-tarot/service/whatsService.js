@@ -29,12 +29,12 @@ exports.webHook = async (req, res) => {
                 let nome = req.body.entry[0].changes[0].value.contacts[0].profile.name;
 
                 try {
-                    await fetch(facebook.url(phone_number_id, token),
+                    const response = await fetch(facebook.url(phone_number_id, token),
                         request.interactiveMessage(from, {
                             header: `Olá, seja bem vindo ${nome}`,
                             body: 'O que gostaria de realizar hoje ?'
                         }, ['Comprar tokens', 'Jogar']));
-                    res.sendStatus(200);
+                    res.status(200).json(response);
                 } catch (err) {
                     console.log("Deu ruim ", err);
                     res.sendStatus(400);
