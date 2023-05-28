@@ -1,7 +1,7 @@
 require('dotenv').config();
 const url = require('../util/urls');
 const request = require('../util/requestBuilder');
-const fetch = require('node-fetch');
+const fetch = require('node-fetch-commonjs');
 
 const token = process.env.WHATSAPP_TOKEN;
 
