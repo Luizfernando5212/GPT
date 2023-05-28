@@ -134,7 +134,7 @@ exports.interactiveMessage = (from, message, buttons, token, number, i) => {
 exports.getTokens = async (from) => {
     let body = {
         method: "GET",
-        url: facebook.getUser(from),
+        url: await facebook.getUser(from),
         headers: {
             "Content-Type": "application/json",
         },
@@ -142,7 +142,7 @@ exports.getTokens = async (from) => {
             phone: from,
         }
     }
-
+    console.log(body)
     return body;
 }
 
