@@ -29,7 +29,6 @@ exports.webHook = async (req, res) => {
                         header: `Olá, seja bem vindo ${nome}`,
                         body: 'O que gostaria de realizar hoje ?'
                     }, ['Comprar tokens', 'Jogar'], token, phone_number_id));
-                    console.log(response)
                     res.status(200).json(response);
                 } catch (err) {
                     console.log("Deu ruim ", err);
