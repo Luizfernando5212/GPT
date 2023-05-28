@@ -3,7 +3,7 @@ exports.textMessage = (from, message, token) => {
     let body = {
         method: "POST",
         headers: {
-            Authorization: "Bearer " + token,
+            'Authorization': `Bearer ${token}`,
             "Content-Type": "application/json",
         },
         body: {
@@ -11,7 +11,7 @@ exports.textMessage = (from, message, token) => {
             to: from,
             type: "text",
             text: {
-                preview_url: true,
+                preview_url: false,
                 body: message,
             },
 
@@ -46,6 +46,7 @@ exports.interactiveMessage = (from, message, buttons, token) => {
             },
             body: {
                 messaging_product: "whatsapp",
+                recipient_type: "individual",
                 to: from,
                 type: "interactive",
                 interactive: {
@@ -84,12 +85,13 @@ exports.interactiveMessage = (from, message, buttons, token) => {
             },
             body: {
                 messaging_product: "whatsapp",
+                recipient_type: "individual",
                 to: from,
                 type: "interactive",
                 interactive: {
                     type: "button",
                     body: {
-                        text: message,
+                        text: message
                     },
                     action: {
                         buttons: buttons.map((name, index) => {
@@ -101,8 +103,8 @@ exports.interactiveMessage = (from, message, buttons, token) => {
                                 }
                             }
                         })
-                    },
-                },
+                    }
+                }
             },
         }
         console.log(body.body.interactive.action.buttons);
