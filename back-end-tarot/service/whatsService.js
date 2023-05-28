@@ -67,11 +67,11 @@ exports.webHook = async (req, res) => {
                         var possibilidades = [1, 2, 3, 4, 5, 6, 8, 10, 20];
                         const cartas = [];
                         for (const i of possibilidades) {
-                            if (usuario.data.tokens >= i) cartas.push(`${i} ${i === 1 ? 'carta' : 'cartas'}`);
+                            if (usuario.tokens >= i) cartas.push(`${i} ${i === 1 ? 'carta' : 'cartas'}`);
                         }
                         // Faça a sua pergunta
                         await axios(request.interactiveListMessage(from,
-                            `Você possui ${usuario.data.tokens} tokens. Escolha a quantidade de cartas que deseja sortear`,
+                            `Você possui ${usuario.tokens} tokens. Escolha a quantidade de cartas que deseja sortear`,
                             cartas, token, phone_number_id, 4));
                     }
                 } else if (state !== 0) {
@@ -117,7 +117,7 @@ exports.webHook = async (req, res) => {
                         // console.log(usuario.data)
                         // console.log(typeof usuario.data.tokens);
                         if (usuario.tokens >= 1) {
-                            await axios(request.textMessage(from, `Escreva agora a pergunta que gostaria de ser respondida.`,
+                            await axios(request.textMessage(from, `Escreva *agora* a pergunta que gostaria de ser respondida.`,
                                 token, phone_number_id))
                             await axios(request.updateState(from, 3))
                         } else {
@@ -129,11 +129,11 @@ exports.webHook = async (req, res) => {
                             var possibilidades = [1, 2, 3, 4, 5, 6, 8, 10, 20];
                             const cartas = [];
                             for (const i of possibilidades) {
-                                if (usuario.data.tokens >= i) cartas.push(`${i} ${i === 1 ? 'carta' : 'cartas'}`);
+                                if (usuario.tokens >= i) cartas.push(`${i} ${i === 1 ? 'carta' : 'cartas'}`);
                             }
                             // Faça a sua pergunta
                             await axios(request.interactiveListMessage(from,
-                                `Você possui ${usuario.data.tokens} tokens. Escolha a quantidade de cartas que deseja sortear`,
+                                `Você possui *${usuario.tokens}* tokens. Escolha a quantidade de cartas que deseja sortear`,
                                 cartas, token, phone_number_id, 4));
                         }
                     } else if (state >= 4 && state <= 12) {
