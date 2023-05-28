@@ -1,13 +1,9 @@
 require('dotenv').config();
 const facebook = require('../util/urls');
 const request = require('../util/requestBuilder');
-axios = require("axios").default;
+const axios = require("axios").default;
 
 const token = process.env.WHATSAPP_TOKEN;
-
-const array = []
-
-
 
 exports.webHook = async (req, res) => {
     let body = req.body;
@@ -75,10 +71,8 @@ exports.getAccess = async (req, res) => {
 
     // Check if a token and mode were sent
     if (mode && token) {
-        console.log('ping')
         // Check the mode and token sent are correct
         if (mode === "subscribe" && token === verify_token) {
-            console.log('ping2')
             // Respond with 200 OK and challenge token from the request
             console.log("WEBHOOK_VERIFIED");
             res.status(200).send(challenge);
