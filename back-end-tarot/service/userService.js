@@ -74,7 +74,7 @@ exports.newUser = async (req, res) => {
     }
 }
 
-exports.updadeUser = async (req, res) => {
+exports.updateUser = async (req, res) => {
     try {
         const { user } = req.body;
         const oldUser = await User.findById(user.id);
