@@ -33,11 +33,11 @@ exports.webHook = async (req, res) => {
                 let nome = req.body.entry[0].changes[0].value.contacts[0].profile.name;
 
                 try {
-                    const response = await axios(request.interactiveMessage(from, {
+                    await axios(request.interactiveMessage(from, {
                         header: `Olá, seja bem vindo ${nome}`,
                         body: 'O que gostaria de realizar hoje ?'
                     }, ['Comprar tokens', 'Jogar'], token, phone_number_id, 1));
-                    res.status(200).send(response);
+                    res.status(200);
                 } catch (err) {
                     console.log("Deu ruim ", err);
                     res.sendStatus(400);
