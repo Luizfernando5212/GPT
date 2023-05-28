@@ -111,8 +111,12 @@ exports.interactiveMessage = (from, message, buttons, token, number, i) => {
                 type: "interactive",
                 interactive: {
                     type: "button",
+                    header: {
+                        type: 'text',
+                        text: message.header
+                    },
                     body: {
-                        text: message
+                        text: message.body,
                     },
                     action: {
                         buttons: buttons.map((name, index) => {
@@ -129,6 +133,43 @@ exports.interactiveMessage = (from, message, buttons, token, number, i) => {
             },
         }
         return body;
+    }
+}
+
+exports.interactiveListMessage = (from, message, buttons, token, number, i) => {
+
+    let body = {
+        method: "POST",
+        url: facebook.url(number, token),
+        headers: {
+            "Content-Type": "application/json",
+        },
+        data: {
+            messaging_product: "whatsapp",
+            recipient_type: "individual",
+            to: from,
+            type: "interactive",
+            interactive: {
+                type: "list",
+                body: {
+                    text: message
+                },
+                action: {
+                    button: "BUTTON_TEXT",
+                    sections: [
+                        {
+                            title: "SECTION_1_TITLE",
+                            rows:  buttons.map((name, index) => {
+                                return{
+                                    id: index + i,
+                                    title: name,
+                                }
+                            })
+                        }
+                    ]
+                }
+            }
+        }
     }
 }
 

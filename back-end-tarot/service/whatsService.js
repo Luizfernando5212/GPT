@@ -75,7 +75,7 @@ exports.webHook = async (req, res) => {
                                 if (usuario.data.tokens >= i) cartas.push(`${i} ${i === 1 ? 'carta' : 'cartas'}`);
                             }
                             // Faça a sua pergunta
-                            await axios(request.interactiveMessage(from,
+                            await axios(request.interactiveListMessage(from,
                                 `Você possui ${usuario.data.tokens} tokens. Escolha a quantidade de cartas que deseja sortear`,
                                 cartas, token, phone_number_id, 3));
                         }
