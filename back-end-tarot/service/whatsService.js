@@ -22,13 +22,13 @@ exports.webHook = async (req, res) => {
             let phone_number_id = body.entry[0].changes[0].value.metadata.phone_number_id;
             let from = req.body.entry[0].changes[0].value.messages[0].from; // extract the phone number from the webhook payload
             console.log(body.entry[0].changes[0].value.messages[0].timestamp)
-            console.log(Date.now() - 100 * 60)
+            console.log((Date.now() / 1000) - 5)
 
             console.log()
 
             if (body.entry[0].changes[0].value.messages[0].text &&
                 body.entry[0].changes[0].value.messages[0].text.body &&
-                body.entry[0].changes[0].value.messages[0].timestamp > Date.now() /1000 - 30) {
+                body.entry[0].changes[0].value.messages[0].timestamp > Date.now() /1000 - 5) {
                 message = body.entry[0].changes[0].value.messages[0].text.body;
                 let nome = req.body.entry[0].changes[0].value.contacts[0].profile.name;
 
