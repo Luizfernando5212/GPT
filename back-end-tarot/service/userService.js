@@ -30,7 +30,6 @@ exports.getUserByPhone = async (req, res) => {
 
     try {
         const user = await User.findOne({ phone: phone });
-        console.log(user);
 
         res.json(user);
     } catch (err) {

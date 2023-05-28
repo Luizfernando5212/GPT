@@ -25,8 +25,6 @@ exports.webHook = async (req, res) => {
             console.log(body.entry[0].changes[0].value.messages[0].timestamp)
             console.log((Date.now() / 1000) - 5)
 
-            console.log()
-
             if (body.entry[0].changes[0].value.messages[0].text &&
                 body.entry[0].changes[0].value.messages[0].text.body &&
                 body.entry[0].changes[0].value.messages[0].timestamp > Date.now() /1000 - 5) {
@@ -67,6 +65,7 @@ exports.webHook = async (req, res) => {
                     } else if (id == 2) {
                         let usuario;
                         usuario = await axios(request.getTokens(from));
+                        console.log(usuario)
                         console.log(typeof usuario.tokens);
                         if (usuario.tokens >= 1) {
                             console.log('teste')
@@ -118,9 +117,6 @@ exports.getAccess = async (req, res) => {
     let mode = req.query["hub.mode"];
     let token = req.query["hub.verify_token"];
     let challenge = req.query["hub.challenge"];
-
-    console.log(req.query)
-
 
     // Check if a token and mode were sent
     if (mode && token) {
