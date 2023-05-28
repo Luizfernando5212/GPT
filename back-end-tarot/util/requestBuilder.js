@@ -132,7 +132,7 @@ exports.interactiveMessage = (from, message, buttons, token, number, i) => {
     }
 }
 
-exports.getTokens = async (from) => {
+exports.getTokens = (from) => {
     let body = {
         method: "GET",
         url: facebook.getUser(from),

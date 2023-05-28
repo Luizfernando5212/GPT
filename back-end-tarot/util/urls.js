@@ -4,14 +4,14 @@ exports.url = (numberId, token) => {
     numberId + "/messages";
 }
 
-exports.getUser = async (phone) => {
+exports.getUser =  (phone) => {
     return 'https://tarotai.onrender.com/user/' + phone
 }
 
-exports.sorteio = async(num) => {
+exports.sorteio = (num) => {
     return `https://tarotai.onrender.com/card/sorteio/${num}`
 }
 
-exports.completion = async () => {
+exports.completion = () => {
     return `https://tarotai.onrender.com/ai/whats`
 }
