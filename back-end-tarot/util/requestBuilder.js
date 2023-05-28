@@ -59,30 +59,22 @@ exports.interactiveMessage = (from, message, buttons, token) => {
                         text: message.body,
                     },
                     action: {
-                        buttons: [
-                            {
+                        buttons: buttons.map((name, index) => {
+                            return {
                                 type: "reply",
                                 reply: {
-                                    id: "UNIQUE_BUTTON_ID_1",
-                                    title: "BUTTON_TITLE_1"
-                                }
-                            },
-                            {
-                                type: "reply",
-                                reply: {
-                                    id: "UNIQUE_BUTTON_ID_2",
-                                    title: "BUTTON_TITLE_2"
-                                }
-                            }
-                        ]
+                                    id: index,
+                                    title: name,
+                                },
+                            };
+                        })
                     },
                 },
 
                 // text: { body: "Ack: " + followUp },
             },
         }
-        console.log(body.body.interactive.action.buttons);
-        console.log(body)
+        console.log(body.interactive)
         return body;
     } else {
         let body = {
