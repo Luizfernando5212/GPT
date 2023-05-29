@@ -140,12 +140,13 @@ exports.webHook = async (req, res) => {
                 body.entry[0].changes[0].value.messages[0].interactive.list_reply &&
                 body.entry[0].changes[0].value.messages[0].interactive.list_reply.id &&
                 body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 5) {
-                    console.log('1239uajosmduisa')
+                let combinacoes = '';
+                console.log('1239uajosmduisa')
                 try {
                     if (state >= 4 && state <= 12) {
                         const cartasSorteadas = await axios(request.sorteioCartas(possibilidades[state - 4]));
+                        cartasSorteadas = cartasSorteadas.data;
                         console.log(cartasSorteadas)
-                        let combinacoes = '';
                         if (cartasSorteadas.menores) {
                             for (let i = 0; i <= cartasSorteadas.menores.length; i++) {
                                 combinacoes += `${i + 1}ª combinação` + ' -> ' + cartasSorteadas.maiores[i] +
@@ -167,6 +168,25 @@ exports.webHook = async (req, res) => {
                                 await axios(request.updateQuestion(from, ''));
                             }
                             // let response = await axios(request.interactiveMessage(from))
+                        } else {
+                            for (let i = 0; i <= cartasSorteadas.maiores.length; i++) {
+                                combinacoes += `${i + 1}ª carta` + ' -> ' + cartasSorteadas.maiores[i] + '\n'
+                            }
+                            await axios(request.fullMessage(from, {
+                                header: `Sua carta é:`,
+                                body: combinacoes,
+                                footer: 'Sua pergunta será respondida em alguns momentos!!'
+                            }, token, phone_number_id));
+                            const response = await axios(request.completionMessage(user.question, cartasSorteadas));
+                            if (response.status !== 200) {
+                                await axios(request.textMessage(from, `Não foi possível responder sua pergunta, tente novamente mais tarde`,
+                                    token, phone_number_id))
+                            } else {
+                                await axios(request.textMessage(from, response.result, token, phone_number_id));
+                                await axios(request.textMessage(from, 'Obrigado por utilizar o nosso serviço', token, phone_number_id));
+                                await axios(request.updateState(from, 0));
+                                await axios(request.updateQuestion(from, ''));
+                            }
                         }
                     }
                 } catch (err) {
