@@ -154,7 +154,7 @@ exports.webHook = async (req, res) => {
                             }
                             await axios(request.textMessage(from, "*Sua carta é*\n" +
                             combinacoes + "\n```Sua pergunta será respondida em alguns momentos!!```", token, phone_number_id));
-                            const response = await axios(request.completion(user.question, cartasSorteadas));
+                            const response = await axios(request.completion(usuario.question, cartasSorteadas));
                             console.log(response)
                             if (response.status !== 200) {
                                 await axios(request.textMessage(from, `Não foi possível responder sua pergunta, tente novamente mais tarde`,
@@ -173,7 +173,7 @@ exports.webHook = async (req, res) => {
                             }
                             await axios(request.textMessage(from, "*Sua carta é*\n" +
                             combinacoes + "\n```Sua pergunta será respondida em alguns momentos!!```", token, phone_number_id));
-                            const response = await axios(request.completion(user.question, cartasSorteadas));
+                            const response = await axios(request.completion(usuario.question, cartasSorteadas));
                             console.log(response)
                             if (response.status !== 200) {
                                 await axios(request.textMessage(from, `Não foi possível responder sua pergunta, tente novamente mais tarde`,
