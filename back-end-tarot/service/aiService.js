@@ -59,6 +59,7 @@ function generatePrompt(metodo, cartasMaiores, cartasMenores, pergunta) {
 
 
 async function generatePromptWhats(cartasMaiores, cartasMenores, pergunta) {
+  let metodo = 'Péladan';
   let combinacoes = '';
   if (cartasMenores) {
     for (let i = 0; i <= cartasMenores.length; i++) {
@@ -94,17 +95,13 @@ exports.completionWhats = async (req, res) => {
     return;
   }
   if (await this.moderation(req, res)) {
-    console.log('asdada')
     res.status(500).json({ error: 'Evite mensagens de ódio ou de cunho ofensivo' });
-    console.log(1);
     return;
   }
-  console.log('teste')
-  if (!await this.verificaQtdAfirmacoes(req, res)) {
-    console.log('ping2')
-    res.status(500).json({ error: 'Evite colocar mais de uma afirmação ou pergunta.' })
-    return;
-  }
+  // if (!await this.verificaQtdAfirmacoes(req, res)) {
+  //   res.status(500).json({ error: 'Evite colocar mais de uma afirmação ou pergunta.' })
+  //   return;
+  // }
 
   const cartasMaiores = req.body.cartasSorteadas.maiores || '';
   const cartasMenores = req.body.cartasSorteadas.menores || '';
