@@ -71,6 +71,7 @@ exports.webHook = async (req, res) => {
 
                 // Caso do usuário fazer a pergunta
                 if (state === 3) {
+                    await axios(request.updateQuestion(from, message));
                     if (usuario.tokens >= 1) {
                         const cartas = [];
                         for (const i of possibilidades) {
@@ -120,7 +121,7 @@ exports.webHook = async (req, res) => {
                         if (usuario.tokens >= 1) {
                             await axios(request.textMessage(from, `Escreva *agora* a pergunta que gostaria de ser respondida.`,
                                 token, phone_number_id))
-                            await axios(request.updateState(from, 3))
+                            await axios(request.updateState(from, 3));
                         } else {
                             await axios(request.textMessage(from, `Você não possui tokens suficientes`, token, phone_number_id))
                         }
