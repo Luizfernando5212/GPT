@@ -175,7 +175,7 @@ exports.webHook = async (req, res) => {
                                     token, phone_number_id))
                             } else {
                                 console.log('vamo que vamo')
-                                await axios(request.textMessage(from, response.result, token, phone_number_id));
+                                await axios(request.textMessage(from, response.data.result, token, phone_number_id));
                                 await axios(request.textMessage(from, 'Obrigado por utilizar o nosso serviço', token, phone_number_id));
                                 await axios(request.updateState(from, 0));
                                 await axios(request.updateQuestion(from, ''));

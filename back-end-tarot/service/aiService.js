@@ -62,12 +62,12 @@ function generatePromptWhats(cartasMaiores, cartasMenores, pergunta) {
   let metodo = 'Péladan';
   let combinacoes = '';
   if (cartasMenores) {
-    for (let i = 0; i <= cartasMenores.length; i++) {
+    for (let i = 0; i < cartasMenores.length; i++) {
       combinacoes += `${i + 1}ª combinação` + ' -> ' + cartasSorteadas.maiores[i] +
         ' e ' + cartasSorteadas.menores[i] + '\n'
     }
   } else {
-    for (let i = 0; i <= cartasMaiores.length; i++) {
+    for (let i = 0; i < cartasMaiores.length; i++) {
       combinacoes += `${i + 1}ª carta` + ' -> ' + cartasMaiores[i] + '\n'
     }
   }
