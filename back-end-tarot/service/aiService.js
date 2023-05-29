@@ -17,14 +17,14 @@ async function filtros(req, res) {
     });
     return true;
   }
-  if (await this.moderation(req, res)) {
+  if (await moderation(req, res)) {
     console.log('asdada')
     res.status(500).json({ error: 'Evite mensagens de ódio ou de cunho ofensivo' });
     console.log(1);
     return true;
   }
   console.log('teste')
-  if (!await this.verificaQtdAfirmacoes(req, res)) {
+  if (!await verificaQtdAfirmacoes(req, res)) {
     console.log('ping2')
     res.status(500).json({ error: 'Evite colocar mais de uma afirmação ou pergunta.' })
     return true;
@@ -32,7 +32,7 @@ async function filtros(req, res) {
   return false
 }
 
-async function filtros2(metodo, pergunta, cartasMairoes, cartasMenores, res) {
+async function filtros2(metodo, pergunta, cartasMaiores, cartasMenores, res) {
   if (metodo.trim().length === 0) {
     res.status(400).json({
       error: {

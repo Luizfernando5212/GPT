@@ -176,7 +176,7 @@ exports.interactiveListMessage = (from, message, buttons, token, number, i) => {
                     text: message
                 },
                 action: {
-                    button: "BUTTON_TEXT",
+                    button: "Quantidade cartas",
                     sections: [
                         {
                             title: "SECTION_1_TITLE",
