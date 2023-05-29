@@ -17,14 +17,14 @@ async function filtros(req, res) {
     });
     return true;
   }
-  if (await moderation(req, res)) {
+  if (await this.moderation(req, res)) {
     console.log('asdada')
     res.status(500).json({ error: 'Evite mensagens de ódio ou de cunho ofensivo' });
     console.log(1);
     return true;
   }
   console.log('teste')
-  if (!await verificaQtdAfirmacoes(req, res)) {
+  if (!await this.verificaQtdAfirmacoes(req, res)) {
     console.log('ping2')
     res.status(500).json({ error: 'Evite colocar mais de uma afirmação ou pergunta.' })
     return true;
