@@ -91,7 +91,7 @@ exports.sorteioCartas = async (req, res) => {
             res.status(200).json({ maiores: cartasMaiores });
             return;
         } else {
-            while (cartasMaiores.length < numCartas/2 && cartasMenores < numCartas/2) {
+            while (cartasMaiores.length < numCartas/2 || cartasMenores < numCartas/2) {
                 let i = Math.floor(Math.random() * 22);
                 let j = Math.floor(Math.random() * 22);
 
