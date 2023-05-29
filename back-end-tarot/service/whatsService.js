@@ -148,7 +148,7 @@ exports.webHook = async (req, res) => {
                         cartasSorteadas = cartasSorteadas.data;
                         console.log(cartasSorteadas)
                         if (cartasSorteadas.menores) {
-                            for (let i = 0; i <= cartasSorteadas.menores.length; i++) {
+                            for (let i = 0; i < cartasSorteadas.menores.length; i++) {
                                 combinacoes += `${i + 1}ª combinação` + ' -> ' + cartasSorteadas.maiores[i] +
                                     ' e ' + cartasSorteadas.menores[i] + '\n'
                             }
@@ -169,7 +169,7 @@ exports.webHook = async (req, res) => {
                             }
                             // let response = await axios(request.interactiveMessage(from))
                         } else {
-                            for (let i = 0; i <= cartasSorteadas.maiores.length; i++) {
+                            for (let i = 0; i < cartasSorteadas.maiores.length; i++) {
                                 combinacoes += `${i + 1}ª carta` + ' -> ' + cartasSorteadas.maiores[i] + '\n'
                             }
                             await axios(request.fullMessage(from, {

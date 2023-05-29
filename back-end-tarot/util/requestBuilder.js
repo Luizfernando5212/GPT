@@ -50,6 +50,24 @@ exports.fullMessage = (from, message, token, number) => {
                 footer: {
                     text: message.footer,
                 }
+            },
+            action: {
+                buttons: [
+                    {
+                        type: "reply",
+                        reply: {
+                            id: 20,
+                            title: 'Encerrar interação.'
+                        }
+                    },
+                    {
+                        type: "reply",
+                        reply: {
+                            id: 21,
+                            title: 'Voltar ao menu principal.'
+                        }
+                    }
+                ]
             }
         }
     }
@@ -161,8 +179,8 @@ exports.interactiveListMessage = (from, message, buttons, token, number, i) => {
                     sections: [
                         {
                             title: "SECTION_1_TITLE",
-                            rows:  buttons.map((name, index) => {
-                                return{
+                            rows: buttons.map((name, index) => {
+                                return {
                                     id: index + i,
                                     title: name,
                                 }
