@@ -63,8 +63,8 @@ function generatePromptWhats(cartasMaiores, cartasMenores, pergunta) {
   let combinacoes = '';
   if (cartasMenores) {
     for (let i = 0; i < cartasMenores.length; i++) {
-      combinacoes += `${i + 1}ª combinação` + ' -> ' + cartasSorteadas.maiores[i] +
-        ' e ' + cartasSorteadas.menores[i] + '\n'
+      combinacoes += `${i + 1}ª combinação` + ' -> ' + cartasMaiores +
+        ' e ' + cartasMenores + '\n'
     }
   } else {
     for (let i = 0; i < cartasMaiores.length; i++) {

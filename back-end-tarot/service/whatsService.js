@@ -24,7 +24,8 @@ exports.webHook = async (req, res) => {
             req.body.entry[0].changes &&
             req.body.entry[0].changes[0] &&
             req.body.entry[0].changes[0].value.messages &&
-            req.body.entry[0].changes[0].value.messages[0]) {
+            req.body.entry[0].changes[0].value.messages[0] &&
+            body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 5) {
             let phone_number_id = body.entry[0].changes[0].value.metadata.phone_number_id;
             let from = req.body.entry[0].changes[0].value.messages[0].from; // extract the phone number from the webhook payload
 
