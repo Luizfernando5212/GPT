@@ -150,12 +150,10 @@ exports.webHook = async (req, res) => {
                             await axios(request.textMessage(from, "*Suas cartas são*\n" +
                             combinacoes + "\n```Sua pergunta será respondida em alguns momentos!!```", token, phone_number_id));
                             const response = await axios(request.completion(usuario.question, cartasSorteadas));
-                            console.log(response)
                             if (response.status !== 200) {
                                 await axios(request.textMessage(from, `Não foi possível responder sua pergunta, tente novamente mais tarde`,
                                     token, phone_number_id))
                             } else {
-                                console.log(response)
                                 await axios(request.textMessage(from, response.result, token, phone_number_id));
                                 await axios(request.textMessage(from, 'Obrigado por utilizar o nosso serviço', token, phone_number_id));
                                 await axios(request.updateState(from, 0));
@@ -171,12 +169,10 @@ exports.webHook = async (req, res) => {
 
                             console.log('Vamors pegar a resposta agora')
                             const response = await axios(request.completion(usuario.question, cartasSorteadas));
-                            console.log(response)
                             if (response.status !== 200) {
                                 await axios(request.textMessage(from, `Não foi possível responder sua pergunta, tente novamente mais tarde`,
                                     token, phone_number_id))
                             } else {
-                                console.log('vamo que vamo')
                                 await axios(request.textMessage(from, response.data.result, token, phone_number_id));
                                 await axios(request.textMessage(from, 'Obrigado por utilizar o nosso serviço', token, phone_number_id));
                                 await axios(request.updateState(from, 0));
