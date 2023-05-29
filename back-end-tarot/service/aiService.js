@@ -8,31 +8,7 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-async function filtros(req, res) {
-  if (!configuration.apiKey) {
-    res.status(500).json({
-      error: {
-        message: "OpenAI API key not configured.",
-      }
-    });
-    return true;
-  }
-  if (await this.moderation(req, res)) {
-    console.log('asdada')
-    res.status(500).json({ error: 'Evite mensagens de ódio ou de cunho ofensivo' });
-    console.log(1);
-    return true;
-  }
-  console.log('teste')
-  if (!await this.verificaQtdAfirmacoes(req, res)) {
-    console.log('ping2')
-    res.status(500).json({ error: 'Evite colocar mais de uma afirmação ou pergunta.' })
-    return true;
-  }
-  return false
-}
-
-async function filtros2(metodo, pergunta, cartasMaiores, cartasMenores, res) {
+async function filtros(metodo, pergunta, cartasMaiores, cartasMenores, res) {
   if (metodo.trim().length === 0) {
     res.status(400).json({
       error: {
@@ -134,7 +110,7 @@ exports.completionWhats = async (req, res) => {
   const cartasMenores = req.body.cartasSorteadas.menores || '';
   const pergunta = req.body.pergunta || ''; // Garantir que só haverá uma pergunta
 
-  if (filtros2('placeholder', pergunta, cartasMaiores, cartasMenores, res)) return;
+  if (filtros('placeholder', pergunta, cartasMaiores, cartasMenores, res)) return;
 
   try {
 
@@ -156,14 +132,33 @@ exports.completionWhats = async (req, res) => {
 }
 
 exports.completion = async (req, res) => {
-  if (filtros(req, res)) return;
+  if (!configuration.apiKey) {
+    res.status(500).json({
+      error: {
+        message: "OpenAI API key not configured.",
+      }
+    });
+    return;
+  }
+  if (await this.moderation(req, res)) {
+    console.log('asdada')
+    res.status(500).json({ error: 'Evite mensagens de ódio ou de cunho ofensivo' });
+    console.log(1);
+    return;
+  }
+  console.log('teste')
+  if (!await this.verificaQtdAfirmacoes(req, res)) {
+    console.log('ping2')
+    res.status(500).json({ error: 'Evite colocar mais de uma afirmação ou pergunta.' })
+    return;
+  }
 
   const metodo = req.body.metodo || '';
   const cartasMaiores = req.body.cartasSorteadas.maiores || '';
   const cartasMenores = req.body.cartasSorteadas.menores || '';
   const pergunta = req.body.pergunta || ''; // Garantir que só haverá uma pergunta
 
-  if (filtros2(metodo, pergunta, cartasMaiores, cartasMenores, res)) return;
+  if (filtros(metodo, pergunta, cartasMaiores, cartasMenores, res)) return;
 
   try {
 
