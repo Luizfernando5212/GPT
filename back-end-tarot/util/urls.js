@@ -17,7 +17,7 @@ exports.updateState = (phone) => {
 }
 
 exports.updateQuestion = (phone) => {
-    return 'https://tarotai.onrender.com/user/qustion/' + phone
+    return 'https://tarotai.onrender.com/user/question/' + phone
 }
 
 exports.sorteio = (num) => {
