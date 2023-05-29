@@ -264,7 +264,7 @@ exports.sorteioCartas = (number) => {
 exports.completion = (pergunta, cartasSorteadas) => {
     let body = {
         method: "POST",
-        url: facebook.url(number, token),
+        url: facebook.completion(),
         headers: {
             "Content-Type": "application/json",
         },
