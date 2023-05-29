@@ -25,7 +25,7 @@ exports.webHook = async (req, res) => {
             req.body.entry[0].changes[0] &&
             req.body.entry[0].changes[0].value.messages &&
             req.body.entry[0].changes[0].value.messages[0] &&
-            body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 4) {
+            body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 6) {
             let phone_number_id = body.entry[0].changes[0].value.metadata.phone_number_id;
             let from = req.body.entry[0].changes[0].value.messages[0].from; // extract the phone number from the webhook payload
 
@@ -66,7 +66,7 @@ exports.webHook = async (req, res) => {
 
             if (body.entry[0].changes[0].value.messages[0].text &&
                 body.entry[0].changes[0].value.messages[0].text.body &&
-                body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 4) {
+                body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 5) {
                 message = body.entry[0].changes[0].value.messages[0].text.body;
                 let nome = req.body.entry[0].changes[0].value.contacts[0].profile.name;
 
@@ -108,7 +108,7 @@ exports.webHook = async (req, res) => {
             } else if (body.entry[0].changes[0].value.messages[0].interactive &&
                 body.entry[0].changes[0].value.messages[0].interactive.button_reply &&
                 body.entry[0].changes[0].value.messages[0].interactive.button_reply.id &&
-                body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 4) {
+                body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 5) {
                 message = req.body.entry[0].changes[0].value.messages[0].interactive.button_reply.title;
                 try {
                     await axios(request.textMessage(from, `Iremos te encaminhar para ${message}`, token, phone_number_id))
