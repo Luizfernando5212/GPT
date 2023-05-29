@@ -49,26 +49,27 @@ exports.fullMessage = (from, message, token, number) => {
                 },
                 footer: {
                     text: message.footer,
+                },
+                action: {
+                    buttons: [
+                        {
+                            type: "reply",
+                            reply: {
+                                id: 20,
+                                title: 'Encerrar interação.'
+                            }
+                        },
+                        {
+                            type: "reply",
+                            reply: {
+                                id: 21,
+                                title: 'Voltar ao menu principal.'
+                            }
+                        }
+                    ]
                 }
             },
-            action: {
-                buttons: [
-                    {
-                        type: "reply",
-                        reply: {
-                            id: 20,
-                            title: 'Encerrar interação.'
-                        }
-                    },
-                    {
-                        type: "reply",
-                        reply: {
-                            id: 21,
-                            title: 'Voltar ao menu principal.'
-                        }
-                    }
-                ]
-            }
+            
         }
     }
     return body;
