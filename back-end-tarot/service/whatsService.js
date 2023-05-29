@@ -166,6 +166,8 @@ exports.webHook = async (req, res) => {
                             }
                             await axios(request.textMessage(from, "*Suas cartas são*\n" +
                             combinacoes + "\n```Sua pergunta será respondida em alguns momentos!!```", token, phone_number_id));
+
+                            console.log('Vamors pegar a resposta agora')
                             const response = await axios(request.completion(usuario.question, cartasSorteadas));
                             console.log(response)
                             if (response.status !== 200) {

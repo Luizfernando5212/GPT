@@ -9,6 +9,7 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 async function filtros(metodo, pergunta, cartasMaiores, cartasMenores, res) {
+  console.log('To no caminho')
   if (metodo.trim().length === 0) {
     res.status(400).json({
       error: {
@@ -102,12 +103,13 @@ exports.completionWhats = async (req, res) => {
   //   res.status(500).json({ error: 'Evite colocar mais de uma afirmação ou pergunta.' })
   //   return;
   // }
-
+  console.log ('asdmaskdmaskldaskdlmasdklasmdklada');
   const cartasMaiores = req.body.cartasSorteadas.maiores || '';
   const cartasMenores = req.body.cartasSorteadas.menores || '';
   const pergunta = req.body.pergunta || ''; // Garantir que só haverá uma pergunta
 
   if (filtros('placeholder', pergunta, cartasMaiores, cartasMenores, res)) return;
+  console.log('asdkolmaskdomaskdmoam')
 
   try {
 
