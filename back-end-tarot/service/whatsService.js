@@ -152,7 +152,7 @@ exports.webHook = async (req, res) => {
                                 combinacoes += `${i + 1}ª combinação` + ' -> ' + cartasSorteadas.maiores[i] +
                                     ' e ' + cartasSorteadas.menores[i] + '\n'
                             }
-                            await axios(request.fullMessage(from, "*Sua carta é*\n" +
+                            await axios(request.textMessage(from, "*Sua carta é*\n" +
                             combinacoes + "\n```Sua pergunta será respondida em alguns momentos!!```", token, phone_number_id));
                             const response = await axios(request.completionMessage(user.question, cartasSorteadas));
                             if (response.status !== 200) {
@@ -169,7 +169,7 @@ exports.webHook = async (req, res) => {
                             for (let i = 0; i < cartasSorteadas.maiores.length; i++) {
                                 combinacoes += `${i + 1}ª carta` + ' -> ' + cartasSorteadas.maiores[i] + '\n'
                             }
-                            await axios(request.fullMessage(from, "*Sua carta é*\n" +
+                            await axios(request.textMessage(from, "*Sua carta é*\n" +
                             combinacoes + "\n```Sua pergunta será respondida em alguns momentos!!```", token, phone_number_id));
                             const response = await axios(request.completionMessage(user.question, cartasSorteadas));
                             if (response.status !== 200) {

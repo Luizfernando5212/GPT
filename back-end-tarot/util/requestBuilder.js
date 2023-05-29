@@ -52,20 +52,20 @@ exports.fullMessage = (from, message, token, number) => {
                 },
                 action: {
                     buttons: [
-                        // {
-                        //     type: "reply",
-                        //     reply: {
-                        //         id: 20,
-                        //         title: 'Encerrar interação.'
-                        //     }
-                        // },
-                        // {
-                        //     type: "reply",
-                        //     reply: {
-                        //         id: 21,
-                        //         title: 'Sortear outra carta'
-                        //     }
-                        // }
+                        {
+                            type: "reply",
+                            reply: {
+                                id: 20,
+                                title: 'Encerrar interação.'
+                            }
+                        },
+                        {
+                            type: "reply",
+                            reply: {
+                                id: 21,
+                                title: 'Sortear outra carta'
+                            }
+                        }
                     ]
                 }
             },
