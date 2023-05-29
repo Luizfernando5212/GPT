@@ -63,7 +63,7 @@ exports.fullMessage = (from, message, token, number) => {
                             type: "reply",
                             reply: {
                                 id: 21,
-                                title: 'Voltar ao menu principal.'
+                                title: 'Sortear outra carta'
                             }
                         }
                     ]
