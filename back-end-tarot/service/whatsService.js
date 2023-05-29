@@ -139,7 +139,7 @@ exports.webHook = async (req, res) => {
             } else if (body.entry[0].changes[0].value.messages[0].interactive &&
                 body.entry[0].changes[0].value.messages[0].interactive.list_reply &&
                 body.entry[0].changes[0].value.messages[0].interactive.list_reply.id &&
-                body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 5) {
+                body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 2) {
                 let combinacoes = '';
                 console.log('1239uajosmduisa')
                 try {
@@ -152,11 +152,8 @@ exports.webHook = async (req, res) => {
                                 combinacoes += `${i + 1}ª combinação` + ' -> ' + cartasSorteadas.maiores[i] +
                                     ' e ' + cartasSorteadas.menores[i] + '\n'
                             }
-                            await axios(request.fullMessage(from, {
-                                header: `Suas cartas são:`,
-                                body: combinacoes,
-                                footer: 'Sua pergunta será respondida em alguns momentos!!'
-                            }, token, phone_number_id));
+                            await axios(request.fullMessage(from, "*Sua carta é*\n" +
+                            combinacoes + "\n```Sua pergunta será respondida em alguns momentos!!```", token, phone_number_id));
                             const response = await axios(request.completionMessage(user.question, cartasSorteadas));
                             if (response.status !== 200) {
                                 await axios(request.textMessage(from, `Não foi possível responder sua pergunta, tente novamente mais tarde`,
@@ -172,11 +169,8 @@ exports.webHook = async (req, res) => {
                             for (let i = 0; i < cartasSorteadas.maiores.length; i++) {
                                 combinacoes += `${i + 1}ª carta` + ' -> ' + cartasSorteadas.maiores[i] + '\n'
                             }
-                            await axios(request.fullMessage(from, {
-                                header: `Sua carta é:`,
-                                body: combinacoes,
-                                footer: 'Sua pergunta será respondida em alguns momentos!!'
-                            }, token, phone_number_id));
+                            await axios(request.fullMessage(from, "*Sua carta é*\n" +
+                            combinacoes + "\n```Sua pergunta será respondida em alguns momentos!!```", token, phone_number_id));
                             const response = await axios(request.completionMessage(user.question, cartasSorteadas));
                             if (response.status !== 200) {
                                 await axios(request.textMessage(from, `Não foi possível responder sua pergunta, tente novamente mais tarde`,
