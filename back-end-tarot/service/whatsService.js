@@ -51,9 +51,6 @@ exports.webHook = async (req, res) => {
                 if (response.status === 200) {
                     usuario = response.data;
                     state = usuario.state;
-
-                    console.log('Usuário já cadastrado ', usuario)
-                    console.log('state ', state)
                 } else {
                     let response = await axios(request.postUser(from, req.body.entry[0].changes[0].value.contacts[0].profile.name));
                     if (response.status === 200) {
@@ -75,7 +72,6 @@ exports.webHook = async (req, res) => {
                 // Caso do usuário fazer a pergunta
                 if (state === 3) {
                     if (usuario.tokens >= 1) {
-                        console.log('teste')
                         const cartas = [];
                         for (const i of possibilidades) {
                             if (usuario.tokens >= i) cartas.push(`${i} ${i === 1 ? 'carta' : 'cartas'}`);
@@ -111,9 +107,7 @@ exports.webHook = async (req, res) => {
                 body.entry[0].changes[0].value.messages[0].interactive.button_reply &&
                 body.entry[0].changes[0].value.messages[0].interactive.button_reply.id &&
                 body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 5) {
-                console.log('vamooooo')
                 message = req.body.entry[0].changes[0].value.messages[0].interactive.button_reply.title;
-                console.log(state);
                 try {
                     await axios(request.textMessage(from, `Iremos te encaminhar para ${message}`, token, phone_number_id))
                     if (state == 1) {
@@ -139,14 +133,12 @@ exports.webHook = async (req, res) => {
             } else if (body.entry[0].changes[0].value.messages[0].interactive &&
                 body.entry[0].changes[0].value.messages[0].interactive.list_reply &&
                 body.entry[0].changes[0].value.messages[0].interactive.list_reply.id &&
-                body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 2) {
+                body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 5) {
                 let combinacoes = '';
-                console.log('1239uajosmduisa')
                 try {
                     if (state >= 4 && state <= 12) {
                         let cartasSorteadas = await axios(request.sorteioCartas(possibilidades[state - 4]));
                         cartasSorteadas = cartasSorteadas.data;
-                        console.log(cartasSorteadas)
                         if (cartasSorteadas.menores) {
                             for (let i = 0; i < cartasSorteadas.menores.length; i++) {
                                 combinacoes += `${i + 1}ª combinação` + ' -> ' + cartasSorteadas.maiores[i] +
