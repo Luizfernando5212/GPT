@@ -57,7 +57,6 @@ exports.newUser = async (req, res) => {
                 phone: phone
             })
 
-            await State.create({ phone: phone });
             const response = await user.save();
             res.json(response);
         } else {
@@ -67,7 +66,6 @@ exports.newUser = async (req, res) => {
                 phone: phone
             })
 
-            await State.create({ phone: phone });
             const response = await user.save();
             res.json(response);
         }
