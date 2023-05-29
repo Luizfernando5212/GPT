@@ -8,10 +8,15 @@ const configuration = new Configuration({
 });
 const openai = new OpenAIApi(configuration);
 
-async function filtros(pergunta, cartasMaiores, cartasMenores, res) {
-  console.log('To no caminho')
-  console.log(pergunta, cartasMaiores, cartasMenores)
-  if (pergunta.trim().length === 0) {
+function filtros(metodo, pergunta, cartasMaiores, cartasMenores, res) {
+  if (metodo.trim().length === 0) {
+    res.status(400).json({
+      error: {
+        message: "Por favor insira um método",
+      }
+    });
+    return true;
+  } else if (pergunta.trim().length === 0) {
     res.status(400).json({
       error: {
         message: "Por favor insira uma pergunta",
@@ -19,14 +24,14 @@ async function filtros(pergunta, cartasMaiores, cartasMenores, res) {
     });
     return true;
   }
-  // if (!cartasMaiores && !cartasMenores) {
-  //   res.status(400).json({
-  //     error: {
-  //       message: "Algo deu errado."
-  //     }
-  //   });
-  //   return true;
-  // }
+  if (!cartasMaiores && !cartasMenores) {
+    res.status(400).json({
+      error: {
+        message: "Algo deu errado."
+      }
+    });
+    return true;
+  }
   return false;
 }
 
@@ -53,7 +58,7 @@ function generatePrompt(metodo, cartasMaiores, cartasMenores, pergunta) {
 }
 
 
-async function generatePromptWhats(cartasMaiores, cartasMenores, pergunta) {
+function generatePromptWhats(cartasMaiores, cartasMenores, pergunta) {
   let metodo = 'Péladan';
   let combinacoes = '';
   if (cartasMenores) {
@@ -97,13 +102,12 @@ exports.completionWhats = async (req, res) => {
   //   res.status(500).json({ error: 'Evite colocar mais de uma afirmação ou pergunta.' })
   //   return;
   // }
-  console.log('asdmaskdmaskldaskdlmasdklasmdklada');
+
   const cartasMaiores = req.body.cartasSorteadas.maiores || '';
   const cartasMenores = req.body.cartasSorteadas.menores || '';
   const pergunta = req.body.pergunta || ''; // Garantir que só haverá uma pergunta
 
-  if (filtros(pergunta, cartasMaiores, cartasMenores, res)) return;
-  console.log('asdkolmaskdomaskdmoam')
+  if (filtros('placeholder', pergunta, cartasMaiores, cartasMenores, res)) return;
 
   try {
 
