@@ -73,6 +73,8 @@ exports.sorteioCartas = async (req, res) => {
         const numCartas = req.params.num;
         const cards = await Card.find();
 
+        console.log(numCartas)
+
         let arcanosMaiores = cards.slice(0, 22);
         let arcanosMenores = cards.slice(22)
         let cartasMaiores = [];
