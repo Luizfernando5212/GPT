@@ -24,7 +24,7 @@ async function filtros(metodo, pergunta, cartasMaiores, cartasMenores, res) {
     });
     return true;
   }
-  if (!cartasMaiores || !cartasMenores) {
+  if (!cartasMaiores && !cartasMenores) {
     res.status(400).json({
       error: {
         message: "Algo deu errado."
@@ -197,7 +197,7 @@ exports.moderation = async (req, res) => {
 
     // console.log(scores, moderation.data.results[0].flagged);
     for (const value in scores) {
-      flag = scores[value] > 0.5
+      flag = scores[value] > 0.3
       if (flag) return flag;
     }
     return moderation.data.results[0].flagged;
