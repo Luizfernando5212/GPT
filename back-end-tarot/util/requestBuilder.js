@@ -251,6 +251,7 @@ exports.updateQuestion = (from, question) => {
 }
 
 exports.sorteioCartas = (number) => {
+    console.log(number)
     let body = {
         method: "GET",
         url: facebook.sorteio(number),
