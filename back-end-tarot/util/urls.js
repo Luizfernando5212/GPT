@@ -20,6 +20,10 @@ exports.updateQuestion = (phone) => {
     return 'https://tarotai.onrender.com/user/question/' + phone
 }
 
+exports.completion = (id) => {
+    return 'https://tarotai.onrender.com/user/' + id
+}
+
 exports.sorteio = (num) => {
     return `https://tarotai.onrender.com/card/sorteio/${num}`
 }
