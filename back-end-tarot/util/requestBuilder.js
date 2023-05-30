@@ -131,12 +131,8 @@ exports.interactiveMessage = (from, message, buttons, token, number, i) => {
                 type: "interactive",
                 interactive: {
                     type: "button",
-                    header: {
-                        type: 'text',
-                        text: message.header
-                    },
                     body: {
-                        text: message.body,
+                        text: message,
                     },
                     action: {
                         buttons: buttons.map((name, index) => {

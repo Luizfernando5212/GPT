@@ -85,8 +85,8 @@ exports.webHook = async (req, res) => {
                     }
                 } else if (state !== 0) {
                     try {
-                        await axios(request.textMessage(from, `Você já está em uma sessão, selecione uma das opções acima`,
-                            token, phone_number_id))
+                        await axios(request.interactiveMessage(from, `Você já está em uma sessão, selecione uma das opções acima ou encerre a sessão.`,
+                            ['Encerrar sessão'], token, phone_number_id, 30))
                         res.status(200);
                     } catch (err) {
                         console.log("Deu ruim ", err);
@@ -110,6 +110,16 @@ exports.webHook = async (req, res) => {
                 body.entry[0].changes[0].value.messages[0].interactive.button_reply.id &&
                 body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 5) {
                 message = req.body.entry[0].changes[0].value.messages[0].interactive.button_reply.title;
+                if (state === 30) {
+                    try {
+                        await axios(request.updateState(from, 0));
+                        await axios(request.updateQuestion(from, ''));
+                        await axios(request.textMessage(from, `Sessão encerrada com sucesso, envie uma nova menssagem`, token, phone_number_id));
+                    } catch (err) {
+                        console.log("Deu ruim ", err);
+                        res.sendStatus(400);
+                    }
+                }
                 try {
                     await axios(request.textMessage(from, `Iremos te encaminhar para ${message}`, token, phone_number_id))
                     if (state == 1) {
@@ -147,7 +157,7 @@ exports.webHook = async (req, res) => {
                                     ' e ' + cartasSorteadas.menores[i] + '\n'
                             }
                             await axios(request.textMessage(from, "*Suas cartas são*\n" +
-                            combinacoes + "\n```Sua pergunta será respondida em alguns momentos!!```", token, phone_number_id));
+                                combinacoes + "\n```Sua pergunta será respondida em alguns momentos!!```", token, phone_number_id));
                             const response = await axios(request.completion(usuario.question, cartasSorteadas));
                             if (response.status !== 200) {
                                 await axios(request.textMessage(from, `Não foi possível responder sua pergunta, tente novamente mais tarde`,
@@ -164,7 +174,7 @@ exports.webHook = async (req, res) => {
                                 combinacoes += `${i + 1}ª carta` + ' -> ' + cartasSorteadas.maiores[i] + '\n'
                             }
                             await axios(request.textMessage(from, "*Suas cartas são*\n" +
-                            combinacoes + "\n```Sua pergunta será respondida em alguns momentos!!```", token, phone_number_id));
+                                combinacoes + "\n```Sua pergunta será respondida em alguns momentos!!```", token, phone_number_id));
                             const response = await axios(request.completion(usuario.question, cartasSorteadas));
                             if (response.status !== 200) {
                                 await axios(request.textMessage(from, `Não foi possível responder sua pergunta, tente novamente mais tarde`,
