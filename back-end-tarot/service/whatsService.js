@@ -115,6 +115,7 @@ exports.webHook = async (req, res) => {
                         await axios(request.updateState(from, 0));
                         await axios(request.updateQuestion(from, ''));
                         await axios(request.textMessage(from, `Sessão encerrada com sucesso, envie uma nova menssagem`, token, phone_number_id));
+                        return
                     } catch (err) {
                         console.log("Deu ruim ", err);
                         res.sendStatus(400);
