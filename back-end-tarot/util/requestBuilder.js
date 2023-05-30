@@ -246,6 +246,20 @@ exports.updateQuestion = (from, question) => {
     return body;
 }
 
+exports.updateTokens = (id, token) => {
+    let body = {
+        method: "PUT",
+        url: facebook.updateTokens(id),
+        headers: {
+            "Content-Type": "application/json",
+        },
+        data: {
+            token: token,
+        },
+    }
+    return body;
+}
+
 exports.sorteioCartas = (number) => {
     console.log(number)
     let body = {
