@@ -71,7 +71,7 @@ exports.webHook = async (req, res) => {
                 let nome = req.body.entry[0].changes[0].value.contacts[0].profile.name;
 
                 // Caso do usuário fazer a pergunta
-                if (state === 3) {
+                if (state === 3 && usuario.question === '') {
                     await axios(request.updateQuestion(from, message));
                     if (usuario.tokens >= 1) {
                         const cartas = [];
