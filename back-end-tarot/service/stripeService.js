@@ -1,11 +1,20 @@
 require('dotenv').config();
-const userController = require('../controller/userController');
 const stripe = require('stripe')(process.env.STRIPE_API_KEY);
+const axios = require('axios');
+const request = require('../util/requestBuilder');
 
-const fulfillOrder = (lineItems) => {
+const fulfillOrder = async (session) => {
+    const precoUnitario = 2;
+    const order = {};
+
+    order.quantidade = (session.amount_total / 100) / precoUnitario;
+    order.orderId = session.id;
+    order.status = session.payment_status;
+    order.order = JSON.stringify(session);
     // TODO: fill me in
-    userController.updateUser()
-    console.log("Fulfilling order", lineItems);
+    // userController.updateUser()
+    await axios(request.insertOrder(order, phone))
+    console.log("Fulfilling order", typeof session, session);
 }
 
 const createOrder = (session) => {
@@ -20,31 +29,31 @@ const emailCustomerAboutFailedPayment = (session) => {
 
 exports.webHook = async (req, res) => {
     const payload = req.body;
-    const sig = req.headers['stripe-signature'];
-    console.log('teste')
+    let sig = req.headers['stripe-signature'];
+    // sig = sig[0].trim() + sig[1].trim();
+    // console.log('teste')
+
+    // console.log(req.headers)
 
     let event;
-
     try {
         event = stripe.webhooks.constructEvent(payload, sig, process.env.STRIPE_ENDPOINT_SK)
     } catch (err) {
-        return res.status(400).send(`Webhook Error: ${err.message}`);
+        return res.status(401).send(`Webhook Error: ${err.message}`);
     }
-
+    // console.log(event)
     switch (event.type) {
         case 'checkout.session.completed': {
             const session = event.data.object;
             // Save an order in your database, marked as 'awaiting payment'
             createOrder(session);
-
-            session.paymeny_status = 'paid';
-
+            // console.log(session)
             // Check if the order is paid (for example, from a card payment)
             //
             // A delayed notification payment will have an `unpaid` status, as
             // you're still waiting for funds to be transferred from the customer's
             // account.
-            console.log('helo')
+            // console.log('helo')
             if (session.payment_status === 'paid') {
                 fulfillOrder(session);
             }
@@ -54,7 +63,7 @@ exports.webHook = async (req, res) => {
 
         case 'checkout.session.async_payment_succeeded': {
             const session = event.data.object;
-
+            // console.log(session)
             // Fulfill the purchase...
             fulfillOrder(session);
 
@@ -63,7 +72,7 @@ exports.webHook = async (req, res) => {
 
         case 'checkout.session.async_payment_failed': {
             const session = event.data.object;
-
+            // console.log(session)
             // Send an email to the customer asking them to retry their order
             emailCustomerAboutFailedPayment(session);
 

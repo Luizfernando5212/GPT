@@ -1,11 +1,9 @@
 require('dotenv').config();
 const request = require('../util/requestBuilder');
-const facebook = require('../util/urls');
 const axios = require("axios").default;
 
 const token = process.env.WHATSAPP_TOKEN;
 
-const pergunta = "O que o futuro me reserva?";
 
 exports.webHook = async (req, res) => {
     let body = req.body;

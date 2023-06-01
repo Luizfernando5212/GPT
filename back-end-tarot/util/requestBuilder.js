@@ -286,3 +286,18 @@ exports.completion = (pergunta, cartasSorteadas) => {
     }
     return body;
 } 
+
+exports.insertOrder = (order, phone) => {
+    let body = {
+        method: "POST",
+        url: facebook.insertOrder(),
+        headers: {
+            "Content-Type": "application/json",
+        },
+        data: {
+            order: order,
+            phone: phone,
+        }
+    }
+    return body;
+}

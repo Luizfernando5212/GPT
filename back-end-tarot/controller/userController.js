@@ -7,11 +7,14 @@ userController = {
     },
 
     updateUser: async (req, res) => {
-        service.updadeUser
+        service.updateUser(req, res)
     },
 
     getUsers: async (req, res) => {
         service.getUsers(req, res);
+    },
+    getUserByPhone: async (req, res) => {
+        service.getUserByPhone(req, res);
     }
 
 }

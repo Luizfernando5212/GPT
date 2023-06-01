@@ -4,8 +4,11 @@ var Schema = mongoose.Schema;
 
 var OrderSchema = new Schema(
     {
-        quantidade: { trype: Number, required: true },
-        usuario: { type: Schema.Types.ObjectId, ref: 'User', required: true }
+        quantidade: { type: Number, required: true },
+        user: { type: Schema.Types.ObjectId, required: true, ref: 'User' },
+        orderId: { type: String, required: true }, // Stripe order id,
+        status: { type: String, required: true }, // Stripe order status
+        order: { type: String, required: true }, // Stripe order object
     }
 )
 

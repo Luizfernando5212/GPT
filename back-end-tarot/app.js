@@ -12,11 +12,15 @@ var userRouter = require('./routes/user');
 var aiRouter = require('./routes/ai');
 var stripeRouter = require('./routes/stripe');
 var whatsRouter = require('./routes/whats');
+var orderRouter = require('./routes/order');
 
 var app = express();
 const PORT = process.env.PORT || 3000
 
 // app.use(logger('dev'));
+
+app.use('/stripe', bodyParser.raw({type: 'application/json'}), stripeRouter) // Exception for stripe webhook
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -30,8 +34,8 @@ app.use('/model', modelRouter);
 app.use('/card', cardRouter);
 app.use('/user', userRouter);
 app.use('/ai', aiRouter);
-app.use('/stripe', stripeRouter)
 app.use('/whatsapp', whatsRouter)
+app.use('/order', orderRouter)
 
 conn().then(()=> {
     app.listen(PORT, () => {

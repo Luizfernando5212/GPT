@@ -31,3 +31,7 @@ exports.sorteio = (num) => {
 exports.completion = () => {
     return `https://tarotai.onrender.com/ai/whats`
 }
+
+exports.insertOrder = () => {
+    return `https://tarotai.onrender.com/order`
+}
