@@ -11,18 +11,54 @@ const fulfillOrder = async (session) => {
     order.orderId = session.id;
     order.status = session.payment_status;
     order.order = JSON.stringify(session);
+    const user = await axios(request.getUser(session.customer_details.phone.trim('+')));
+    order.user = user.data._id;
     // TODO: fill me in
     // userController.updateUser()
-    await axios(request.insertOrder(order, phone))
+    await axios(request.insertOrder(order.orderId, order, phone))
+    await axios(request.updateTokens(user.phone, order.quantidade))
     console.log("Fulfilling order", typeof session, session);
 }
 
-const createOrder = (session) => {
+const createOrder = async (session) => {
+    const precoUnitario = 2;
+    const order  = {};
+
+    order.quantidade = (session.amount_total / 100) / precoUnitario;
+    order.orderId = session.id;
+    order.status = session.payment_status;
+    order.order = JSON.stringify(session);
+    const user = await axios(request.getUser(session.customer_details.phone.trim('+')));
+    order.user = user.data._id;
+
+    await axios(request.insertOrder(order, phone));
     // TODO: fill me in
     console.log("Creating order", session);
 }
 
 const emailCustomerAboutFailedPayment = (session) => {
+    let transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: '',
+            pass: process.env.EMAIL_PASSWORD
+        }
+    });
+
+    let mailOptions = {
+        from: '',
+        to: session.customer_details.email,
+        subject: 'Payment failed',
+        text: 'Your payment failed. Please try again' // html para formatar o email
+    };
+
+    transporter.sendMail(mailOptions, function (err, data) {
+        if (err) {
+            console.log('Error occurs', err);
+        } else {
+            console.log('Email sent!!!');
+        }
+    });
     // TODO: fill me in
     console.log("Emailing customer", session);
 }

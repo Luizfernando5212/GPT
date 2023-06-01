@@ -246,10 +246,10 @@ exports.updateQuestion = (from, question) => {
     return body;
 }
 
-exports.updateTokens = (id, token) => {
+exports.updateTokens = (phone, token) => {
     let body = {
         method: "PUT",
-        url: facebook.updateTokens(id),
+        url: facebook.updateTokens(phone),
         headers: {
             "Content-Type": "application/json",
         },
@@ -291,6 +291,21 @@ exports.insertOrder = (order, phone) => {
     let body = {
         method: "POST",
         url: facebook.insertOrder(),
+        headers: {
+            "Content-Type": "application/json",
+        },
+        data: {
+            order: order,
+            phone: phone,
+        }
+    }
+    return body;
+}
+
+exports.updateOrder = (id, order, phone) => {
+    let body = {
+        method: "PUT",
+        url: facebook.updateOrder(id),
         headers: {
             "Content-Type": "application/json",
         },
