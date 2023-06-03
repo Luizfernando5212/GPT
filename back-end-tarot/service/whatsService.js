@@ -32,7 +32,12 @@ exports.webHook = async (req, res) => {
 
             // console.log(body.entry[0].changes[0].value.messages[0].timestamp);
             // console.log(Date.now() / 1000)
-            await axios(request.mediaMessage(from, token, phone_number_id));
+            try {
+                await axios(request.mediaMessage(from, token, phone_number_id));
+            } catch (err) {
+                console.log('Não há mensagem de mídia no momento ', err)
+            }
+            
 
             try {
                 try {
