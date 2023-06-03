@@ -192,7 +192,7 @@ exports.interactiveListMessage = (from, message, buttons, token, number, i) => {
     return body;
 }
 
-exports.mediaMessage = (from, token, number) => {
+exports.mediaMessage = (from, img, token, number) => {
     let body = {
         method: "POST",
         url: facebook.url(number, token),
@@ -205,7 +205,7 @@ exports.mediaMessage = (from, token, number) => {
             to: from,
             type: "image",
             image: {
-                link: process.env.IMG,
+                link: img,
             },
         },
     }
