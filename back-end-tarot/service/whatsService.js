@@ -78,7 +78,12 @@ exports.webHook = async (req, res) => {
                 let nome = req.body.entry[0].changes[0].value.contacts[0].profile.name;
 
                 // Caso do usuário fazer a pergunta
-                await path.textPath(from, state, usuario, token, phone_number_id, res);
+                try {
+                    await path.textPath(from, state, usuario, body, token, phone_number_id, nome, res);
+                } catch (err) {
+                    console.log('Não há mensagem de texto no momento ', err)
+                }
+                
                 
 
             } else if (body.entry[0].changes[0].value.messages[0].interactive &&
