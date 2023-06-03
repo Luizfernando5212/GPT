@@ -76,7 +76,7 @@ exports.newUser = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
     try {
-        const user  = {
+        const user = {
             tokens: req.body.tokens
         }
         console.log(user)
@@ -95,11 +95,11 @@ exports.updateUser = async (req, res) => {
 
 exports.updateTokens = async (req, res) => {
     try {
-        const user  = {
+        const user = {
             tokens: req.body.tokens
         }
         console.log(user)
-        const oldUser = await User.findById(req.params.id);
+        const oldUser = await User.findOne({ phone: req.params.phone });
 
         oldUser.tokens += user.tokens;
 

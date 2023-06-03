@@ -14,7 +14,7 @@ router.post('/', userController.newUser);
 
 router.put('/:id', userController.updateUser);
 
-router.put('/token/:id', userController.updateTokens);
+router.put('/token/:phone', userController.updateTokens);
 
 router.put('/state/:phone', userController.updateState);
 
