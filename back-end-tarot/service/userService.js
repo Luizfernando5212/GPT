@@ -96,15 +96,16 @@ exports.updateUser = async (req, res) => {
 exports.updateTokens = async (req, res) => {
     try {
         const user = {
-            tokens: req.body.tokens
+            tokens: req.body.token
         }
         console.log(user)
         const oldUser = await User.findOne({ phone: req.params.phone });
 
         oldUser.tokens += user.tokens;
 
-        const response = await User.findByIdAndUpdate(req.params.id, oldUser);
+        const response = await User.findByIdAndUpdate(oldUser._id, oldUser);
 
+        console.log('Tokens adicionados');
         res.json(response);
 
     } catch (err) {

@@ -12,8 +12,12 @@ exports.postUser = () => {
     return 'https://tarotai.onrender.com/user'
 }
 
+// exports.updateTokens = (phone) => {
+//     return 'https://tarotai.onrender.com/user/token/' + phone
+// }
+
 exports.updateTokens = (phone) => {
-    return 'https://tarotai.onrender.com/user/token/' + phone
+    return 'http://localhost:3000/user/token/' + phone
 }
 
 exports.updateState = (phone) => {

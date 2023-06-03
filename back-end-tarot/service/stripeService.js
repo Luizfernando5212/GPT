@@ -19,7 +19,6 @@ const fulfillOrder = async (session) => {
     try {
         await axios(request.updateOrder(order.orderId, order, phone))
         const response = await axios(request.updateTokens(phone, order.quantidade))
-        console.log(response)
     } catch (err) {
         console.log(err)
     }
@@ -50,16 +49,16 @@ const emailCustomerAboutFailedPayment = (session) => {
     let transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: '',
+            user: 'luiz.5.2.1.luiz@gmail.com',
             pass: process.env.EMAIL_PASSWORD
         }
     });
 
     let mailOptions = {
-        from: '',
+        from: 'luiz.5.2.1.luiz@gmail.com',
         to: session.customer_details.email,
         subject: 'Payment failed',
-        text: 'Your payment failed. Please try again' // html para formatar o email
+        html: '<h1>Your payment failed. Please try again</h1>' // html para formatar o email
     };
 
     transporter.sendMail(mailOptions, function (err, data) {
@@ -87,7 +86,7 @@ exports.webHook = async (req, res) => {
     } catch (err) {
         return res.status(401).send(`Webhook Error: ${err.message}`);
     }
-    // console.log(event)
+    console.log(event)
     switch (event.type) {
         case 'checkout.session.completed': {
             const session = event.data.object;
