@@ -197,6 +197,7 @@ exports.mediaMessage = (from, img, token, number) => {
         method: "POST",
         url: facebook.url(number, token),
         headers: {
+            Authorization: "Bearer " + token,
             "Content-Type": "application/json",
         },
         data: {
