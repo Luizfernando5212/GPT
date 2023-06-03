@@ -78,7 +78,7 @@ exports.webHook = async (req, res) => {
                 let nome = req.body.entry[0].changes[0].value.contacts[0].profile.name;
 
                 // Caso do usuário fazer a pergunta
-                await path.textPath(from, state, usuario, token, phone_number_id);
+                await path.textPath(from, state, usuario, token, phone_number_id, res);
                 
 
             } else if (body.entry[0].changes[0].value.messages[0].interactive &&
