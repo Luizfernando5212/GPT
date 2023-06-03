@@ -90,90 +90,27 @@ exports.webHook = async (req, res) => {
                 body.entry[0].changes[0].value.messages[0].interactive.button_reply &&
                 body.entry[0].changes[0].value.messages[0].interactive.button_reply.id &&
                 body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 5) {
-                message = req.body.entry[0].changes[0].value.messages[0].interactive.button_reply.title;
-                if (state === 30) {
-                    try {
-                        await axios(request.updateState(from, 0));
-                        await axios(request.updateQuestion(from, ''));
-                        await axios(request.textMessage(from, `Sessão encerrada com sucesso, envie uma nova menssagem`, token, phone_number_id));
-                        return
-                    } catch (err) {
-                        console.log("Deu ruim ", err);
-                        res.sendStatus(400);
-                    }
-                }
+                
+                // Caso do usuário escolher o tipo de pergunta
                 try {
-                    await axios(request.textMessage(from, `Iremos te encaminhar para ${message}`, token, phone_number_id))
-                    if (state == 1) {
-                        await axios(request.fullMessage(from, {
-                            header: `Link de compra`,
-                            body: 'Entre no link abaixo para realizar a compra, após a compra você receberá um código para utilizar no jogo',
-                            footer: 'www.google.com.br'
-                        }, token, phone_number_id))
-                    } else if (state == 2) {
-                        if (usuario.tokens >= 1) {
-                            await axios(request.textMessage(from, `Escreva *agora* a pergunta que gostaria de ser respondida.`,
-                                token, phone_number_id))
-                            await axios(request.updateState(from, 3));
-                        } else {
-                            await axios(request.textMessage(from, `Você não possui tokens suficientes`, token, phone_number_id))
-                        }
-                    }
-                    res.sendStatus(200);
+                    await path.buttonPath(from, state, usuario, body, token, phone_number_id, res);
                 } catch (err) {
-                    console.log("Deu ruim ", err);
-                    res.sendStatus(400);
+                    console.log('Não há mensagem de botão no momento ', err)
                 }
+
+
             } else if (body.entry[0].changes[0].value.messages[0].interactive &&
                 body.entry[0].changes[0].value.messages[0].interactive.list_reply &&
                 body.entry[0].changes[0].value.messages[0].interactive.list_reply.id &&
                 body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 5) {
-                let combinacoes = '';
+                
+                // Caso do usuário escolher o tipo de pergunta
                 try {
-                    if (state >= 4 && state <= 12) {
-                        let cartasSorteadas = await axios(request.sorteioCartas(possibilidades[state - 4]));
-                        cartasSorteadas = cartasSorteadas.data;
-                        if (cartasSorteadas.menores) {
-                            for (let i = 0; i < cartasSorteadas.menores.length; i++) {
-                                combinacoes += `${i + 1}ª combinação` + ' -> ' + cartasSorteadas.maiores[i] +
-                                    ' e ' + cartasSorteadas.menores[i] + '\n'
-                            }
-                            await axios(request.textMessage(from, "*Suas cartas são*\n" +
-                                combinacoes + "\n```Sua pergunta será respondida em alguns momentos!!```", token, phone_number_id));
-                            const response = await axios(request.completion(usuario.question, cartasSorteadas));
-                            if (response.status !== 200) {
-                                await axios(request.textMessage(from, `Não foi possível responder sua pergunta, tente novamente mais tarde`,
-                                    token, phone_number_id))
-                            } else {
-                                await axios(request.textMessage(from, response.data.result, token, phone_number_id));
-                                await axios(request.textMessage(from, 'Obrigado por utilizar o nosso serviço', token, phone_number_id));
-                                await axios(request.updateState(from, 0));
-                                await axios(request.updateQuestion(from, ''));
-                                await axios(request.updateTokens(from, usuario.tokens - state + 4));
-                            }
-                            // let response = await axios(request.interactiveMessage(from))
-                        } else {
-                            for (let i = 0; i < cartasSorteadas.maiores.length; i++) {
-                                combinacoes += `${i + 1}ª carta` + ' -> ' + cartasSorteadas.maiores[i] + '\n'
-                            }
-                            await axios(request.textMessage(from, "*Suas cartas são*\n" +
-                                combinacoes + "\n```Sua pergunta será respondida em alguns momentos!!```", token, phone_number_id));
-                            const response = await axios(request.completion(usuario.question, cartasSorteadas));
-                            if (response.status !== 200) {
-                                await axios(request.textMessage(from, `Não foi possível responder sua pergunta, tente novamente mais tarde`,
-                                    token, phone_number_id))
-                            } else {
-                                await axios(request.textMessage(from, response.data.result, token, phone_number_id));
-                                await axios(request.textMessage(from, 'Obrigado por utilizar o nosso serviço', token, phone_number_id));
-                                await axios(request.updateState(from, 0));
-                                await axios(request.updateQuestion(from, ''));
-                            }
-                        }
-                    }
+                    await path.listPath(from, state, usuario, body, token, phone_number_id, res);
                 } catch (err) {
-                    console.log("Deu ruim ", err);
-                    res.sendStatus(400);
+                    console.log('Não há mensagem de lista no momento ', err)
                 }
+                
             } // extract the message text from the webhook payload
         }
     } else {
