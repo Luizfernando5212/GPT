@@ -1,3 +1,4 @@
+require('dotenv').config();
 const facebook = require('./urls');
 
 
@@ -187,6 +188,26 @@ exports.interactiveListMessage = (from, message, buttons, token, number, i) => {
                 }
             }
         }
+    }
+    return body;
+}
+
+exports.mediaMessage = (from, token, number) => {
+    let body = {
+        method: "POST",
+        url: facebook.url(number, token),
+        headers: {
+            "Content-Type": "application/json",
+        },
+        data: {
+            messaging_product: "whatsapp",
+            recipient_type: "individual",
+            to: from,
+            type: "image",
+            image: {
+                link: process.env.IMG,
+            },
+        },
     }
     return body;
 }

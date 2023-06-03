@@ -24,12 +24,15 @@ exports.webHook = async (req, res) => {
             req.body.entry[0].changes[0].value.messages &&
             req.body.entry[0].changes[0].value.messages[0] &&
             body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 6) {
+            console.log(body.entry[0].changes[0].value.messages[0].timestamp);
+            console.log(Math.round(Date.now() / 1000))
             let phone_number_id = body.entry[0].changes[0].value.metadata.phone_number_id;
             let from = req.body.entry[0].changes[0].value.messages[0].from; // extract the phone number from the webhook payload
 
 
             // console.log(body.entry[0].changes[0].value.messages[0].timestamp);
             // console.log(Date.now() / 1000)
+            await axios(request.mediaMessage(from, token, phone_number_id));
 
             try {
                 try {
