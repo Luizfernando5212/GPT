@@ -4,36 +4,46 @@ const axios = require('axios');
 const request = require('../util/requestBuilder');
 
 const fulfillOrder = async (session) => {
+    console.log('Finalizando pedido')
     const precoUnitario = 2;
     const order = {};
+    const phone = session.customer_details.phone.replace(/^\+|\+$/g, '');
 
     order.quantidade = (session.amount_total / 100) / precoUnitario;
     order.orderId = session.id;
     order.status = session.payment_status;
     order.order = JSON.stringify(session);
-    const user = await axios(request.getUser(session.customer_details.phone.trim('+')));
-    order.user = user.data._id;
+
     // TODO: fill me in
     // userController.updateUser()
-    await axios(request.insertOrder(order.orderId, order, phone))
-    await axios(request.updateTokens(user.phone, order.quantidade))
-    console.log("Fulfilling order", typeof session, session);
+    try {
+        await axios(request.updateOrder(order.orderId, order, phone))
+        const response = await axios(request.updateTokens(phone, order.quantidade))
+        console.log(response)
+    } catch (err) {
+        console.log(err)
+    }
+    
+    // console.log("Fulfilling order", typeof session, session);
 }
 
 const createOrder = async (session) => {
+    console.log('Criando pedido')
+    // console.log(session)
     const precoUnitario = 2;
-    const order  = {};
+    const order = {};
+    const phone = session.customer_details.phone.replace(/^\+|\+$/g, '');
 
     order.quantidade = (session.amount_total / 100) / precoUnitario;
     order.orderId = session.id;
     order.status = session.payment_status;
     order.order = JSON.stringify(session);
-    const user = await axios(request.getUser(session.customer_details.phone.trim('+')));
-    order.user = user.data._id;
 
-    await axios(request.insertOrder(order, phone));
-    // TODO: fill me in
-    console.log("Creating order", session);
+    try {
+        const response = await axios(request.insertOrder(order, phone));
+    } catch (err) {
+        console.log(err)
+    }
 }
 
 const emailCustomerAboutFailedPayment = (session) => {
@@ -120,7 +130,7 @@ exports.webHook = async (req, res) => {
         }
     }
 
-    console.log("Got payload: " + payload);
+    // console.log("Got payload: " + payload);
 
     res.status(200).end();
 }

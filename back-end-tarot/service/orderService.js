@@ -21,10 +21,9 @@ exports.getOrderById = async (req, res) => {
 
 exports.insertOrder = async (req, res) => {
     try {
-
         const { ...order } = req.body.order;
-        const User = await User.finOne({ phone: req.body.phone });
-        order.user = User._id;
+        const user = await User.findOne({ phone: req.body.phone });
+        order.user = user._id;
         const response = await Order.create(order);
         res.json(response);
     } catch (err) {
@@ -34,10 +33,11 @@ exports.insertOrder = async (req, res) => {
 
 exports.updateOrder = async (req, res) => {
     try {
+        console.log('uodate')
         const { ...order } = req.body.order;
-        const User = await User.finOne({ phone: req.body.phone });
-        order.user = User._id;
-        const response = await Order.findByIdAndUpdate(req.params.id, order);
+        const user = await User.findOne({ phone: req.body.phone });
+        order.user = user._id;
+        const response = await Order.findOneAndUpdate({ orderId: req.params.id }, order);
 
         res.json(response);
 

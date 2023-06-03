@@ -36,6 +36,18 @@ exports.completion = () => {
     return `https://tarotai.onrender.com/ai/whats`
 }
 
+// exports.insertOrder = () => {
+//     return `https://tarotai.onrender.com/order`
+// }
+
 exports.insertOrder = () => {
-    return `https://tarotai.onrender.com/order`
+    return `http://localhost:3000/order`
+}
+
+// exports.updateOrder = (id) => {
+//     return `https://tarotai.onrender.com/order/${id}`
+// };
+
+exports.updateOrder = (id) => {
+    return `http://localhost:3000/order/${id}`
 }
