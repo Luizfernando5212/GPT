@@ -205,7 +205,7 @@ exports.mediaMessage = (from, img, token, number) => {
             to: from,
             type: "image",
             image: {
-                id: img,
+                link: img,
             },
         },
     }

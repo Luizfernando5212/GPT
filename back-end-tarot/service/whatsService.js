@@ -33,7 +33,7 @@ exports.webHook = async (req, res) => {
             // console.log(body.entry[0].changes[0].value.messages[0].timestamp);
             // console.log(Date.now() / 1000)back-end-tarot\images\tarot_img1.jpeg
             try {
-                await axios(request.mediaMessage(from, '../images/tarot_img1.jpeg', token, phone_number_id));
+                await axios(request.mediaMessage(from, 'https://i.imgur.com/q57SM0Z.jpg', token, phone_number_id));
             } catch (err) {
                 console.log('Não há mensagem de mídia no momento ', err)
             }
