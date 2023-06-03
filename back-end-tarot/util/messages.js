@@ -1,4 +1,9 @@
+require('dotenv').config();
+const request = require('./requestBuilder');
+const axios = require('axios');
+
 exports.textPath = async (from, state, usuario, token, phone_number_id) => {
+    var possibilidades = [1, 2, 3, 4, 5, 6, 8, 10, 20]
     if (state === 3 && usuario.question === '') {
         await axios(request.updateQuestion(from, message));
         if (usuario.tokens >= 1) {
