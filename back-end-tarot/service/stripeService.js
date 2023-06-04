@@ -2,6 +2,7 @@ require('dotenv').config();
 const stripe = require('stripe')(process.env.STRIPE_API_KEY);
 const axios = require('axios');
 const request = require('../util/requestBuilder');
+const variables = require('../util/variables');
 
 const fulfillOrder = async (session) => {
     console.log('Finalizando pedido')
@@ -22,7 +23,17 @@ const fulfillOrder = async (session) => {
     } catch (err) {
         console.log(err)
     }
-    
+
+    try {
+        let response = await axios(request.getUser(phone));
+        await axios(request.textMessage(phone, `Pagamento concluído com sucesso! Você comprou ${order.quantidade} estrelas. Seu saldo atual é de ${response.data.tokens} estrelas.`))
+        await axios(request.textMessage(phone, `Estou muito feliz em continuar com você! Agora vamos nos preparar novamente para abrirmos uma nova mesa 🔮`));
+        if (response.data.tokens)
+        await axios(request.in)
+    } catch (err) {
+        console.log(err)
+    }
+
     // console.log("Fulfilling order", typeof session, session);
 }
 

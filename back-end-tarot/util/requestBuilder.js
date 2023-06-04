@@ -1,11 +1,13 @@
 require('dotenv').config();
 const facebook = require('./urls');
+const token = process.env.WHATSAPP_TOKEN;
+const phoneNumber = process.env.PHONE_NUMBER_ID;
 
 
-exports.textMessage = (from, message, token, number) => {
+exports.textMessage = (from, message) => {
     let body = {
         method: "POST",
-        url: facebook.url(number, token),
+        url: facebook.url(phoneNumber),
         headers: {
             'Authorization': `Bearer ${token}`,
             "Content-Type": "application/json",
@@ -26,10 +28,10 @@ exports.textMessage = (from, message, token, number) => {
 
 }
 
-exports.fullMessage = (from, message, token, number) => {
+exports.fullMessage = (from, message) => {
     let body = {
         method: "POST",
-        url: facebook.url(number, token),
+        url: facebook.url(phoneNumber),
         headers: {
             Authorization: "Bearer " + token,
             "Content-Type": "application/json",
@@ -77,11 +79,11 @@ exports.fullMessage = (from, message, token, number) => {
 }
 
 
-exports.interactiveMessage = (from, message, buttons, token, number, i) => {
+exports.interactiveMessage = (from, message, buttons, i) => {
     if (message instanceof Object) {
         let body = {
             method: "POST",
-            url: facebook.url(number, token),
+            url: facebook.url(phoneNumber),
             headers: {
                 Authorization: "Bearer " + token,
                 "Content-Type": "application/json",
@@ -120,7 +122,7 @@ exports.interactiveMessage = (from, message, buttons, token, number, i) => {
     } else {
         let body = {
             method: "POST",
-            url: facebook.url(number, token),
+            url: facebook.url(phoneNumber),
             headers: {
                 Authorization: "Bearer " + token,
                 "Content-Type": "application/json",
@@ -153,11 +155,11 @@ exports.interactiveMessage = (from, message, buttons, token, number, i) => {
     }
 }
 
-exports.interactiveListMessage = (from, message, buttons, token, number, i) => {
+exports.interactiveListMessage = (from, message, buttons, name, i) => {
 
     let body = {
         method: "POST",
-        url: facebook.url(number, token),
+        url: facebook.url(phoneNumber),
         headers: {
             Authorization: "Bearer " + token,
             "Content-Type": "application/json",
@@ -173,7 +175,7 @@ exports.interactiveListMessage = (from, message, buttons, token, number, i) => {
                     text: message
                 },
                 action: {
-                    button: "Quantidade cartas",
+                    button: name,
                     sections: [
                         {
                             title: "SECTION_1_TITLE",
@@ -192,10 +194,10 @@ exports.interactiveListMessage = (from, message, buttons, token, number, i) => {
     return body;
 }
 
-exports.mediaMessage = (from, img, token, number) => {
+exports.mediaMessage = (from, img) => {
     let body = {
         method: "POST",
-        url: facebook.url(number, token),
+        url: facebook.url(phoneNumber),
         headers: {
             Authorization: "Bearer " + token,
             "Content-Type": "application/json",
@@ -224,7 +226,7 @@ exports.getUser = (from) => {
     return body;
 }
 
-exports.postUser = (from, nome) => {
+exports.postUser = (from, nome, whatsapp) => {
     let body = {
         method: "POST",
         url: facebook.postUser(),
@@ -234,12 +236,13 @@ exports.postUser = (from, nome) => {
         data: {
             phone: from,
             nome: nome,
+            whatsapp: whatsapp,
         },
     }
     return body;
 }
 
-exports.updateUser = (from, nome) => {
+exports.updateUser = (from, nome, whatsapp) => {
     let body = {
         method: "PUT",
         url: facebook.updateUser(from),
@@ -248,6 +251,7 @@ exports.updateUser = (from, nome) => {
         },
         data: {
             nome: nome,
+            whatsapp: whatsapp,
         },
     }
     return body;
@@ -282,7 +286,7 @@ exports.updateQuestion = (from, question) => {
     return body;
 }
 
-exports.updateTokens = (phone, token) => {
+exports.updateTokens = (phone, tokens) => {
     let body = {
         method: "PUT",
         url: facebook.updateTokens(phone),
@@ -290,7 +294,7 @@ exports.updateTokens = (phone, token) => {
             "Content-Type": "application/json",
         },
         data: {
-            token: token,
+            token: tokens,
         },
     }
     return body;
@@ -308,7 +312,7 @@ exports.sorteioCartas = (number) => {
     return body;
 }
 
-exports.completion = (pergunta, cartasSorteadas) => {
+exports.completion = (pergunta, cartasSorteadas, combinacoes) => {
     let body = {
         method: "POST",
         url: facebook.completion(),
@@ -318,6 +322,7 @@ exports.completion = (pergunta, cartasSorteadas) => {
         data: {
             cartasSorteadas,
             pergunta: pergunta,
+            combinacoes: combinacoes
         }
     }
     return body;

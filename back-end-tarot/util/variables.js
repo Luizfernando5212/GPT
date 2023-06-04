@@ -11,7 +11,15 @@ let posicoes = [
     'futuro'
 ]
 
+let jogos = [
+    'Espelho do amor',
+    'Cruz Celta',
+    'Péladan1',
+    'Péladan2'
+]
+
 module.exports = {
     cristais,
-    posicoes
+    posicoes,
+    jogos
 }

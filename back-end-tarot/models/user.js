@@ -18,6 +18,7 @@ var UserSchema = new Schema(
         state: { type: Number, required: true, default: 0},
         question: { type: String, default: ''},
         nome: { type: String, default: ''},
+        whatsapp: { type: String, default: 'N'},
 
         // loginAttempts: { type: Number, required: true, default: 0 },
         // lockUntil: { type: Number }

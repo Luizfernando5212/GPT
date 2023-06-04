@@ -58,17 +58,19 @@ function generatePrompt(metodo, cartasMaiores, cartasMenores, pergunta) {
 }
 
 
-function generatePromptWhats(cartasMaiores, cartasMenores, pergunta) {
+function generatePromptWhats(cartasMaiores, cartasMenores, pergunta, combinacoes) {
   let metodo = 'Péladan';
-  let combinacoes = '';
-  if (cartasMenores) {
-    for (let i = 0; i < cartasMenores.length; i++) {
-      combinacoes += `${i + 1}ª combinação` + ' -> ' + cartasMaiores[i] +
-        ' e ' + cartasMenores[i] + '\n'
-    }
-  } else {
-    for (let i = 0; i < cartasMaiores.length; i++) {
-      combinacoes += `${i + 1}ª carta` + ' -> ' + cartasMaiores[i] + '\n'
+  let combinacoesN = ''
+  if (!combinacoes) {
+    if (cartasMenores) {
+      for (let i = 0; i < cartasMenores.length; i++) {
+        combinacoesN += `${i + 1}ª combinação` + ' -> ' + cartasMaiores[i] +
+          ' e ' + cartasMenores[i] + '\n'
+      }
+    } else {
+      for (let i = 0; i < cartasMaiores.length; i++) {
+        combinacoesN += `${i + 1}ª carta` + ' -> ' + cartasMaiores[i] + '\n'
+      }
     }
   }
 
@@ -78,7 +80,7 @@ function generatePromptWhats(cartasMaiores, cartasMenores, pergunta) {
         `os parenteses '()' indicam como você deve interpretar as cartas por posição, mas não devem ser exibidos na sua mensagem. ` +
         `Sua interpretação precisa ter no mínimo 500 palavras. Qualquer menssagem que não dá para ser interpretada por Tarô deve ser ignorada`
     },
-    { role: 'user', content: `Considere as cartas sorteadas abaixo:\n${combinacoes}.` },
+    { role: 'user', content: `Considere as cartas sorteadas abaixo:\n${!combinacoes ? combinacoesN : combinacoes}.` },
     { role: 'assistant', content: 'O que você gostaria de saber ?' },
     { role: 'user', content: `Responda a seguinte pergunta entre aspas simples: '${pergunta}'` }
   ]
@@ -106,6 +108,7 @@ exports.completionWhats = async (req, res) => {
   const cartasMaiores = req.body.cartasSorteadas.maiores || '';
   const cartasMenores = req.body.cartasSorteadas.menores || '';
   const pergunta = req.body.pergunta || ''; // Garantir que só haverá uma pergunta
+  const combinacoes = req.body.combinacoes || ''; // Garantir que só haverá uma pergunta
 
   if (filtros('placeholder', pergunta, cartasMaiores, cartasMenores, res)) return;
 
@@ -113,7 +116,7 @@ exports.completionWhats = async (req, res) => {
 
     const completion = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
-      messages: generatePromptWhats(cartasMaiores, cartasMenores, pergunta),
+      messages: generatePromptWhats(cartasMaiores, cartasMenores, pergunta, combinacoes),
       temperature: 0.4,
       max_tokens: 1000
     });

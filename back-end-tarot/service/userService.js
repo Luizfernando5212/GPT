@@ -60,10 +60,11 @@ exports.newUser = async (req, res) => {
             const response = await user.save();
             res.json(response);
         } else {
-            const { name, phone } = req.body;
+            const { name, phone, whatsapp } = req.body;
             var user = new User({
                 name: name,
-                phone: phone
+                phone: phone,
+                whatsapp: whatsapp
             })
 
             const response = await user.save();
@@ -77,7 +78,8 @@ exports.newUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
     try {
         const user = {
-            nome: req.body.nome
+            nome: req.body.nome,
+            whatsapp: req.body.whatsapp
         }
         console.log(user)
         const oldUser = await User.findOne({ phone: req.params.phone });
@@ -124,7 +126,7 @@ exports.updateState = async (req, res) => {
 
         oldUser.state = user.state;
 
-        const response = await User.findByIdAndUpdate(oldUser.id, oldUser);
+        const response = await User.findByIdAndUpdate(oldUser._id, oldUser);
         res.json(response);
     } catch (err) {
         console.log(err);
@@ -142,7 +144,7 @@ exports.updateQuestion = async (req, res) => {
 
         oldUser.question = user.question;
 
-        const response = await User.findByIdAndUpdate(oldUser.id, oldUser);
+        const response = await User.findByIdAndUpdate(oldUser._id, oldUser);
         res.json(response);
     } catch (err) {
         console.log(err);
