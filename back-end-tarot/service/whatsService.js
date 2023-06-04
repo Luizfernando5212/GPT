@@ -63,6 +63,7 @@ exports.webHook = async (req, res) => {
                     state = usuario.state;
                 } else {
                     let response = await axios(request.postUser(from, req.body.entry[0].changes[0].value.contacts[0].profile.name, true));
+                    state = response.data.status
                     if (response.status === 200) {
                         console.log('Usuário cadastrado ');
                     }
