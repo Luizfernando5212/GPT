@@ -58,7 +58,7 @@ exports.fullMessage = (from, message, buttons) => {
                         return {
                             type: "reply",
                             reply: {
-                                id: index + i,
+                                id: index,
                                 title: name,
                             },
                         };
