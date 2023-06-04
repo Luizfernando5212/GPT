@@ -150,3 +150,12 @@ exports.updateQuestion = async (req, res) => {
         console.log(err);
     }
 }
+
+exports.deleteUser = async (req, res) => {
+    try {
+        const response = await User.findByIdAndDelete(req.params.id);
+        res.json(response);
+    } catch (err) {
+        console.log(err);
+    }
+}
