@@ -239,6 +239,20 @@ exports.postUser = (from, name) => {
     return body;
 }
 
+exports.updateUser = (from, name) => {
+    let body = {
+        method: "PUT",
+        url: facebook.updateUser(from),
+        headers: {
+            "Content-Type": "application/json",
+        },
+        data: {
+            name: name,
+        },
+    }
+    return body;
+}
+
 exports.updateState = (from, state) => {
     let body = {
         method: "PUT",

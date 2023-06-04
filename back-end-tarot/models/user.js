@@ -17,6 +17,7 @@ var UserSchema = new Schema(
         dataCriacao: { type: Date, required: true, default: Date.now },
         state: { type: Number, required: true, default: 0},
         question: { type: String, default: ''},
+        nome: { type: String, default: ''},
 
         // loginAttempts: { type: Number, required: true, default: 0 },
         // lockUntil: { type: Number }

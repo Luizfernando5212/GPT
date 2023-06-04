@@ -1,6 +1,7 @@
 require('dotenv').config();
 const request = require('../util/requestBuilder');
 const axios = require("axios").default;
+const variables = require('../util/variables');
 
 const token = process.env.WHATSAPP_TOKEN;
 
@@ -37,7 +38,7 @@ exports.webHook = async (req, res) => {
             // } catch (err) {
             //     console.log('Não há mensagem de mídia no momento ', err)
             // }
-            
+
 
             try {
                 try {
@@ -77,39 +78,140 @@ exports.webHook = async (req, res) => {
                 let nome = req.body.entry[0].changes[0].value.contacts[0].profile.name;
 
                 // Caso do usuário fazer a pergunta
-                if (state === 3 && usuario.question === '') {
-                    await axios(request.updateQuestion(from, message));
-                    if (usuario.tokens >= 1) {
-                        const cartas = [];
-                        for (const i of possibilidades) {
-                            if (usuario.tokens >= i) cartas.push(`${i} ${i === 1 ? 'carta' : 'cartas'}`);
+                switch (state) {
+                    case 0:
+                        try {
+                            await axios(request.textMessage(from,
+                                'Saudações, sou Tarorion, seu companheiro nesta jornada de descoberta e autoconhecimento através do Tarot! 🌌',
+                                token, phone_number_id));
+                            await axios(request.textMessage(from,
+                                'Se você chegou até mim, é porque houve um sinal do universo que nos conectou nesta vasta rede. Eu sei que você está em busca de respostas para as suas dúvidas, não é mesmo? Estou aqui para ajudar! 🌟',
+                                token, phone_number_id));
+                            await axios(request.textMessage(from,
+                                'Antes de começarmos, gostaria de explicar como funciona a leitura do Tarot. O Tarot é um sistema simbólico composto por 78 cartas, divididas em Arcanos Maiores e Arcanos Menores. Cada carta possui um significado único e juntas elas representam as diferentes facetas da vida e do autoconhecimento. Ao jogar as cartas, podemos acessar insights e orientações para tomar decisões e compreender melhor os desafios que enfrentamos. Agora, vamos mergulhar nesse universo juntos!',
+                                token, phone_number_id));
+                            await axios(request.textMessage(from,
+                                'Primeiro vamos estabelecer uma conexão energética. Me fale o seu *nome*.',
+                                token, phone_number_id));
+
+                            await axios(request.updateState(from, 1));
+
+                            // await axios(request.interactiveMessage(from, {
+                            //     header: `Olá, seja bem vindo ${nome}`,
+                            //     body: 'O que gostaria de realizar hoje ?🌌'
+                            // }, ['Comprar tokens', 'Jogar'], token, phone_number_id, 1));
+                            res.status(200);
+                        } catch (err) {
+                            console.log("Deu ruim ", err);
+                            res.sendStatus(400);
+                        };
+
+                        break;
+                    case 1:
+                        try {
+                            await axios(request.updateUser(from, message));
+                            await axios(request.textMessage(from,
+                                `${message}, feche os olhos por alguns instantes, respire profundamente e concentre-se em sua pergunta. Sinta a energia fluindo entre nós. Agora iremos iniciar a sua primeira consulta.`
+                                , token, phone_number_id));
+                            await axios(request.textMessage(from,
+                                'Escreva sua pergunta para eu poder revelar os caminhos que as cartas mostrarão 🎴Você pode escreve a pergunta da forma que ela vier na sua cabeça, o importante é que faça sentido para você aquilo que deseja saber.'
+                                , token, phone_number_id));
+
+                            await axios(request.updateState(from, 2));
+                            res.status(200);
+
+                        } catch (err) {
+                            console.log('deu ruim ', err);
+                            res.sendStatus(400);
+                        };
+                        break;
+                    case 2:
+                        try {
+                            await axios(request.updateQuestion(from, message));
+                            if (usuario.tokens >= 3) {
+                                await axios(request.textMessage(from,
+                                    'Agora relaxe sua mente e coração, e se pergunte: o que eu posso descobrir sobre essa situação? 🔮',
+                                    token, phone_number_id));
+                                await axios(request.mediaMessage(from, 'https://i.imgur.com/q57SM0Z.jpg', token, phone_number_id));
+                                await axios(request.interactiveListMessage(from,
+                                    'Eu embaralhei as cartas. Agora quero que você escolha um cristal:',
+                                    variables.cristais, token, phone_number_id, 0));
+
+                            } else {
+                                await axios(request.interactiveMessage(from,
+                                    `Você possui *${usuario.tokens}* estrelas. Infelizmente não é possível realizar a consulta. Para adquirir estrelas, clique no botão abaixo.`,
+                                    ['Comprar estrelas'], token, phone_number_id));
+                            }
+                        } catch (err) {
+                            console.log('deu ruim ', err);
+                            res.sendStatus(400);
+                        };
+                        break;
+                    case 3:
+                        try {
+                            await axios(request.updateQuestion(from, message));
+                            if (usuario.tokens >= 1) {
+                                const cartas = [];
+                                for (const i of possibilidades) {
+                                    if (usuario.tokens >= i) cartas.push(`${i} ${i === 1 ? 'carta' : 'cartas'}`);
+                                }
+                                // Faça a sua pergunta
+                                await axios(request.interactiveListMessage(from,
+                                    `Você possui *${usuario.tokens}* tokens. Escolha a quantidade de cartas que deseja sortear`,
+                                    cartas, token, phone_number_id, 4));
+                            }
+                        } catch (err) {
+                            console.log('deu ruim ', err);
+                            res.sendStatus(400);
                         }
-                        // Faça a sua pergunta
-                        await axios(request.interactiveListMessage(from,
-                            `Você possui *${usuario.tokens}* tokens. Escolha a quantidade de cartas que deseja sortear`,
-                            cartas, token, phone_number_id, 4));
-                    }
-                } else if (state !== 0) {
-                    try {
-                        await axios(request.interactiveMessage(from, `Você já está em uma sessão, selecione uma das opções acima ou encerre a sessão.`,
-                            ['Encerrar sessão'], token, phone_number_id, 30))
-                        res.status(200);
-                    } catch (err) {
-                        console.log("Deu ruim ", err);
-                        res.sendStatus(400);
-                    }
-                } else {
-                    try {
-                        await axios(request.interactiveMessage(from, {
-                            header: `Olá, seja bem vindo ${nome}`,
-                            body: 'O que gostaria de realizar hoje ?'
-                        }, ['Comprar tokens', 'Jogar'], token, phone_number_id, 1));
-                        res.status(200);
-                    } catch (err) {
-                        console.log("Deu ruim ", err);
-                        res.sendStatus(400);
-                    }
+                        break;
+                    default:
+                        try {
+                            await axios(request.interactiveMessage(from, `Você já está em uma sessão, selecione uma das opções acima ou encerre a sessão.`,
+                                ['Encerrar sessão'], token, phone_number_id, 30))
+                            res.status(200);
+                        } catch (err) {
+                            console.log("Deu ruim ", err);
+                            res.sendStatus(400);
+                        }
+                        break;
                 }
+                // else if (state !== 0) {
+                //     try {
+                //         await axios(request.interactiveMessage(from, `Você já está em uma sessão, selecione uma das opções acima ou encerre a sessão.`,
+                //             ['Encerrar sessão'], token, phone_number_id, 30))
+                //         res.status(200);
+                //     } catch (err) {
+                //         console.log("Deu ruim ", err);
+                //         res.sendStatus(400);
+                //     }
+                // } else {
+                //     try {
+                //         await axios(request.textMessage(from,
+                //             'Saudações, sou Tarorion, seu companheiro nesta jornada de descoberta e autoconhecimento através do Tarot! 🌌',
+                //             token, phone_number_id));
+                //         await axios(request.textMessage(from,
+                //             'Se você chegou até mim, é porque houve um sinal do universo que nos conectou nesta vasta rede. Eu sei que você está em busca de respostas para as suas dúvidas, não é mesmo? Estou aqui para ajudar! 🌟',
+                //             token, phone_number_id));
+                //         await axios(request.textMessage(from,
+                //             'Antes de começarmos, gostaria de explicar como funciona a leitura do Tarot. O Tarot é um sistema simbólico composto por 78 cartas, divididas em Arcanos Maiores e Arcanos Menores. Cada carta possui um significado único e juntas elas representam as diferentes facetas da vida e do autoconhecimento. Ao jogar as cartas, podemos acessar insights e orientações para tomar decisões e compreender melhor os desafios que enfrentamos. Agora, vamos mergulhar nesse universo juntos!',
+                //             token, phone_number_id));
+                //         await axios(request.textMessage(from,
+                //             'Primeiro vamos estabelecer uma conexão energética. Me fale o seu *nome*.',
+                //             token, phone_number_id));
+
+                //         await axios(request.updateState(from, 1));
+
+                //         // await axios(request.interactiveMessage(from, {
+                //         //     header: `Olá, seja bem vindo ${nome}`,
+                //         //     body: 'O que gostaria de realizar hoje ?🌌'
+                //         // }, ['Comprar tokens', 'Jogar'], token, phone_number_id, 1));
+                //         res.status(200);
+                //     } catch (err) {
+                //         console.log("Deu ruim ", err);
+                //         res.sendStatus(400);
+                //     }
+                // }
 
             } else if (body.entry[0].changes[0].value.messages[0].interactive &&
                 body.entry[0].changes[0].value.messages[0].interactive.button_reply &&
@@ -154,6 +256,43 @@ exports.webHook = async (req, res) => {
                 body.entry[0].changes[0].value.messages[0].interactive.list_reply.id &&
                 body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 5) {
                 let combinacoes = '';
+                switch (state) {
+                    case 0:
+                    case 1:
+                    case 2:
+                    case 3:
+                        try {
+                            let cartasSorteadas = await axios(request.sorteioCartas(3));
+                            cartasSorteadas = cartasSorteadas.data;
+                            for (let i = 0; i < cartasSorteadas.maiores.length; i++) {
+                                combinacoes += `${i + 1}ª posição *${variables.posicoes}*` + ' -> ' + cartasSorteadas.maiores[i] + '\n'
+                            }
+                            await axios(request.textMessage(from, "*Suas cartas são*\n" + combinacoes , token, phone_number_id));
+                            await axios(request.textMessage(from, 
+                                `Agora, deixe-me interpretar o significado das cartas em relação à sua pergunta. Elas revelam caminhos ocultos e possíveis respostas para você 👁️‍🗨️`,
+                                token, phone_number_id));
+                            const response = await axios(request.completion(usuario.question, cartasSorteadas));
+                            if (response.status !== 200) {
+                                await axios(request.textMessage(from, 
+                                    'Ocorreu um erro ao tentar interpretar sua pergunta, tente novamente mais tarde', 
+                                    token, phone_number_id));
+                            } else {
+                                await axios(request.textMessage(from, 
+                                    'Através das cartas, vejo\n' + response.data.result, 
+                                    token, phone_number_id));
+                                await axios(request.textMessage(from, 
+                                    'Espero que essa mensagem tenha feito sentido para você e te ajude a clarear sua dúvida 💫 Lembre-se de que o futuro é moldado por suas escolhas e intenções. Confie em sua intuição e siga o caminho que ressoa com seu coração. 🔮',
+                                    token, phone_number_id));
+                                await axios(request.textMessage(from, 
+                                    '🌟 Se você deseja explorar mais aspectos de sua vida ou fazer outras perguntas, estou aqui para auxiliá-lo. O conhecimento do Tarot é vasto e podemos desvendar juntos muitos segredos ocultos 🔮',
+                                    token, phone_number_id));
+                                await axios(request.interactiveMessage(from, 'Você quer saber mais alguma coisa?', ['Sim', 'Não'], token, phone_number_id, 0));
+                            }
+                        } catch (err) {
+                            console.log("Deu ruim ", err);
+                            res.sendStatus(400);
+                        }
+                }
                 try {
                     if (state >= 4 && state <= 12) {
                         let cartasSorteadas = await axios(request.sorteioCartas(possibilidades[state - 4]));

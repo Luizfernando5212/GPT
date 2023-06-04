@@ -60,9 +60,9 @@ exports.newUser = async (req, res) => {
             const response = await user.save();
             res.json(response);
         } else {
-            const { username, phone } = req.body;
+            const { name, phone } = req.body;
             var user = new User({
-                username: username,
+                name: name,
                 phone: phone
             })
 
@@ -77,14 +77,14 @@ exports.newUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
     try {
         const user = {
-            tokens: req.body.tokens
+            name: req.body.name
         }
         console.log(user)
-        const oldUser = await User.findById(req.params.id);
+        const oldUser = await User.findOne({ phone: req.params.phone });
 
-        oldUser.tokens += user.tokens;
+        oldUser.name = user.name;
 
-        const response = await User.findByIdAndUpdate(req.params.id, oldUser);
+        const response = await User.findOneAndUpdate({ phone: req.params.phone }, oldUser);
 
         res.json(response);
 

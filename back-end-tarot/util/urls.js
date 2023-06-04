@@ -12,13 +12,17 @@ exports.postUser = () => {
     return 'https://tarotai.onrender.com/user'
 }
 
-// exports.updateTokens = (phone) => {
-//     return 'https://tarotai.onrender.com/user/token/' + phone
-// }
+exports.updateUser = (phone) => {
+    return 'https://tarotai.onrender.com/user/' + phone
+}
 
 exports.updateTokens = (phone) => {
-    return 'http://localhost:3000/user/token/' + phone
+    return 'https://tarotai.onrender.com/user/token/' + phone
 }
+
+// exports.updateTokens = (phone) => {
+//     return 'http://localhost:3000/user/token/' + phone
+// }
 
 exports.updateState = (phone) => {
     return 'https://tarotai.onrender.com/user/state/' + phone
@@ -40,18 +44,18 @@ exports.completion = () => {
     return `https://tarotai.onrender.com/ai/whats`
 }
 
+exports.insertOrder = () => {
+    return `https://tarotai.onrender.com/order`
+}
+
 // exports.insertOrder = () => {
-//     return `https://tarotai.onrender.com/order`
+//     return `http://localhost:3000/order`
 // }
 
-exports.insertOrder = () => {
-    return `http://localhost:3000/order`
-}
+exports.updateOrder = (id) => {
+    return `https://tarotai.onrender.com/order/${id}`
+};
 
 // exports.updateOrder = (id) => {
-//     return `https://tarotai.onrender.com/order/${id}`
-// };
-
-exports.updateOrder = (id) => {
-    return `http://localhost:3000/order/${id}`
-}
+//     return `http://localhost:3000/order/${id}`
+// }

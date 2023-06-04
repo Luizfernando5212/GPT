@@ -12,7 +12,7 @@ router.post('/login', userController.verifyUser);
 
 router.post('/', userController.newUser);
 
-router.put('/:id', userController.updateUser);
+router.put('/:phone', userController.updateUser);
 
 router.put('/token/:phone', userController.updateTokens);
 
