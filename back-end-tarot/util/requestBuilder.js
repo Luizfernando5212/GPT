@@ -28,7 +28,7 @@ exports.textMessage = (from, message) => {
 
 }
 
-exports.fullMessage = (from, message) => {
+exports.fullMessage = (from, message, buttons) => {
     let body = {
         method: "POST",
         url: facebook.url(phoneNumber),
@@ -54,25 +54,18 @@ exports.fullMessage = (from, message) => {
                     text: message.footer,
                 },
                 action: {
-                    buttons: [
-                        {
+                    buttons: buttons.map((name, index) => {
+                        return {
                             type: "reply",
                             reply: {
-                                id: 20,
-                                title: 'Encerrar interação.'
-                            }
-                        },
-                        {
-                            type: "reply",
-                            reply: {
-                                id: 21,
-                                title: 'Sortear outra carta'
-                            }
-                        }
-                    ]
+                                id: index + i,
+                                title: name,
+                            },
+                        };
+                    })
                 }
             },
-            
+
         }
     }
     return body;
@@ -326,7 +319,7 @@ exports.completion = (pergunta, cartasSorteadas, combinacoes) => {
         }
     }
     return body;
-} 
+}
 
 exports.insertOrder = (order, phone) => {
     let body = {

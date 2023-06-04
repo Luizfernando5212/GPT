@@ -78,8 +78,9 @@ exports.sorteioCartas = async (req, res) => {
         let cartasMaiores = [];
         let cartasMenores = [];
 
-        if (numCartas <= 5) {
-            while (cartasMaiores.length < numCartas) {
+        if (numCartas <= 5 || (numCartas % 2) === 1) {
+            let num = numCartas <= 10 ? numCartas : 10;
+            while (cartasMaiores.length < num) {
                 let i = Math.floor(Math.random() * 22);
 
                 if (!cartasMaiores.includes(arcanosMaiores[i].name)) {

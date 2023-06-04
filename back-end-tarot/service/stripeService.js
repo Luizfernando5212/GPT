@@ -26,10 +26,17 @@ const fulfillOrder = async (session) => {
 
     try {
         let response = await axios(request.getUser(phone));
+        let botoes = []
         await axios(request.textMessage(phone, `Pagamento concluído com sucesso! Você comprou ${order.quantidade} estrelas. Seu saldo atual é de ${response.data.tokens} estrelas.`))
         await axios(request.textMessage(phone, `Estou muito feliz em continuar com você! Agora vamos nos preparar novamente para abrirmos uma nova mesa 🔮`));
-        if (response.data.tokens)
-        await axios(request.in)
+        for (let metodo in variables.metodos) {
+            if (response.data.tokens >= variables.metodos[metodo]) {
+                botoes.push(variables.metodos[metodo])
+            }
+        }
+        await axios(request.interactiveListMessage(phone, 'Qual consulta você deseja realizar agora ?', botoes, 100))
+        // if (response.data.tokens)
+        // await axios(request.in)
     } catch (err) {
         console.log(err)
     }
@@ -97,7 +104,7 @@ exports.webHook = async (req, res) => {
     } catch (err) {
         return res.status(401).send(`Webhook Error: ${err.message}`);
     }
-    console.log(event)
+    // console.log(event)
     switch (event.type) {
         case 'checkout.session.completed': {
             const session = event.data.object;
