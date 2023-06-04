@@ -28,7 +28,7 @@ exports.textMessage = (from, message) => {
 
 }
 
-exports.fullMessage = (from, message, buttons) => {
+exports.fullMessage = (from, message, buttons, i) => {
     let body = {
         method: "POST",
         url: facebook.url(phoneNumber),
@@ -58,7 +58,7 @@ exports.fullMessage = (from, message, buttons) => {
                         return {
                             type: "reply",
                             reply: {
-                                id: index,
+                                id: index + i,
                                 title: name,
                             },
                         };
