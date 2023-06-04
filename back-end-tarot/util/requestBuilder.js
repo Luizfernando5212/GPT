@@ -247,7 +247,7 @@ exports.updateUser = (from, name) => {
             "Content-Type": "application/json",
         },
         data: {
-            name: name,
+            nome: name,
         },
     }
     return body;
