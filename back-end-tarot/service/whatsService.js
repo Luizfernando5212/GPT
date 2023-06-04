@@ -127,21 +127,25 @@ exports.webHook = async (req, res) => {
                         break;
                     case 2:
                         try {
-                            await axios(request.updateQuestion(from, message));
-                            if (usuario.tokens >= 3) {
-                                await axios(request.textMessage(from,
-                                    'Agora relaxe sua mente e coração, e se pergunte: o que eu posso descobrir sobre essa situação? 🔮',
-                                    token, phone_number_id));
-                                await axios(request.mediaMessage(from, 'https://i.imgur.com/q57SM0Z.jpg', token, phone_number_id));
-                                await axios(request.interactiveListMessage(from,
-                                    'Eu embaralhei as cartas. Agora quero que você escolha um cristal:',
-                                    variables.cristais, token, phone_number_id, 0));
+                            if (usuario.question === '') {
+                                await axios(request.updateQuestion(from, message));
+                                if (usuario.tokens >= 3) {
+                                    await axios(request.textMessage(from,
+                                        'Agora relaxe sua mente e coração, e se pergunte: o que eu posso descobrir sobre essa situação? 🔮',
+                                        token, phone_number_id));
+                                    await axios(request.mediaMessage(from, 'https://i.imgur.com/q57SM0Z.jpg', token, phone_number_id));
+                                    await axios(request.interactiveListMessage(from,
+                                        'Eu embaralhei as cartas. Agora quero que você escolha um cristal:',
+                                        variables.cristais, token, phone_number_id, 0));
+                                    await axios(request.updateState(from, 100));
 
-                            } else {
-                                await axios(request.interactiveMessage(from,
-                                    `Você possui *${usuario.tokens}* estrelas. Infelizmente não é possível realizar a consulta. Para adquirir estrelas, clique no botão abaixo.`,
-                                    ['Comprar estrelas'], token, phone_number_id));
+                                } else {
+                                    await axios(request.interactiveMessage(from,
+                                        `Você possui *${usuario.tokens}* estrelas. Infelizmente não é possível realizar a consulta. Para adquirir estrelas, clique no botão abaixo.`,
+                                        ['Comprar estrelas'], token, phone_number_id));
+                                }
                             }
+
                         } catch (err) {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
@@ -267,23 +271,23 @@ exports.webHook = async (req, res) => {
                             for (let i = 0; i < cartasSorteadas.maiores.length; i++) {
                                 combinacoes += `${i + 1}ª posição *${variables.posicoes}*` + ' -> ' + cartasSorteadas.maiores[i] + '\n'
                             }
-                            await axios(request.textMessage(from, "*Suas cartas são*\n" + combinacoes , token, phone_number_id));
-                            await axios(request.textMessage(from, 
+                            await axios(request.textMessage(from, "*Suas cartas são*\n" + combinacoes, token, phone_number_id));
+                            await axios(request.textMessage(from,
                                 `Agora, deixe-me interpretar o significado das cartas em relação à sua pergunta. Elas revelam caminhos ocultos e possíveis respostas para você 👁️‍🗨️`,
                                 token, phone_number_id));
                             const response = await axios(request.completion(usuario.question, cartasSorteadas));
                             if (response.status !== 200) {
-                                await axios(request.textMessage(from, 
-                                    'Ocorreu um erro ao tentar interpretar sua pergunta, tente novamente mais tarde', 
+                                await axios(request.textMessage(from,
+                                    'Ocorreu um erro ao tentar interpretar sua pergunta, tente novamente mais tarde',
                                     token, phone_number_id));
                             } else {
-                                await axios(request.textMessage(from, 
-                                    'Através das cartas, vejo\n' + response.data.result, 
+                                await axios(request.textMessage(from,
+                                    'Através das cartas, vejo\n' + response.data.result,
                                     token, phone_number_id));
-                                await axios(request.textMessage(from, 
+                                await axios(request.textMessage(from,
                                     'Espero que essa mensagem tenha feito sentido para você e te ajude a clarear sua dúvida 💫 Lembre-se de que o futuro é moldado por suas escolhas e intenções. Confie em sua intuição e siga o caminho que ressoa com seu coração. 🔮',
                                     token, phone_number_id));
-                                await axios(request.textMessage(from, 
+                                await axios(request.textMessage(from,
                                     '🌟 Se você deseja explorar mais aspectos de sua vida ou fazer outras perguntas, estou aqui para auxiliá-lo. O conhecimento do Tarot é vasto e podemos desvendar juntos muitos segredos ocultos 🔮',
                                     token, phone_number_id));
                                 await axios(request.interactiveMessage(from, 'Você quer saber mais alguma coisa?', ['Sim', 'Não'], token, phone_number_id, 0));
