@@ -305,6 +305,12 @@ exports.webHook = async (req, res) => {
                         break;
                     case 3: 
                         try {
+                            let botoes = []
+                            for (let metodo in variables.metodos) {
+                                if (response.data.tokens >= variables.metodos[metodo]) {
+                                    botoes.push(variables.metodos[metodo])
+                                }
+                            }
                             await axios(request.interactiveListMessage(phone, 'Qual consulta você deseja realizar agora ?', botoes, 100))
                         } catch (err) {
                             console.log('deu ruim ', err);
@@ -341,7 +347,7 @@ exports.webHook = async (req, res) => {
                 //     }
                 //     res.sendStatus(200);
                 // } catch (err) {
-                //     console.log("Deu ruim ", err);
+                //     console.log("Deu ruim ", err);a
                 //     res.sendStatus(400);
                 // }
             } else if (body.entry[0].changes[0].value.messages[0].interactive &&
