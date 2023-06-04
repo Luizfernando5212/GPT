@@ -97,7 +97,7 @@ exports.completionWhats = async (req, res) => {
     return;
   }
   if (await this.moderation(req, res)) {
-    res.status(500).json({ error: 'Evite mensagens de ódio ou de cunho ofensivo' });
+    res.status(500).json({ result: 'Evite mensagens de ódio ou de cunho ofensivo' });
     return;
   }
   // if (!await this.verificaQtdAfirmacoes(req, res)) {
