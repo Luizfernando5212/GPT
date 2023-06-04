@@ -141,7 +141,7 @@ exports.webHook = async (req, res) => {
                             } else {
                                 try {
                                     await axios(request.interactiveMessage(from, `Você já está em uma sessão, selecione uma das opções acima ou encerre a sessão.`,
-                                        ['Encerrar sessão'], 0))
+                                        ['Encerrar sessão'], 30))
                                     res.status(200);
                                 } catch (err) {
                                     console.log("Deu ruim ", err);
@@ -197,7 +197,7 @@ exports.webHook = async (req, res) => {
                     default:
                         try {
                             await axios(request.interactiveMessage(from, `Você já está em uma sessão, selecione uma das opções acima ou encerre a sessão.`,
-                                ['Encerrar sessão'], 0))
+                                ['Encerrar sessão'], 30))
                             res.status(200);
                         } catch (err) {
                             console.log("Deu ruim ", err);
