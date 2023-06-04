@@ -60,7 +60,7 @@ exports.fullMessage = (from, message, buttons, i) => {
                         return  {
                                 id: index + i,
                                 title: name,
-                            }
+                            };
                         
                     })
                 }
