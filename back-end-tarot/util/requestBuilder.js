@@ -54,15 +54,14 @@ exports.fullMessage = (from, message, buttons, i) => {
                     text: message.footer,
                 },
                 action: {
-                    buttons: buttons.map((name, index) => {
+                    button: "botoes",
+                    rows: buttons.map((name, index) => {
                         console.log(index)
-                        return {
-                            type: "reply",
-                            reply: {
+                        return  {
                                 id: index + i,
                                 title: name,
-                            },
-                        };
+                            }
+                        
                     })
                 }
             },
