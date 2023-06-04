@@ -67,7 +67,7 @@ exports.webHook = async (req, res) => {
                     }
                 }
             } catch (err) {
-                console.log('Não há usuário para ser cadastrado '/* , err */)
+                console.log('Não há usuário para ser cadastrado ', err)
             }
 
             console.log(JSON.stringify(body));
