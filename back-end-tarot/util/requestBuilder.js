@@ -224,7 +224,7 @@ exports.getUser = (from) => {
     return body;
 }
 
-exports.postUser = (from, name) => {
+exports.postUser = (from, nome) => {
     let body = {
         method: "POST",
         url: facebook.postUser(),
@@ -233,13 +233,13 @@ exports.postUser = (from, name) => {
         },
         data: {
             phone: from,
-            name: name,
+            nome: nome,
         },
     }
     return body;
 }
 
-exports.updateUser = (from, name) => {
+exports.updateUser = (from, nome) => {
     let body = {
         method: "PUT",
         url: facebook.updateUser(from),
@@ -247,7 +247,7 @@ exports.updateUser = (from, name) => {
             "Content-Type": "application/json",
         },
         data: {
-            nome: name,
+            nome: nome,
         },
     }
     return body;

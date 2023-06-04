@@ -77,12 +77,12 @@ exports.newUser = async (req, res) => {
 exports.updateUser = async (req, res) => {
     try {
         const user = {
-            name: req.body.name
+            nome: req.body.nome
         }
         console.log(user)
         const oldUser = await User.findOne({ phone: req.params.phone });
 
-        oldUser.name = user.name;
+        oldUser.nome = user.nome;
 
         const response = await User.findOneAndUpdate({ phone: req.params.phone }, oldUser);
 
