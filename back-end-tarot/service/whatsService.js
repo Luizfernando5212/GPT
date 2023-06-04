@@ -55,7 +55,7 @@ exports.webHook = async (req, res) => {
                 console.log('Não há estado no momento ')
             }
 
-            try {
+            // try {
                 let response = await axios(request.getUser(from));
                 console.log(response.data)
                 if (response.status === 200) {
@@ -67,9 +67,9 @@ exports.webHook = async (req, res) => {
                         console.log('Usuário cadastrado ');
                     }
                 }
-            } catch (err) {
-                console.log('Não há usuário para ser cadastrado ', err)
-            }
+            // } catch (err) {
+            //     console.log('Não há usuário para ser cadastrado ', err)
+            // }
 
             console.log(JSON.stringify(body));
 
