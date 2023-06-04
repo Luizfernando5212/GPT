@@ -57,6 +57,7 @@ exports.webHook = async (req, res) => {
 
             try {
                 let response = await axios(request.getUser(from));
+                console.log(response.data)
                 if (response.status === 200) {
                     usuario = response.data;
                     state = usuario.state;
