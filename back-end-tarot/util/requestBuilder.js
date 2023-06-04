@@ -55,6 +55,7 @@ exports.fullMessage = (from, message, buttons, i) => {
                 },
                 action: {
                     buttons: buttons.map((name, index) => {
+                        console.log(index)
                         return {
                             type: "reply",
                             reply: {
