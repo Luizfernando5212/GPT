@@ -184,10 +184,12 @@ exports.webHook = async (req, res) => {
                             await axios(request.textMessage(from, '🎴Cruz Celta🎴 – para todos os tipos de perguntas: Ao jogar a Cruz Celta, utilizamos 10 cartas do Tarot Maior. Cada carta possui sua própria mensagem, e juntas elas fornecem um panorama completo e esclarecedor sobre a sua questão. Você pode fazer perguntas gerais, como: "Como será o futuro do meu relacionamento? Ele irá progredir?" ou "O que posso esperar do meu trabalho?". As respostas revelará o caminho e fornecerá previsões sobre os acontecimentos futuros.'));
                             await axios(request.textMessage(from, 'Agora que você sabe mais sobre os métodos de jogos de tarot, nós podemos iniciar uma  consulta👁️‍🗨️',));
                             await axios(request.textMessage(from, 'Para continuarmos, você precisa comprar X estrelas (cada quantidade de estrelas equivalem a X reais. Para cada jogo você precisa de X estrelas – especificar.)',));
-                            await axios(request.textMessage(from, `Link de compra\n` + 
-                            'Entre no link abaixo para realizar a compra, após a compra você receberá uma mensagem de confirmação e poderá iniciar a consulta.\n' +
-                                'https://buy.stripe.com/test_cN2bKD3dibja1os000'));
-
+                            await axios(request.fullMessage(from, {
+                                header: `Link de compra`,
+                                body: 'Entre no link abaixo para realizar a compra, após a compra você receberá uma mensagem de confirmação e poderá iniciar a consulta.',
+                                footer: 'https://buy.stripe.com/test_cN2bKD3dibja1os000'
+                            }, ['Jogar']))
+                            await axios(request.updateState(from, 3));
                         } catch (err) {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
@@ -296,6 +298,14 @@ exports.webHook = async (req, res) => {
                             await axios(request.textMessage(from,
                                 '🌟 Antes de encerrarmos, gostaria de compartilhar uma curiosidade: durante uma consulta presencial, as cartas são embaralhadas e escolhidas aleatoriamente. Da mesma forma, ao sortear suas cartas virtualmente, seguimos esse princípio de aleatoriedade. \nAo escrever suas perguntas, você está direcionando sua energia e intenção para a leitura. Essa energia é captada pelo tarô,  permitindo que as respostas e insights se manifestem de forma autêntica. A leitura das cartas do tarot se conecta ao nosso destino e nos guia nas respostas que buscamos. Se você tiver mais perguntas ou quiser uma nova consulta, estou aqui para ajudar. 🌟 É só me mandar um Oi que venho te aconselhar!'));
                             await axios(request.updateState(from, 100));
+                        } catch (err) {
+                            console.log('deu ruim ', err);
+                            res.sendStatus(400);
+                        }
+                        break;
+                    case 3: 
+                        try {
+                            await axios(request.interactiveListMessage(phone, 'Qual consulta você deseja realizar agora ?', botoes, 100))
                         } catch (err) {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
