@@ -153,7 +153,7 @@ exports.updateQuestion = async (req, res) => {
 
 exports.deleteUser = async (req, res) => {
     try {
-        const response = await User.findByIdAndDelete(req.params.id);
+        const response = await User.findOneAndDelete(req.params.phone);
         res.json(response);
     } catch (err) {
         console.log(err);
