@@ -144,6 +144,15 @@ exports.webHook = async (req, res) => {
                                         `Você possui *${usuario.tokens}* estrelas. Infelizmente não é possível realizar a consulta. Para adquirir estrelas, clique no botão abaixo.`,
                                         ['Comprar estrelas'], token, phone_number_id));
                                 }
+                            } else {
+                                try {
+                                    await axios(request.interactiveMessage(from, `Você já está em uma sessão, selecione uma das opções acima ou encerre a sessão.`,
+                                        ['Encerrar sessão'], token, phone_number_id, 30))
+                                    res.status(200);
+                                } catch (err) {
+                                    console.log("Deu ruim ", err);
+                                    res.sendStatus(400);
+                                }
                             }
 
                         } catch (err) {
