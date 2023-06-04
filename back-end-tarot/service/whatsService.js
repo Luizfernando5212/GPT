@@ -55,21 +55,21 @@ exports.webHook = async (req, res) => {
                 console.log('Não há estado no momento ')
             }
 
-            // try {
+            try {
                 let response = await axios(request.getUser(from));
                 console.log(response)
                 if (response.data !== null) {
                     usuario = response.data;
                     state = usuario.state;
                 } else {
-                    let response = await axios(request.postUser(from, req.body.entry[0].changes[0].value.contacts[0].profile.name, 'S'));
+                    let response = await axios(request.postUser(from, req.body.entry[0].changes[0].value.contacts[0].profile.name, true));
                     if (response.status === 200) {
                         console.log('Usuário cadastrado ');
                     }
                 }
-            // } catch (err) {
-            //     console.log('Não há usuário para ser cadastrado ', err)
-            // }
+            } catch (err) {
+                console.log('Não há usuário para ser cadastrado ', err)
+            }
 
             console.log(JSON.stringify(body));
 
