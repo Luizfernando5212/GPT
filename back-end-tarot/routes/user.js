@@ -24,4 +24,6 @@ router.get('/', userController.getUsers);
 
 router.get('/:phone', userController.getUserByPhone);
 
+router.delete('/:phone', userController.deleteUser);
+
 module.exports = router;
