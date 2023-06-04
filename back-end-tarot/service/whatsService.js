@@ -57,7 +57,7 @@ exports.webHook = async (req, res) => {
 
             try {
                 let response = await axios(request.getUser(from));
-                console.log(response)
+                // console.log(response)
                 if (response.data !== null) {
                     usuario = response.data;
                     state = usuario.state;
@@ -108,7 +108,7 @@ exports.webHook = async (req, res) => {
                         break;
                     case 1:
                         try {
-                            await axios(request.updateUser(from, message, 'S'));
+                            await axios(request.updateUser(from, message, true));
                             await axios(request.textMessage(from,
                                 `${message}, feche os olhos por alguns instantes, respire profundamente e concentre-se em sua pergunta. Sinta a energia fluindo entre nós. Agora iremos iniciar a sua primeira consulta.`));
                             await axios(request.textMessage(from,
