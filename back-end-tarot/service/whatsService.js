@@ -278,7 +278,7 @@ exports.webHook = async (req, res) => {
                             let cartasSorteadas = await axios(request.sorteioCartas(3));
                             cartasSorteadas = cartasSorteadas.data;
                             for (let i = 0; i < cartasSorteadas.maiores.length; i++) {
-                                combinacoes += `${i + 1}ª posição *${variables.posicoes}*` + ' -> ' + cartasSorteadas.maiores[i] + '\n'
+                                combinacoes += `${i + 1}ª posição *${variables.posicoes[i]}*` + ' -> ' + cartasSorteadas.maiores[i] + '\n'
                             }
                             await axios(request.textMessage(from, "*Suas cartas são*\n" + combinacoes, token, phone_number_id));
                             await axios(request.textMessage(from,
