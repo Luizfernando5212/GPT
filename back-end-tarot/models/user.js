@@ -10,7 +10,10 @@ const LOCK_TIME = 2 * 60 * 60 * 1000;
 
 var UserSchema = new Schema(
     {
-        username: { type: String, unique: true },
+        username: { type: String, trim: true, index: {
+            unique: true,
+            partialFilterExpression: {email: {$type: "string"}}
+        } },
         password: { type: String, },
         phone: { type: String, required: true },
         tokens: { type: Number, required: true, default: 3 },
