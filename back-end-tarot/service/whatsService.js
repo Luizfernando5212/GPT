@@ -57,9 +57,10 @@ exports.webHook = async (req, res) => {
 
             // try {
                 let response = await axios(request.getUser(from));
-                console.log(response.data)
-                if (response) {
+                console.log(response)
+                if (response !== null) {
                     usuario = response.data;
+                    console.log(usuario)
                     state = usuario.state;
                 } else {
                     let response = await axios(request.postUser(from, req.body.entry[0].changes[0].value.contacts[0].profile.name, 'S'));
