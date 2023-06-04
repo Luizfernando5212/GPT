@@ -12,16 +12,19 @@ var UserSchema = new Schema(
     {
         username: { type: String, trim: true, index: {
             unique: true,
-            partialFilterExpression: {email: {$type: "string"}}
+            partialFilterExpression: {username: {$type: "string"}}
         } },
         password: { type: String, },
-        phone: { type: String, required: true },
+        phone: { type: String, required: true, index: {
+            unique: true,
+            partialFilterExpression: {phone: {$type: "string"}}
+        }},
         tokens: { type: Number, required: true, default: 3 },
         dataCriacao: { type: Date, required: true, default: Date.now },
         state: { type: Number, required: true, default: 0},
         question: { type: String, default: ''},
         nome: { type: String, default: ''},
-        whatsapp: { type: String, default: 'N'},
+        whatsapp: { type: Boolean, default: false},
 
         // loginAttempts: { type: Number, required: true, default: 0 },
         // lockUntil: { type: Number }
