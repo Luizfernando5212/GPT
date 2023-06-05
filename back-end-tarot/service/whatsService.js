@@ -195,7 +195,7 @@ exports.webHook = async (req, res) => {
                                 body: 'Entre no link abaixo para realizar a compra, após a compra você receberá uma mensagem de confirmação e poderá iniciar a consulta.',
                                 footer: 'https://buy.stripe.com/test_cN2bKD3dibja1os000'
                             }, ['Jogar'], 3))
-                            await axios(request.updateState(from, 3));
+                            // await axios(request.updateState(from, 3));
                         } catch (err) {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
