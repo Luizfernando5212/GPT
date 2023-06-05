@@ -318,7 +318,7 @@ exports.webHook = async (req, res) => {
                             let botoes = []
                             for (let metodo in variables.metodos) {
                                 if (response.data.tokens >= variables.metodos[metodo]) {
-                                    botoes.push(variables.metodos[metodo])
+                                    botoes.push(metodo)
                                 }
                             }
                             await axios(request.interactiveListMessage(from, 'Qual consulta você deseja realizar agora ?', botoes, 'Consultas', 100))
@@ -409,7 +409,7 @@ exports.webHook = async (req, res) => {
                             let botoes = []
                             for (let metodo in variables.metodos) {
                                 if (response.data.tokens >= variables.metodos[metodo]) {
-                                    botoes.push(variables.metodos[metodo])
+                                    botoes.push(metodo)
                                 }
                             }
                             await axios(request.interactiveListMessage(from, 'Qual consulta você deseja realizar agora ?', botoes, 'Consultas', 100))
