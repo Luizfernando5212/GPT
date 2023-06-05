@@ -107,7 +107,7 @@ exports.updateTokens = async (req, res) => {
 
         const response = await User.findByIdAndUpdate(oldUser._id, oldUser);
 
-        console.log('Tokens adicionados');
+        console.log('Tokens adicionados/subtraidos');
         res.json(response);
 
     } catch (err) {
