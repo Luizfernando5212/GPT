@@ -310,7 +310,7 @@ exports.webHook = async (req, res) => {
                         break;
                     case 3: 
                         try {
-                            let response = await axios(request.getUser(phone));
+                            let response = await axios(request.getUser(from));
                             let botoes = []
                             for (let metodo in variables.metodos) {
                                 if (response.data.tokens >= variables.metodos[metodo]) {
