@@ -158,6 +158,9 @@ exports.webHook = async (req, res) => {
                     case 3:
                         try {
                             if (usuario.question === '') {
+                                await axios(request.interactiveMessage(from, `Você já está em uma sessão, selecione uma das opções acima ou encerre a sessão.`,
+                                    ['Encerrar sessão'], 30))
+                                res.status(200);
 
                             } else {
                                 await axios(request.interactiveMessage(from, `Você já está em uma sessão, selecione uma das opções acima ou encerre a sessão.`,
