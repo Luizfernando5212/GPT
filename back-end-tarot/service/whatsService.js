@@ -321,7 +321,7 @@ exports.webHook = async (req, res) => {
                                     botoes.push(variables.metodos[metodo])
                                 }
                             }
-                            await axios(request.interactiveListMessage(phone, 'Qual consulta você deseja realizar agora ?', botoes, 100))
+                            await axios(request.interactiveListMessage(from, 'Qual consulta você deseja realizar agora ?', botoes, 100))
                         } catch (err) {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
@@ -412,7 +412,7 @@ exports.webHook = async (req, res) => {
                                     botoes.push(variables.metodos[metodo])
                                 }
                             }
-                            await axios(request.interactiveListMessage(phone, 'Qual consulta você deseja realizar agora ?', botoes, 100))
+                            await axios(request.interactiveListMessage(from, 'Qual consulta você deseja realizar agora ?', botoes, 100))
                         } catch (err) {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
