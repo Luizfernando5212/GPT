@@ -370,9 +370,13 @@ exports.webHook = async (req, res) => {
                         try {
                             let cartasSorteadas = await axios(request.sorteioCartas(3));
                             cartasSorteadas = cartasSorteadas.data;
-                            combinacoes = variables.espelho(cartasSorteadas.maiores);
-                            // await axios(request.mediaMessage(from, `https://i.imgur.com/xnc1GQf.jpg`));
+                            for (let i = 0; i < cartasSorteadas.maiores.length; i++) {
+                                combinacoes += `${i + 1}ª posição *${variables.posicoes[i]}*` + ' -> ' + cartasSorteadas.maiores[i] + '\n'
+                            }
                             await axios(request.textMessage(from, "*Suas cartas são*\n" + combinacoes));
+                            await axios(request.mediaMessage(from, `https://i.imgur.com/imYdWbd.jpg`));
+                            await axios(request.textMessage(from,
+                                `Agora, deixe-me interpretar o significado das cartas em relação à sua pergunta. Elas revelam caminhos ocultos e possíveis respostas para você 👁️‍🗨️`));
                             const response = await axios(request.completion(usuario.question, cartasSorteadas, combinacoes));
                             if (response.status !== 200) {
                                 await axios(request.textMessage(from,
@@ -383,9 +387,9 @@ exports.webHook = async (req, res) => {
                             } else {
                                 await axios(request.textMessage(from, response.data.result));
                                 await axios(request.textMessage(from,
-                                    'Lembre-se de que o caminho do amor requer compreensão, comunicação e autenticidade.'));
+                                    'Espero que essa mensagem tenha feito sentido para você e te ajude a clarear sua dúvida 💫 Lembre-se de que o futuro é moldado por suas escolhas e intenções. Confie em sua intuição e siga o caminho que ressoa com seu coração. 🔮'));
                                 await axios(request.textMessage(from,
-                                    'Espero que essa leitura tenha fornecido insights valiosos sobre o seu relacionamento amoroso. Se você tiver mais perguntas ou quiser explorar outros aspectos da sua vida, estou aqui para ajudar. 🔮'));
+                                    '🌟 Se você deseja explorar mais aspectos de sua vida ou fazer outras perguntas, estou aqui para auxiliá-lo. O conhecimento do Tarot é vasto e podemos desvendar juntos muitos segredos ocultos 🔮'));
                                 await axios(request.updateTokens(from, -3));
                                 await axios(request.interactiveMessage(from, 'Você quer saber mais alguma coisa?', ['Sim', 'Não'], 0));
                                 await axios(request.updateQuestion(from, ''));
@@ -426,15 +430,12 @@ exports.webHook = async (req, res) => {
                     case 202:
                     case 203:
                         try {
+
                             let cartasSorteadas = await axios(request.sorteioCartas(7));
                             cartasSorteadas = cartasSorteadas.data;
-                            for (let i = 0; i < cartasSorteadas.maiores.length; i++) {
-                                combinacoes += `${i + 1}ª posição *${variables.posicoes[i]}*` + ' -> ' + cartasSorteadas.maiores[i] + '\n'
-                            }
+                            combinacoes = variables.espelho(cartasSorteadas.maiores);
+                            // await axios(request.mediaMessage(from, `https://i.imgur.com/xnc1GQf.jpg`));
                             await axios(request.textMessage(from, "*Suas cartas são*\n" + combinacoes));
-                            await axios(request.mediaMessage(from, `https://i.imgur.com/imYdWbd.jpg`));
-                            await axios(request.textMessage(from,
-                                `Agora, deixe-me interpretar o significado das cartas em relação à sua pergunta. Elas revelam caminhos ocultos e possíveis respostas para você 👁️‍🗨️`));
                             const response = await axios(request.completion(usuario.question, cartasSorteadas, combinacoes));
                             if (response.status !== 200) {
                                 await axios(request.textMessage(from,
@@ -445,13 +446,39 @@ exports.webHook = async (req, res) => {
                             } else {
                                 await axios(request.textMessage(from, response.data.result));
                                 await axios(request.textMessage(from,
-                                    'Espero que essa mensagem tenha feito sentido para você e te ajude a clarear sua dúvida 💫 Lembre-se de que o futuro é moldado por suas escolhas e intenções. Confie em sua intuição e siga o caminho que ressoa com seu coração. 🔮'));
+                                    'Lembre-se de que o caminho do amor requer compreensão, comunicação e autenticidade.'));
                                 await axios(request.textMessage(from,
-                                    '🌟 Se você deseja explorar mais aspectos de sua vida ou fazer outras perguntas, estou aqui para auxiliá-lo. O conhecimento do Tarot é vasto e podemos desvendar juntos muitos segredos ocultos 🔮'));
+                                    'Espero que essa leitura tenha fornecido insights valiosos sobre o seu relacionamento amoroso. Se você tiver mais perguntas ou quiser explorar outros aspectos da sua vida, estou aqui para ajudar. 🔮'));
                                 await axios(request.updateTokens(from, -7));
                                 await axios(request.interactiveMessage(from, 'Você quer saber mais alguma coisa?', ['Sim', 'Não'], 0));
                                 await axios(request.updateQuestion(from, ''));
                             }
+                            // let cartasSorteadas = await axios(request.sorteioCartas(7));
+                            // cartasSorteadas = cartasSorteadas.data;
+                            // for (let i = 0; i < cartasSorteadas.maiores.length; i++) {
+                            //     combinacoes += `${i + 1}ª posição *${variables.posicoes[i]}*` + ' -> ' + cartasSorteadas.maiores[i] + '\n'
+                            // }
+                            // await axios(request.textMessage(from, "*Suas cartas são*\n" + combinacoes));
+                            // await axios(request.mediaMessage(from, `https://i.imgur.com/imYdWbd.jpg`));
+                            // await axios(request.textMessage(from,
+                            //     `Agora, deixe-me interpretar o significado das cartas em relação à sua pergunta. Elas revelam caminhos ocultos e possíveis respostas para você 👁️‍🗨️`));
+                            // const response = await axios(request.completion(usuario.question, cartasSorteadas, combinacoes));
+                            // if (response.status !== 200) {
+                            //     await axios(request.textMessage(from,
+                            //         'Ocorreu um erro ao tentar interpretar sua pergunta, tente novamente mais tarde'));
+                            //     // await axios(request.textMessage(from, 'Você quer saber mais alguma coisa?', ['Sim', 'Não'], 0))
+                            //     await axios(request.updateState(from, 0));
+                            //     await axios(request.updateQuestion(from, ''));
+                            // } else {
+                            //     await axios(request.textMessage(from, response.data.result));
+                            //     await axios(request.textMessage(from,
+                            //         'Espero que essa mensagem tenha feito sentido para você e te ajude a clarear sua dúvida 💫 Lembre-se de que o futuro é moldado por suas escolhas e intenções. Confie em sua intuição e siga o caminho que ressoa com seu coração. 🔮'));
+                            //     await axios(request.textMessage(from,
+                            //         '🌟 Se você deseja explorar mais aspectos de sua vida ou fazer outras perguntas, estou aqui para auxiliá-lo. O conhecimento do Tarot é vasto e podemos desvendar juntos muitos segredos ocultos 🔮'));
+                            //     await axios(request.updateTokens(from, -7));
+                            //     await axios(request.interactiveMessage(from, 'Você quer saber mais alguma coisa?', ['Sim', 'Não'], 0));
+                            //     await axios(request.updateQuestion(from, ''));
+                            // }
                         } catch (err) {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
