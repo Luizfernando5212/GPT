@@ -34,7 +34,7 @@ const fulfillOrder = async (session) => {
                 botoes.push(variables.metodos[metodo])
             }
         }
-        await axios(request.interactiveListMessage(phone, 'Qual consulta você deseja realizar agora ?', botoes, 100))
+        await axios(request.interactiveListMessage(phone, 'Qual consulta você deseja realizar agora ?', botoes, 'Consultas', 100))
         // if (response.data.tokens)
         // await axios(request.in)
     } catch (err) {

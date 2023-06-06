@@ -194,10 +194,10 @@ exports.webHook = async (req, res) => {
                             await axios(request.textMessage(from, '🎴Cruz Celta🎴 – para todos os tipos de perguntas: Ao jogar a Cruz Celta, utilizamos 10 cartas do Tarot Maior. Cada carta possui sua própria mensagem, e juntas elas fornecem um panorama completo e esclarecedor sobre a sua questão. Você pode fazer perguntas gerais, como: "Como será o futuro do meu relacionamento? Ele irá progredir?" ou "O que posso esperar do meu trabalho?". As respostas revelará o caminho e fornecerá previsões sobre os acontecimentos futuros.'));
                             await axios(request.textMessage(from, 'Agora que você sabe mais sobre os métodos de jogos de tarot, nós podemos iniciar uma  consulta👁️‍🗨️',));
                             await axios(request.textMessage(from, 'Para continuarmos, você precisa comprar X estrelas (cada quantidade de estrelas equivalem a X reais. Para cada jogo você precisa de X estrelas – especificar.)',));
-                            await axios(request.interactiveListMessage(from, `*Link de compra*\n` +
+                            await axios(request.interactiveMessage(from, `*Link de compra*\n` +
                                 'Entre no link abaixo para realizar a compra, após a compra você receberá uma mensagem de confirmação e poderá iniciar a consulta.\n'+
                                 'https://buy.stripe.com/test_cN2bKD3dibja1os000'
-                            , ['Jogar'], 'Opções', 10))
+                            , ['Jogar'], 3))
                             // await axios(request.updateState(from, 3));
                         } catch (err) {
                             console.log('deu ruim ', err);
@@ -316,12 +316,21 @@ exports.webHook = async (req, res) => {
                         try {
                             let response = await axios(request.getUser(from));
                             let botoes = []
+
+                            let teste = false;
                             for (let metodo in variables.metodos) {
                                 if (response.data.tokens >= variables.metodos[metodo]) {
-                                    botoes.push(metodo)
+                                    botoes.push(metodo);
+                                    teste = true
                                 }
                             }
-                            await axios(request.interactiveListMessage(from, 'Qual consulta você deseja realizar agora ?', botoes, 'Consultas', 100))
+
+                            if (teste) {
+                                await axios(request.interactiveListMessage(from, 'Qual consulta você deseja realizar agora ?', botoes, 'Consultas', 100))
+                            } else {
+                                await axios(request.textMessage(from, 'Você não possui estrelas suficientes para realizar uma consulta, compre mais estrelas para realizar uma consulta'))
+                            }
+
                         } catch (err) {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
@@ -407,12 +416,21 @@ exports.webHook = async (req, res) => {
                         try {
                             let response = await axios(request.getUser(from));
                             let botoes = []
+                            let teste = false;
                             for (let metodo in variables.metodos) {
                                 if (response.data.tokens >= variables.metodos[metodo]) {
-                                    botoes.push(metodo)
+                                    botoes.push(metodo);
+                                    teste = true
                                 }
                             }
-                            await axios(request.interactiveListMessage(from, 'Qual consulta você deseja realizar agora ?', botoes, 'Consultas', 100))
+
+                            if (teste) {
+                                await axios(request.interactiveListMessage(from, 'Qual consulta você deseja realizar agora ?', botoes, 'Consultas', 100))
+                            } else {
+                                await axios(request.textMessage(from, 'Você não possui estrelas suficientes para realizar uma consulta, compre mais estrelas para realizar uma consulta'))
+                            }
+                            
+                            
                         } catch (err) {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
