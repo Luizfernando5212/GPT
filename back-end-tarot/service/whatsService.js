@@ -139,7 +139,7 @@ exports.webHook = async (req, res) => {
                                 } else {
                                     await axios(request.interactiveMessage(from,
                                         `Você possui *${usuario.tokens}* estrelas. Infelizmente não é possível realizar a consulta. Para adquirir estrelas, clique no botão abaixo.`,
-                                        ['Comprar estrelas']));
+                                        ['Comprar estrelas'], 10));
                                         res.status(200);
                                 }
                             } else {
@@ -356,6 +356,15 @@ exports.webHook = async (req, res) => {
                             res.sendStatus(400);
                         }
                         return;
+                        case 10: 
+                        try {
+                            await axios(request.textMessage(from, `*Link de compra*\n` +
+                                'Entre no link abaixo para realizar a compra, após a compra você receberá uma mensagem de confirmação e poderá iniciar a consulta.\n'+
+                                'https://buy.stripe.com/test_cN2bKD3dibja1os000'));
+                        } catch (err) {
+                            console.log('deu ruim ', err);
+                            res.sendStatus(400);
+                        }
                         // break;
                 }
                 if (state === 30) {
