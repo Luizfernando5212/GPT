@@ -365,20 +365,32 @@ exports.webHook = async (req, res) => {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
                         }
+                        return;
+                        case 30:
+                            try {
+                                await axios(request.updateState(from, 0));
+                                await axios(request.updateQuestion(from, ''));
+                                await axios(request.textMessage(from, `Sessão encerrada com sucesso, envie uma nova menssagem`));
+                                res.status(200);
+                            } catch (err) {
+                                console.log("Deu ruim ", err);
+                                res.sendStatus(400);
+                            }
+                            return;
                         // break;
                 }
-                if (state === 30) {
-                    try {
-                        await axios(request.updateState(from, 0));
-                        await axios(request.updateQuestion(from, ''));
-                        await axios(request.textMessage(from, `Sessão encerrada com sucesso, envie uma nova menssagem`));
-                        res.status(200);
-                    } catch (err) {
-                        console.log("Deu ruim ", err);
-                        res.sendStatus(400);
-                    }
-                    return;
-                }
+                // if (state === 30) {
+                //     try {
+                //         await axios(request.updateState(from, 0));
+                //         await axios(request.updateQuestion(from, ''));
+                //         await axios(request.textMessage(from, `Sessão encerrada com sucesso, envie uma nova menssagem`));
+                //         res.status(200);
+                //     } catch (err) {
+                //         console.log("Deu ruim ", err);
+                //         res.sendStatus(400);
+                //     }
+                //     return;
+                // }
                 // try {
                 //     await axios(request.textMessage(from, `Iremos te encaminhar para ${message}`))
                 //     if (state == 1) {

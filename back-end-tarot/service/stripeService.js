@@ -29,12 +29,30 @@ const fulfillOrder = async (session) => {
         let botoes = []
         await axios(request.textMessage(phone, `Pagamento concluído com sucesso! Você comprou ${order.quantidade} estrelas. Seu saldo atual é de ${response.data.tokens} estrelas.`))
         await axios(request.textMessage(phone, `Estou muito feliz em continuar com você! Agora vamos nos preparar novamente para abrirmos uma nova mesa 🔮`));
+
+        let teste = false;
         for (let metodo in variables.metodos) {
             if (response.data.tokens >= variables.metodos[metodo]) {
-                botoes.push(variables.metodos[metodo])
+                botoes.push(metodo);
+                teste = true
             }
         }
-        await axios(request.interactiveListMessage(phone, 'Qual consulta você deseja realizar agora ?', botoes, 'Consultas', 100))
+
+        if (teste) {
+            await axios(request.interactiveListMessage(from, 'Qual consulta você deseja realizar agora ?', botoes, 'Consultas', 100));
+            res.status(200);
+        } else {
+            await axios(request.textMessage(from, 'Você não possui estrelas suficientes para realizar uma consulta, compre mais estrelas para realizar uma consulta'));
+            res.status(200);
+        }
+
+        // for (let metodo in variables.metodos) {
+        //     if (response.data.tokens >= variables.metodos[metodo]) {
+        //         botoes.push(metodo)
+        //     }
+        // }
+        // await axios(request.interactiveListMessage(phone, 'Qual consulta você deseja realizar agora ?', botoes, 'Consultas', 100))
+
         // if (response.data.tokens)
         // await axios(request.in)
     } catch (err) {
