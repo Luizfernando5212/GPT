@@ -103,8 +103,8 @@ exports.webHook = async (req, res) => {
                             console.log("Deu ruim ", err);
                             res.sendStatus(400);
                         };
-
-                        break;
+                        return;
+                        // break;
                     case 1:
                         try {
                             await axios(request.updateUser(from, message, true));
@@ -120,7 +120,8 @@ exports.webHook = async (req, res) => {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
                         };
-                        break;
+                        return;
+                        // break;
                     case 2:
                         try {
                             if (usuario.question === '') {
@@ -156,7 +157,8 @@ exports.webHook = async (req, res) => {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
                         };
-                        break;
+                        return;
+                        // break;
                     case 3:
                         try {
                             if (usuario.question === '') {
@@ -184,7 +186,8 @@ exports.webHook = async (req, res) => {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
                         }
-                        break;
+                        // break;
+                        return;
                     case 100:
                         try {
                             await axios(request.textMessage(from, `Fico feliz em ser o seu tarólogo e poder te ajudar nessa jornada. Vou te mostrar os jogos que podemos tirar para você.`));
@@ -206,7 +209,8 @@ exports.webHook = async (req, res) => {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
                         }
-                        break;
+                        return;
+                        // break;
                     case 101:
                         try {
                             await axios(request.updateQuestion(from, message));
@@ -221,7 +225,8 @@ exports.webHook = async (req, res) => {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
                         };
-                        break;
+                        return;
+                        // break;
                     case 102:
                         try {
                             await axios(request.updateQuestion(from, message));
@@ -237,7 +242,8 @@ exports.webHook = async (req, res) => {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
                         };
-                        break;
+                        return;
+                        // break;
                     case 103:
                         try {
                             await axios(request.updateQuestion(from, message));
@@ -252,7 +258,8 @@ exports.webHook = async (req, res) => {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
                         };
-                        break;
+                        return;
+                        // break;
                     default:
                         try {
                             await axios(request.interactiveMessage(from, `Você já está em uma sessão, selecione uma das opções acima ou encerre a sessão.`,
@@ -262,7 +269,8 @@ exports.webHook = async (req, res) => {
                             console.log("Deu ruim ", err);
                             res.sendStatus(400);
                         }
-                        break;
+                        return;
+                        // break;
                 }
                 // else if (state !== 0) {
                 //     try {
@@ -308,7 +316,8 @@ exports.webHook = async (req, res) => {
                             'Fico feliz em ser o seu tarólogo e poder te ajudar nessa jornada. Envie uma mensagem qualquer que te mostro os jogos que podemos tirar para você.'));
                         await axios(request.updateState(from, 100));
                         res.status(200);
-                        break;
+                        return;
+                        // break;
                     case 1:
                         try {
                             await axios(request.textMessage(from,
@@ -319,7 +328,8 @@ exports.webHook = async (req, res) => {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
                         }
-                        break;
+                        return;
+                        // break;
                     case 3: 
                         try {
                             let response = await axios(request.getUser(from));
@@ -345,7 +355,8 @@ exports.webHook = async (req, res) => {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
                         }
-                        break;
+                        return;
+                        // break;
                 }
                 if (state === 30) {
                     try {
@@ -357,6 +368,7 @@ exports.webHook = async (req, res) => {
                         console.log("Deu ruim ", err);
                         res.sendStatus(400);
                     }
+                    return;
                 }
                 // try {
                 //     await axios(request.textMessage(from, `Iremos te encaminhar para ${message}`))
@@ -423,7 +435,8 @@ exports.webHook = async (req, res) => {
                             console.log("Deu ruim ", err);
                             res.sendStatus(400);
                         }
-                        break;
+                        return;
+                        // break;
                     case 10:
                         try {
                             let response = await axios(request.getUser(from));
@@ -449,7 +462,8 @@ exports.webHook = async (req, res) => {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
                         }
-                        break;
+                        return;
+                        // break;
                     case 100:
                     case 101:
                     case 102:
@@ -478,7 +492,8 @@ exports.webHook = async (req, res) => {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
                         }
-                        break;
+                        return;
+                        // break;
                     case 200:
                     case 201:
                     case 202:
@@ -539,7 +554,8 @@ exports.webHook = async (req, res) => {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
                         };
-                        break;
+                        return;
+                        // break;
                     case 300:
                     case 301:
                     case 302:
@@ -577,7 +593,8 @@ exports.webHook = async (req, res) => {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
                         };
-                        break;
+                        return;
+                        // break;
                     case 400:
                     case 401:
                     case 402:
@@ -618,7 +635,8 @@ exports.webHook = async (req, res) => {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
                         };
-                        break;
+                        return;
+                        // break;
                 }
                 // try {
                 //     if (state >= 4 && state <= 12) {
@@ -669,6 +687,7 @@ exports.webHook = async (req, res) => {
         // Return a '404 Not Found' if event is not from a WhatsApp API
         res.sendStatus(404);
     }
+    return;
 }
 
 exports.getAccess = async (req, res) => {
