@@ -23,8 +23,8 @@ exports.webHook = async (req, res) => {
             req.body.entry[0].changes &&
             req.body.entry[0].changes[0] &&
             req.body.entry[0].changes[0].value.messages &&
-            req.body.entry[0].changes[0].value.messages[0] &&
-            body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 10) {
+            req.body.entry[0].changes[0].value.messages[0] /* &&
+            body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 10 */) {
             console.log(body.entry[0].changes[0].value.messages[0].timestamp);
             console.log(Math.round(Date.now() / 1000))
             let from = req.body.entry[0].changes[0].value.messages[0].from; // extract the phone number from the webhook payload
@@ -74,8 +74,8 @@ exports.webHook = async (req, res) => {
             console.log(JSON.stringify(body));
 
             if (body.entry[0].changes[0].value.messages[0].text &&
-                body.entry[0].changes[0].value.messages[0].text.body &&
-                body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 10) {
+                body.entry[0].changes[0].value.messages[0].text.body /* &&
+                body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 10 */) {
                 message = body.entry[0].changes[0].value.messages[0].text.body;
                 let nome = req.body.entry[0].changes[0].value.contacts[0].profile.name;
 
@@ -293,8 +293,8 @@ exports.webHook = async (req, res) => {
 
             } else if (body.entry[0].changes[0].value.messages[0].interactive &&
                 body.entry[0].changes[0].value.messages[0].interactive.button_reply &&
-                body.entry[0].changes[0].value.messages[0].interactive.button_reply.id &&
-                body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 5) {
+                body.entry[0].changes[0].value.messages[0].interactive.button_reply.id /* &&
+                body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 5 */) {
                 message = req.body.entry[0].changes[0].value.messages[0].interactive.button_reply.title;
                 switch (state) {
                     case 0:
