@@ -23,8 +23,8 @@ exports.webHook = async (req, res) => {
             req.body.entry[0].changes &&
             req.body.entry[0].changes[0] &&
             req.body.entry[0].changes[0].value.messages &&
-            req.body.entry[0].changes[0].value.messages[0] /* &&
-            body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 10 */) {
+            req.body.entry[0].changes[0].value.messages[0] &&
+            body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 100) {
             console.log(body.entry[0].changes[0].value.messages[0].timestamp);
             console.log(Math.round(Date.now() / 1000))
             let from = req.body.entry[0].changes[0].value.messages[0].from; // extract the phone number from the webhook payload
@@ -581,7 +581,7 @@ exports.webHook = async (req, res) => {
                     case 400:
                     case 401:
                     case 402:
-                    case 403:
+                    case 403:   
                         try {
                             let cartasSorteadas = await axios(request.sorteioCartas(10));
                             cartasSorteadas = cartasSorteadas.data;
@@ -590,6 +590,7 @@ exports.webHook = async (req, res) => {
                                 combinacoes += `${i + 1}ª posição ` + ' -> ' + cartasSorteadas.maiores[i] + '\n'
                             }
                             await axios(request.textMessage(from, 'Agora vou revelar suas cartas dos Arcanos Maiores, que são os arcanos principais e trazem uma visão ampla e simbólica da situação. \n' + combinacoes));
+                            combinacoes = '';
                             for (let i = 0; i < cartasSorteadas.menores.length; i++) {
                                 combinacoes += `${i + 1}ª posição ` + ' -> ' + cartasSorteadas.menores[i] + '\n'
                             }
