@@ -406,6 +406,7 @@ exports.webHook = async (req, res) => {
                         return;
                     case 5:
                         try {
+                            await axios(request.updateQuestion(from, ''));
                             await axios(request.textMessage(from, `Por favor, escreva novamente sua pergunta.`));
                             await axios(request.updateState(from, 4));
                             res.status(200);
