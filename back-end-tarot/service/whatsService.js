@@ -193,6 +193,10 @@ exports.webHook = async (req, res) => {
                             if (usuario.question === '') {
                                 await axios(request.updateQuestion(from, message));
                                 await axios(request.interactiveMessage(from, `Sua pergunta é "${message}". Podemos prosseguir ?`, ['Sim', 'Mudar pergunta'], 4));
+                            } else {
+                                await axios(request.interactiveMessage(from, `Você já está em uma sessão, selecione uma das opções acima ou encerre a sessão.`,
+                                    ['Encerrar sessão'], 30))
+                                res.status(200);
                             }
 
                         } catch (err) {
