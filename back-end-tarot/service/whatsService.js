@@ -192,7 +192,7 @@ exports.webHook = async (req, res) => {
                         try {
                             if (usuario.question === '') {
                                 await axios(request.updateQuestion(from, message));
-                                await axios(request.interactiveMessage(from, `Sua pergunta é "${message}. Podemos prosseguir ?`, ['Sim', 'Mudar pergunta'], 4));
+                                await axios(request.interactiveMessage(from, `Sua pergunta é "${message}". Podemos prosseguir ?`, ['Sim', 'Mudar pergunta'], 4));
                             }
 
                         } catch (err) {
@@ -403,6 +403,16 @@ exports.webHook = async (req, res) => {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
                         };
+                        return;
+                    case 5:
+                        try {
+                            await axios(request.textMessage(from, `Por favor, escreva novamente sua pergunta.`));
+                            await axios(request.updateState(from, 4));
+                            res.status(200);
+                        } catch (err) {
+                            console.log('deu ruim ', err);
+                            res.sendStatus(400);
+                        }
                         return;
                     case 10:
                         try {
