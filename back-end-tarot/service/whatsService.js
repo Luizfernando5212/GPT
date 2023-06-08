@@ -113,7 +113,7 @@ exports.webHook = async (req, res) => {
                             await axios(request.textMessage(from,
                                 'Escreva sua pergunta para eu poder revelar os caminhos que as cartas mostrarão 🎴Você pode escreve a pergunta da forma que ela vier na sua cabeça, o importante é que faça sentido para você aquilo que deseja saber.'));
 
-                            await axios(request.updateState(from, 2));
+                            await axios(request.updateState(from, 4));
                             res.status(200);
 
                         } catch (err) {
