@@ -104,7 +104,7 @@ exports.webHook = async (req, res) => {
                             res.sendStatus(400);
                         };
                         return;
-                        // break;
+                    // break;
                     case 1:
                         try {
                             await axios(request.updateUser(from, message, true));
@@ -121,7 +121,7 @@ exports.webHook = async (req, res) => {
                             res.sendStatus(400);
                         };
                         return;
-                        // break;
+                    // break;
                     case 2:
                         try {
                             if (usuario.question === '') {
@@ -140,7 +140,7 @@ exports.webHook = async (req, res) => {
                                     await axios(request.interactiveMessage(from,
                                         `Você possui *${usuario.tokens}* estrelas. Infelizmente não é possível realizar a consulta. Para adquirir estrelas, clique no botão abaixo.`,
                                         ['Comprar estrelas'], 10));
-                                        res.status(200);
+                                    res.status(200);
                                 }
                             } else {
                                 try {
@@ -158,7 +158,7 @@ exports.webHook = async (req, res) => {
                             res.sendStatus(400);
                         };
                         return;
-                        // break;
+                    // break;
                     case 3:
                         try {
                             if (usuario.question === '') {
@@ -188,6 +188,18 @@ exports.webHook = async (req, res) => {
                         }
                         // break;
                         return;
+                    case 4:
+                        try {
+                            if (usuario.question === '') {
+                                await axios(request.updateQuestion(from, message));
+                                await axios(request.interactiveMessage(from, `Sua pergunta é "${message}. Podemos prosseguir ?`, ['Sim', 'Mudar pergunta'], 4));
+                            }
+
+                        } catch (err) {
+                            console.log('deu ruim ', err)
+                            res.sendStatus(400);
+                        }
+                        return;
                     case 100:
                         try {
                             await axios(request.textMessage(from, `Fico feliz em ser o seu tarólogo e poder te ajudar nessa jornada. Vou te mostrar os jogos que podemos tirar para você.`));
@@ -200,9 +212,9 @@ exports.webHook = async (req, res) => {
                             await axios(request.textMessage(from, 'Agora que você sabe mais sobre os métodos de jogos de tarot, nós podemos iniciar uma  consulta👁️‍🗨️',));
                             await axios(request.textMessage(from, 'Para continuarmos, você precisa comprar X estrelas (cada quantidade de estrelas equivalem a X reais. Para cada jogo você precisa de X estrelas – especificar.)',));
                             await axios(request.interactiveMessage(from, `*Link de compra*\n` +
-                                'Entre no link abaixo para realizar a compra, após a compra você receberá uma mensagem de confirmação e poderá iniciar a consulta.\n'+
+                                'Entre no link abaixo para realizar a compra, após a compra você receberá uma mensagem de confirmação e poderá iniciar a consulta.\n' +
                                 'https://buy.stripe.com/test_cN2bKD3dibja1os000'
-                            , ['Jogar'], 3))
+                                , ['Jogar'], 3))
                             res.status(200);
                             // await axios(request.updateState(from, 3));
                         } catch (err) {
@@ -210,7 +222,7 @@ exports.webHook = async (req, res) => {
                             res.sendStatus(400);
                         }
                         return;
-                        // break;
+                    // break;
                     case 101:
                         try {
                             await axios(request.updateQuestion(from, message));
@@ -226,7 +238,7 @@ exports.webHook = async (req, res) => {
                             res.sendStatus(400);
                         };
                         return;
-                        // break;
+                    // break;
                     case 102:
                         try {
                             await axios(request.updateQuestion(from, message));
@@ -243,7 +255,7 @@ exports.webHook = async (req, res) => {
                             res.sendStatus(400);
                         };
                         return;
-                        // break;
+                    // break;
                     case 103:
                         try {
                             await axios(request.updateQuestion(from, message));
@@ -259,7 +271,7 @@ exports.webHook = async (req, res) => {
                             res.sendStatus(400);
                         };
                         return;
-                        // break;
+                    // break;
                     default:
                         try {
                             await axios(request.interactiveMessage(from, `Você já está em uma sessão, selecione uma das opções acima ou encerre a sessão.`,
@@ -270,7 +282,7 @@ exports.webHook = async (req, res) => {
                             res.sendStatus(400);
                         }
                         return;
-                        // break;
+                    // break;
                 }
                 // else if (state !== 0) {
                 //     try {
@@ -317,7 +329,7 @@ exports.webHook = async (req, res) => {
                         await axios(request.updateState(from, 100));
                         res.status(200);
                         return;
-                        // break;
+                    // break;
                     case 1:
                         try {
                             await axios(request.textMessage(from,
@@ -329,8 +341,8 @@ exports.webHook = async (req, res) => {
                             res.sendStatus(400);
                         }
                         return;
-                        // break;
-                    case 3: 
+                    // break;
+                    case 3:
                         try {
                             let response = await axios(request.getUser(from));
                             let botoes = []
@@ -356,28 +368,64 @@ exports.webHook = async (req, res) => {
                             res.sendStatus(400);
                         }
                         return;
-                        case 10: 
+                    case 4:
+                        try {
+                            if (usuario.question !== '') {
+                                // await axios(request.updateQuestion(from, message));
+                                if (usuario.tokens >= 3) {
+                                    await axios(request.textMessage(from,
+                                        'Agora relaxe sua mente e coração, e se pergunte: o que eu posso descobrir sobre essa situação? 🔮'));
+                                    await axios(request.mediaMessage(from, 'https://i.imgur.com/q57SM0Z.jpg'));
+                                    await axios(request.interactiveListMessage(from,
+                                        'Eu embaralhei as cartas. Agora quero que você escolha um cristal:',
+                                        variables.cristais, 'Selecione um cristal', 0));
+                                    await axios(request.updateState(from, 500));
+                                    res.status(200);
+
+                                } else {
+                                    await axios(request.interactiveMessage(from,
+                                        `Você possui *${usuario.tokens}* estrelas. Infelizmente não é possível realizar a consulta. Para adquirir estrelas, clique no botão abaixo.`,
+                                        ['Comprar estrelas'], 10));
+                                        res.status(200);
+                                }
+                            } else {
+                                try {
+                                    await axios(request.textMessage(from, `Por favor, escreva novamente sua pergunta.`));
+                                    await axios(request.updateState(from, 4));
+                                    res.status(200);
+                                } catch (err) {
+                                    console.log("Deu ruim ", err);
+                                    res.sendStatus(400);
+                                }
+                            }
+
+                        } catch (err) {
+                            console.log('deu ruim ', err);
+                            res.sendStatus(400);
+                        };
+                        return;
+                    case 10:
                         try {
                             await axios(request.textMessage(from, `*Link de compra*\n` +
-                                'Entre no link abaixo para realizar a compra, após a compra você receberá uma mensagem de confirmação e poderá iniciar a consulta.\n'+
+                                'Entre no link abaixo para realizar a compra, após a compra você receberá uma mensagem de confirmação e poderá iniciar a consulta.\n' +
                                 'https://buy.stripe.com/test_cN2bKD3dibja1os000'));
                         } catch (err) {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
                         }
                         return;
-                        case 30:
-                            try {
-                                await axios(request.updateState(from, 0));
-                                await axios(request.updateQuestion(from, ''));
-                                await axios(request.textMessage(from, `Sessão encerrada com sucesso, envie uma nova menssagem`));
-                                res.status(200);
-                            } catch (err) {
-                                console.log("Deu ruim ", err);
-                                res.sendStatus(400);
-                            }
-                            return;
-                        // break;
+                    case 30:
+                        try {
+                            await axios(request.updateState(from, 0));
+                            await axios(request.updateQuestion(from, ''));
+                            await axios(request.textMessage(from, `Sessão encerrada com sucesso, envie uma nova menssagem`));
+                            res.status(200);
+                        } catch (err) {
+                            console.log("Deu ruim ", err);
+                            res.sendStatus(400);
+                        }
+                        return;
+                    // break;
                 }
                 // if (state === 30) {
                 //     try {
@@ -457,7 +505,7 @@ exports.webHook = async (req, res) => {
                             res.sendStatus(400);
                         }
                         return;
-                        // break;
+                    // break;
                     case 10:
                         try {
                             let response = await axios(request.getUser(from));
@@ -477,14 +525,14 @@ exports.webHook = async (req, res) => {
                                 await axios(request.textMessage(from, 'Você não possui estrelas suficientes para realizar uma consulta, compre mais estrelas para realizar uma consulta'));
                                 res.status(200);
                             }
-                            
-                            
+
+
                         } catch (err) {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
                         }
                         return;
-                        // break;
+                    // break;
                     case 100:
                     case 101:
                     case 102:
@@ -514,7 +562,7 @@ exports.webHook = async (req, res) => {
                             res.sendStatus(400);
                         }
                         return;
-                        // break;
+                    // break;
                     case 200:
                     case 201:
                     case 202:
@@ -576,7 +624,7 @@ exports.webHook = async (req, res) => {
                             res.sendStatus(400);
                         };
                         return;
-                        // break;
+                    // break;
                     case 300:
                     case 301:
                     case 302:
@@ -615,11 +663,11 @@ exports.webHook = async (req, res) => {
                             res.sendStatus(400);
                         };
                         return;
-                        // break;
+                    // break;
                     case 400:
                     case 401:
                     case 402:
-                    case 403:   
+                    case 403:
                         try {
                             let cartasSorteadas = await axios(request.sorteioCartas(10));
                             cartasSorteadas = cartasSorteadas.data;
@@ -657,7 +705,7 @@ exports.webHook = async (req, res) => {
                             res.sendStatus(400);
                         };
                         return;
-                        // break;
+                    // break;
                 }
                 // try {
                 //     if (state >= 4 && state <= 12) {
