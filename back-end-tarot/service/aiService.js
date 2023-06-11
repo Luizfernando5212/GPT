@@ -260,4 +260,66 @@ exports.verificaQtdAfirmacoes = async (req, res) => {
   }
 }
 
+function generateAgendaPrompt(message) {
+  
 
+  const messages = [
+    {
+      role: 'system', content: `Você é um assistente pessoal que informa as datas informadas em uma mensagem. ` +
+        `Se a mensagem não contiver uma data ou contiver uma data incompleta, por exemplo: (tenho uma aniversário dia 15), você deve responder com a mensagem Não.`
+    },
+    { role: 'user', content: `Tenho um aniversário da Sônia no dia 14 de abril` },
+    { role: 'assistant', content: '14/04/2023 - Aniversário Sônia' },
+    { role: 'user', content: `Meu chefe marcou um compromisso comigo no dia 15/15/2023` },
+    { role: 'assistant', content: '15/05/2023 - Compromisso com chefe'},
+    { role: 'user', content: `Meu primo quer ir no shopping no dia vinte de abril` },
+    { role: 'assistant', content: '20/04/2023 - Ir no shopping com primo'},
+    { role: 'user', content: `Meu aniversário é dia 20 de abril` },
+    { role: 'assistant', content: '20/04/2023 - Aniversário'},
+    { role: 'user', content: `Qual é o sentido da vida` },
+    { role: 'assistant', content: 'Não'},
+    { role: 'user', content: `Quando é o dia das mães` },
+    { role: 'assistant', content: 'Não'},
+    { role: 'user', content: `${message}` },
+  ]
+  return messages;
+}
+
+exports.agenda = async (req, res) => {
+  if (!configuration.apiKey) {
+    res.status(500).json({
+      error: {
+        message: "OpenAI API key not configured.",
+      }
+    });
+    return;
+  }
+
+  const message = req.body.message || '';
+
+  if (message.trim().length === 0) {
+    res.status(400).json({
+      error: {
+        message: "Por favor insira um mensagem",
+      }
+    });
+    return;
+  }
+
+  try { 
+
+    const completion = await openai.createChatCompletion({
+      model: "gpt-3.5-turbo",
+      messages: generateAgendaPrompt(message),
+      temperature: 0.2,
+      max_tokens: 1000
+    });
+    // res.status(200).json({ result: completion.data.choices[0].text });
+    console.log(completion.data.usage)
+    res.status(200).json({ result: completion.data.choices[0].message.content })
+    // Chama função que diminui quantidade de tokens do usuário
+  } catch (error) {
+    // Consider adjusting the error handling logic for your use case
+    console.log(error)
+  }
+}
