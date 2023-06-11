@@ -5,7 +5,6 @@ aiController = {
     responseCompletion: async (req, res) => {
         service.completion(req, res);
     },
-
     moderation: async (req, res ) => {
         service.moderation(req, res);
     },
@@ -14,6 +13,9 @@ aiController = {
     },
     responseCompletionWhats: async (req, res) => {
         service.completionWhats(req, res);
+    },
+    agenda: async (req, res) => {
+        service.agenda(req, res);
     }
 }
 
