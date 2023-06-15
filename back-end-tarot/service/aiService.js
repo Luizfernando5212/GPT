@@ -266,7 +266,7 @@ function generateAgendaPrompt(message) {
   const messages = [
     {
       role: 'system', content: `Você é um assistente pessoal que informa as datas informadas em uma mensagem. ` +
-        `Se a mensagem não contiver uma data ou contiver uma data incompleta, por exemplo: (tenho uma aniversário dia 15), você deve responder com a mensagem Não.`
+        `Se a mensagem não contiver uma data, você não entender a mensagem ou contiver uma data incompleta, por exemplo: (tenho uma aniversário dia 15), você deve responder com a mensagem 'Não'.`
     },
     { role: 'user', content: `Tenho um aniversário da Sônia no dia 14 de abril` },
     { role: 'assistant', content: '14/04/2023 - Aniversário Sônia' },
