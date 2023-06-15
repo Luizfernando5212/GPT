@@ -281,7 +281,7 @@ function generateAgendaPrompt(message) {
     { role: 'user', content: 'teste' },
     { role: 'assistant', content: 'Não' },
     { role: 'user', content: 'asddsas' },
-    { role: 'assistant, content: 'Não' },
+    { role: 'assistant', content: 'Não' },
     { role: 'user', content: `Quando é o dia das mães` },
     { role: 'assistant', content: 'Não'},
     { role: 'user', content: `${message}` },
