@@ -589,7 +589,7 @@ exports.webHook = async (req, res) => {
                             combinacoes = variables.espelho(cartasSorteadas.maiores);
                             // await axios(request.mediaMessage(from, `https://i.imgur.com/xnc1GQf.jpg`));
                             await axios(request.textMessage(from, "*Suas cartas são*\n" + combinacoes));
-                            const response = await axios(request.completion(usuario.question, cartasSorteadas, combinacoes));
+                            const response = await axios(request.completion(usuario.question, cartasSorteadas, combinacoes, 'Espelho do amor'));
                             if (response.status !== 200) {
                                 await axios(request.textMessage(from,
                                     'Ocorreu um erro ao tentar interpretar sua pergunta, tente novamente mais tarde'));
@@ -653,7 +653,7 @@ exports.webHook = async (req, res) => {
                             }
                             await axios(request.textMessage(from, '*Suas cartas sorteadas são*\n' + combinacoes));
                             await axios(request.textMessage(from, 'Com base nas cartas reveladas na Cruz Celta, posso lhe fornecer insights valiosos sobre a sua questão. 🎴💫'));
-                            const response = await axios(request.completion(usuario.question, cartasSorteadas, combinacoes));
+                            const response = await axios(request.completion(usuario.question, cartasSorteadas, combinacoes, 'Cruz Celta'));
                             if (response.status !== 200) {
                                 await axios(request.textMessage(from,
                                     'Ocorreu um erro ao tentar interpretar sua pergunta, tente novamente mais tarde'));
@@ -696,7 +696,7 @@ exports.webHook = async (req, res) => {
                                 combinacoes += `${i + 1}ª posição ` + ' -> ' + cartasSorteadas.menores[i] + '\n'
                             }
                             await axios(request.textMessage(from, 'agora vou te mostrar o caminho através dos Arcanos Menores. São eles que apontam a tendência da situação, mostrando os detalhes mais específicos e práticos.\n' + combinacoes));
-                            const response = await axios(request.completion(usuario.question, cartasSorteadas));
+                            const response = await axios(request.completion(usuario.question, cartasSorteadas, combinacoes, 'Péladan'));
                             if (response.status !== 200) {
                                 await axios(request.textMessage(from,
                                     'Ocorreu um erro ao tentar interpretar sua pergunta, tente novamente mais tarde'));
