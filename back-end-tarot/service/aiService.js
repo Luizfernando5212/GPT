@@ -502,7 +502,7 @@ function generateAgendaPrompt(message) {
   const messages = [
     {
       role: 'system', content: `Você é um assistente pessoal que informa as datas informadas em uma mensagem. ` +
-        `Se a mensagem não contiver uma data ou contiver uma data incompleta, por exemplo: (tenho uma aniversário dia 15), você deve responder com a mensagem Não.`
+        `Se a mensagem não contiver uma data, você não entender a mensagem ou contiver uma data incompleta, por exemplo: (tenho uma aniversário dia 15), você deve responder com a mensagem 'Não'.`
     },
     { role: 'user', content: `Tenho um aniversário da Sônia no dia 14 de abril` },
     { role: 'assistant', content: '14/04/2023 - Aniversário Sônia' },
@@ -513,6 +513,13 @@ function generateAgendaPrompt(message) {
     { role: 'user', content: `Meu aniversário é dia 20 de abril` },
     { role: 'assistant', content: '20/04/2023 - Aniversário' },
     { role: 'user', content: `Qual é o sentido da vida` },
+<<<<<<< HEAD
+=======
+    { role: 'assistant', content: 'Não'},
+    { role: 'user', content: 'teste' },
+    { role: 'assistant', content: 'Não' },
+    { role: 'user', content: 'asddsas' },
+>>>>>>> decc91ed0ebcf2b30d5457d4d15b70309312933d
     { role: 'assistant', content: 'Não' },
     { role: 'user', content: `Quando é o dia das mães` },
     { role: 'assistant', content: 'Não' },
