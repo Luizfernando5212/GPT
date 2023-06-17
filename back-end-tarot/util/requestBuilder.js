@@ -305,7 +305,7 @@ exports.sorteioCartas = (number) => {
     return body;
 }
 
-exports.completion = (pergunta, cartasSorteadas, combinacoes) => {
+exports.completion = (pergunta, cartasSorteadas, combinacoes, metodo) => {
     let body = {
         method: "POST",
         url: facebook.completion(),
@@ -315,7 +315,8 @@ exports.completion = (pergunta, cartasSorteadas, combinacoes) => {
         data: {
             cartasSorteadas,
             pergunta: pergunta,
-            combinacoes: combinacoes
+            combinacoes: combinacoes,
+            metodo: metodo,
         }
     }
     return body;

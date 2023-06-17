@@ -58,32 +58,267 @@ function generatePrompt(metodo, cartasMaiores, cartasMenores, pergunta) {
 }
 
 
-function generatePromptWhats(cartasMaiores, cartasMenores, pergunta, combinacoes) {
-  let metodo = 'Péladan';
-  let combinacoesN = ''
-  if (!combinacoes) {
-    if (cartasMenores) {
-      for (let i = 0; i < cartasMenores.length; i++) {
-        combinacoesN += `${i + 1}ª combinação` + ' -> ' + cartasMaiores[i] +
-          ' e ' + cartasMenores[i] + '\n'
-      }
-    } else {
-      for (let i = 0; i < cartasMaiores.length; i++) {
-        combinacoesN += `${i + 1}ª carta` + ' -> ' + cartasMaiores[i] + '\n'
-      }
-    }
+function generatePromptWhats(cartasMaiores, cartasMenores, pergunta/* , combinacoes */, metodo) {
+  // let metodo = 'Péladan';
+  let prompt;
+  // let combinacoesN = ''
+  // if (!combinacoes) {
+  //   if (cartasMenores) {
+  //     for (let i = 0; i < cartasMenores.length; i++) {
+  //       combinacoesN += `${i + 1}ª combinação` + ' -> ' + cartasMaiores[i] +
+  //         ' e ' + cartasMenores[i] + '\n'
+  //     }
+  //   } else {
+  //     for (let i = 0; i < cartasMaiores.length; i++) {
+  //       combinacoesN += `${i + 1}ª carta` + ' -> ' + cartasMaiores[i] + '\n'
+  //     }
+  //   }
+  // }
+
+  switch (metodo) {
+    case 'Cruz Celta':
+      prompt = `Cruz celta
+Esse jogo serve para todo e qualquer tipo de questão quando você quer ter mais clareza sobre várias circunstâncias relacionadas a questão. 
+
+Posição 1 - Origem
+De que forma a situação começou?
+
+Interpretação da Carta da Posição 1:
+- Simbologia e significado principal da ${cartasMaiores[0]}.
+- Relação com a pergunta do consulente e a casa da questão.
+
+Posição 2 - Questionamento
+Por que você está formulando essa pergunta? Qual é a questão essencial?
+
+Interpretação da Carta da Posição 2:
+- Simbologia e significado principal da ${cartasMaiores[1]}.
+- Relação com a pergunta do consulente e a casa da questão.
+
+(Combine as cartas das posições 1 e 2 para obter uma resposta principal sobre a situação atual)
+
+Posição 3 - Consciente
+Como você percebe a situação? O que você sabe sobre a questão?
+
+Interpretação da Carta da Posição 3:
+- Simbologia e significado principal da ${cartasMaiores[2]}.
+- Relação com a pergunta do consulente e a casa da questão.
+
+Posição 4 - Base da Questão - Inconsciente
+O que você desconhece? O que não sabe? Quais são seus sentimentos ocultos?
+
+Interpretação da Carta da Posição 4:
+- Simbologia e significado principal da ${cartasMaiores[3]}.
+- Relação com a pergunta do consulente e a casa da questão.
+
+(Combine as cartas das posições 3 e 4 para refletir a perspectiva do coração e da mente sobre a situação)
+
+Posição 5 - Influências do Passado
+Como a situação estava até seis meses atrás? Quais foram as causas primordiais da questão?
+
+Interpretação da Carta da Posição 5:
+- Simbologia e significado principal da ${cartasMaiores[4]}.
+- Relação com a pergunta do consulente e a casa da questão.
+
+Posição 6 - Futuro Próximo da Questão
+Qual é a influência imediata que afetará a situação?
+Esta carta representa uma situação interna ou externa que se manifestará em breve na vida da pessoa (em um futuro próximo)
+
+Interpretação da Carta da Posição 6:
+- Simbologia e significado principal da ${cartasMaiores[5]}.
+- Relação com a pergunta do consulente e a casa da questão.
+
+Posição 7 - Consulente
+Qual é o seu estado mental e emocional em relação à questão? (Com base nas cartas das posições 1 e 2)
+
+Interpretação da Carta da Posição 7:
+- Simbologia e significado principal da ${cartasMaiores[6]}.
+- Relação com a pergunta do consulente e a casa da questão.
+
+Posição 8 - Ambiente
+Qual é a influência do ambiente e de outras pessoas (amigos e familiares) na questão?
+
+Interpretação da Carta da Posição 8:
+- Simbologia e significado principal da ${cartasMaiores[7]}.
+- Relação com a pergunta do consulente e a casa da questão.
+
+Posição 9 - Obstáculos
+Qual é o principal problema ou desafio que você está enfrentando? Qual é a advertência?
+
+Interpretação da Carta da Posição 9:
+- Simbologia e significado principal da ${cartasMaiores[8]}.
+- Relação com a pergunta do consulente e a casa da questão.
+
+Posição 10 - Futuro - Resultado Final
+Como a questão se desenvolverá no futuro? Quais serão os possíveis desdobramentos a longo prazo?
+
+Interpretação da Carta da Posição 10:
+- Simbologia e significado principal da ${cartasMaiores[9]}.
+- Relação com a pergunta do consulente e a casa da questão.
+
+(Combine as cartas das posições 6 e 10 para um panorama do futuro)
+
+Finalize fazendo um resumo do jogo de acordo com a pergunta do consulente entre aspas.
+"${pergunta}"`
+      break;
+    case 'Péladan':
+      prompt = `Péladan
+Posição 1 - Presente: O que está favorável no presente? 
+
+Interpretação da Carta da Posição 1:
+- Simbologia e significado principal da ${cartasMaiores[0]}.
+- Relação com a pergunta do consulente e a casa da questão.
+
+Carta dos Arcanos Menores que aponta o caminho para a Carta dos Arcanos Maiores da posição 1: 
+-Simbologia e significado da ${cartasMenores[0]}.
+- Relação com a situação atual e a carta dos Arcanos Maiores da posição 1.
+
+(Combine a carta do arcano maior com a do arcano menor considerando a posição da carta e a pergunta)
+
+Posição 2 - Inverso: Aspectos negativos ou obstáculos no presente. 
+
+Interpretação da Carta da Posição 2:
+-Simbologia e significado principal da ${cartasMaiores[1]}.
+-Relação com a pergunta do consulente e a casa da questão.
+
+Carta dos Arcanos Menores que aponta o caminho para a Carta dos Arcanos Maiores da posição 2:
+-Simbologia e significado da ${cartasMenores[1]}.
+-Relação com a situação atual e a carta dos Arcanos Maiores da posição 2.
+
+(Combine a carta do arcano maior com a do arcano menor considerando a posição da carta e a pergunta)
+
+Posição 3 - Qual direção a questão tomará? 
+
+Interpretação da Carta da Posição 3:
+-Simbologia e significado principal da ${cartasMaiores[2]}.
+-Relação com a pergunta do consulente e a casa da questão.
+
+Carta dos Arcanos Menores que aponta o caminho para a Carta dos Arcanos Maiores da posição 3:
+-Simbologia e significado da ${cartasMenores[2]}.
+-Relação com a situação atual e a carta dos Arcanos Maiores da posição 3.
+
+(Combine a carta do arcano maior com a do arcano menor considerando a posição da carta e a pergunta)
+
+Posição 4 - Resultado: Como será o produto final? A resposta da pergunta?
+
+Interpretação da Carta da Posição 4:
+-Simbologia e significado principal da ${cartasMaiores[3]}.
+-Relação com a pergunta do consulente e a casa da questão.
+
+Carta dos Arcanos Menores que aponta o caminho para a Carta dos Arcanos Maiores da posição 4:
+-Simbologia e significado da ${cartasMenores[3]}.
+-Relação com a situação atual e a carta dos Arcanos Maiores da posição 4.
+
+(Combine a carta do arcano maior com a do arcano menor considerando a posição da carta e a pergunta)
+
+Posição 5 - Síntese: Como você enxerga e age sobre a questão? 
+
+Interpretação da Carta da Posição 5:
+-Simbologia e significado principal da ${cartasMaiores[4]}.
+-Relação com a pergunta do consulente e a casa da questão.
+
+Carta dos Arcanos Menores que aponta o caminho para a Carta dos Arcanos Maiores da posição 5:
+-Simbologia e significado da ${cartasMenores[4]}.
+-Relação com a situação atual e a carta dos Arcanos Maiores da posição 5.
+
+(Combine a carta do arcano maior com a do arcano menor considerando a posição da carta e a pergunta)
+
+Resumo do Jogo:
+Com base em todas as cartas e posições, qual o cenário para a resposta da pergunta do consulente entre aspas?
+"${pergunta}"
+`
+      break;
+    case 'Espelho do amor':
+      prompt = `Espelho do amor
+Posição 1 - O que você pensa sobre a pessoa?
+Como você enxerga a pessoa em questão? Quais são seus pensamentos e percepções sobre ela? 
+
+Interpretação da Carta da Posição 1:
+- Simbologia e significado principal da ${cartasMaiores[0]}.
+- Relação da carta (leia pelo atributo mental) com a posição da casa em questão
+
+Posição 4 - O que a pessoa pensa sobre você?
+Como a pessoa em questão pensa e percebe você?
+
+Interpretação da Carta da Posição 4:
+- Simbologia e significado principal da ${cartasMaiores[1]}.
+- Relação da carta (leia pelo atributo mental) com a posição da casa em questão
+
+(Agora Combine as cartas das posições 1 e 4 para refletir o pensamento de cada um sobre o outro)
+
+Posição 2 - O que você sente em relação à pessoa?
+Quais são suas emoções e sentimentos em relação a essa pessoa?
+
+Interpretação da Carta da Posição 2:
+- Simbologia e significado principal da ${cartasMaiores[2]}.
+- Relação da carta (leia pelo atributo sentimental) com a posição da casa em questão
+
+Posição 5 - O que ela sente em relação a você?
+Quais são os sentimentos e emoções da pessoa em relação a você?
+
+Interpretação da Carta da Posição 5:
+- Simbologia e significado principal da ${cartasMaiores[3]}.
+- Relação da carta (leia pelo atributo sentimental) com a posição da casa em questão
+
+(Agora combine as cartas das posições 2 e 5 para fazer um panorama do sentimento de um com relação ao outro)
+
+Posição 3 - Plano físico: Qual é sua atração sexual pela pessoa?
+Como você se sente em termos de atração física por essa pessoa?
+
+Interpretação da Carta da Posição 3:
+- Simbologia e significado principal da ${cartasMaiores[4]}.
+- Relação da carta (leia pelo atributo material) com a posição da casa em questão
+
+Posição 6 - Atração sexual da pessoa em relação a você
+Como a pessoa se sente em termos de atração física por você?
+
+Interpretação da Carta da Posição 6: 
+- Simbologia e significado principal da ${cartasMaiores[5]}. 
+- Relação da carta (leia pelo atributo material) com a posição da casa em questão
+
+(Agora Combine as cartas das posições 3 e 6 para comparação da atração física mútua entre ambos)
+
+Posição 7 - Panorama geral do relacionamento e futuro próximo
+Qual é o panorama geral do relacionamento entre vocês? O que o futuro próximo reserva para esse relacionamento?
+
+Interpretação da Carta da Posição 7:
+- Simbologia e significado principal da ${cartasMaiores[6]}.
+- Relação da carta com a posição da casa em questão
+
+Combinações das Cartas:
+- Posição 1 e Posição 4: Relação entre o pensamento de cada um sobre o outro.
+- Posição 2 e Posição 5: Paralelo entre os sentimentos de cada um em relação ao outro.
+- Posição 3 e Posição 6: Comparação da atração física mútua entre ambos.`
+      break;
+    default:
+      prompt = `1ª posição - passado -> ${cartasMaiores[0]}
+2ª posiç~~ao - presente -> ${cartasMaiores[1]}
+3ª posição - futuro -> ${cartasMaiores[2]}
+Interprete as cartas de acordo com a posição e a pergunta do consulente entre aspas
+"${pergunta}".`
+      break;
   }
+
+  console.log(prompt)
 
   const messages = [
     {
-      role: 'system', content: `Você é tarólogo e sabe interpretar uma leitura de cartas dentro do método ${metodo}. Suas respostas são sutis. ` +
-        `os parenteses '()' indicam como você deve interpretar as cartas por posição, mas não devem ser exibidos na sua mensagem. ` +
+      role: 'system', content: `Você é tarólogo e sabe interpretar uma leitura de cartas dentro do método ${metodo ? metodo : 'simples'}. Suas respostas são sutis. ` +
+        // `os parenteses '()' indicam como você deve interpretar as cartas por posição, mas não devem ser exibidos na sua mensagem. ` +
         `Sua interpretação precisa ter no mínimo 500 palavras. Qualquer menssagem que não dá para ser interpretada por Tarô deve ser ignorada`
     },
-    { role: 'user', content: `Considere as cartas sorteadas abaixo:\n${!combinacoes ? combinacoesN : combinacoes}.` },
-    { role: 'assistant', content: 'O que você gostaria de saber ?' },
-    { role: 'user', content: `Responda a seguinte pergunta entre aspas simples: '${pergunta}'` }
+    { role: 'user', content: `${prompt}.` }
   ]
+
+  // const messages = [
+  //   {
+  //     role: 'system', content: `Você é tarólogo e sabe interpretar uma leitura de cartas dentro do método ${metodo}. Suas respostas são sutis. ` +
+  //       // `os parenteses '()' indicam como você deve interpretar as cartas por posição, mas não devem ser exibidos na sua mensagem. ` +
+  //       `Sua interpretação precisa ter no mínimo 500 palavras. Qualquer menssagem que não dá para ser interpretada por Tarô deve ser ignorada`
+  //   },
+  //   { role: 'user', content: `Considere as cartas sorteadas abaixo:\n${!combinacoes ? combinacoesN : combinacoes}.` },
+  //   { role: 'assistant', content: metodo !== 'Espelho do amor' ? 'O que você gostaria de saber ?' : 'Sobre quem você gostaria de saber ?' },
+  //   { role: 'user', content: `Responda a seguinte pergunta entre aspas duplas: "${pergunta}"` }
+  // ]
   return messages;
 }
 
@@ -109,6 +344,7 @@ exports.completionWhats = async (req, res) => {
   const cartasMenores = req.body.cartasSorteadas.menores || '';
   const pergunta = req.body.pergunta || ''; // Garantir que só haverá uma pergunta
   const combinacoes = req.body.combinacoes || ''; // Garantir que só haverá uma pergunta
+  const metodo = req.body.metodo || ''; // Garantir que só haverá um método
 
   if (filtros('placeholder', pergunta, cartasMaiores, cartasMenores, res)) return;
 
@@ -116,7 +352,7 @@ exports.completionWhats = async (req, res) => {
 
     const completion = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
-      messages: generatePromptWhats(cartasMaiores, cartasMenores, pergunta, combinacoes),
+      messages: generatePromptWhats(cartasMaiores, cartasMenores, pergunta/* , combinacoes */, metodo),
       temperature: 0.4,
       max_tokens: 1000
     });
@@ -261,7 +497,7 @@ exports.verificaQtdAfirmacoes = async (req, res) => {
 }
 
 function generateAgendaPrompt(message) {
-  
+
 
   const messages = [
     {
@@ -271,15 +507,15 @@ function generateAgendaPrompt(message) {
     { role: 'user', content: `Tenho um aniversário da Sônia no dia 14 de abril` },
     { role: 'assistant', content: '14/04/2023 - Aniversário Sônia' },
     { role: 'user', content: `Meu chefe marcou um compromisso comigo no dia 15/15/2023` },
-    { role: 'assistant', content: '15/05/2023 - Compromisso com chefe'},
+    { role: 'assistant', content: '15/05/2023 - Compromisso com chefe' },
     { role: 'user', content: `Meu primo quer ir no shopping no dia vinte de abril` },
-    { role: 'assistant', content: '20/04/2023 - Ir no shopping com primo'},
+    { role: 'assistant', content: '20/04/2023 - Ir no shopping com primo' },
     { role: 'user', content: `Meu aniversário é dia 20 de abril` },
-    { role: 'assistant', content: '20/04/2023 - Aniversário'},
+    { role: 'assistant', content: '20/04/2023 - Aniversário' },
     { role: 'user', content: `Qual é o sentido da vida` },
-    { role: 'assistant', content: 'Não'},
+    { role: 'assistant', content: 'Não' },
     { role: 'user', content: `Quando é o dia das mães` },
-    { role: 'assistant', content: 'Não'},
+    { role: 'assistant', content: 'Não' },
     { role: 'user', content: `${message}` },
   ]
   return messages;
@@ -306,7 +542,7 @@ exports.agenda = async (req, res) => {
     return;
   }
 
-  try { 
+  try {
 
     const completion = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
