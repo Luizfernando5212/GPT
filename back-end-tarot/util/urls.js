@@ -1,23 +1,23 @@
 exports.url = (numberId) => {
 
     return "https://graph.facebook.com/v16.0/" +
-    numberId + "/messages";
+    numberId + "/messages/";
 }
 
 exports.getUser =  (phone) => {
-    return 'https://tarotai.onrender.com/user/' + phone
+    return 'https://tarotai.onrender.com/user/' + phone + '/'
 }
 
 exports.postUser = () => {
-    return 'https://tarotai.onrender.com/user'
+    return 'https://tarotai.onrender.com/user/'
 }
 
 exports.updateUser = (phone) => {
-    return 'https://tarotai.onrender.com/user/' + phone
+    return 'https://tarotai.onrender.com/user/' + phone + '/'
 }
 
 exports.updateTokens = (phone) => {
-    return 'https://tarotai.onrender.com/user/token/' + phone
+    return 'https://tarotai.onrender.com/user/token/' + phone + '/'
 }
 
 // exports.updateTokens = (phone) => {
@@ -25,27 +25,27 @@ exports.updateTokens = (phone) => {
 // }
 
 exports.updateState = (phone) => {
-    return 'https://tarotai.onrender.com/user/state/' + phone
+    return 'https://tarotai.onrender.com/user/state/' + phone + '/'
 }
 
 exports.updateQuestion = (phone) => {
-    return 'https://tarotai.onrender.com/user/question/' + phone
+    return 'https://tarotai.onrender.com/user/question/' + phone + '/'
 }
 
 exports.completion = (id) => {
-    return 'https://tarotai.onrender.com/user/' + id
+    return 'https://tarotai.onrender.com/user/' + id + '/'
 }
 
 exports.sorteio = (num) => {
-    return `https://tarotai.onrender.com/card/sorteio/${num}`
+    return `https://tarotai.onrender.com/card/sorteio/${num}/`
 }
 
 exports.completion = () => {
-    return `https://tarotai.onrender.com/ai/whats`
+    return `https://tarotai.onrender.com/ai/whats/`
 }
 
 exports.insertOrder = () => {
-    return `https://tarotai.onrender.com/order`
+    return `https://tarotai.onrender.com/order/`
 }
 
 // exports.insertOrder = () => {
@@ -53,7 +53,7 @@ exports.insertOrder = () => {
 // }
 
 exports.updateOrder = (id) => {
-    return `https://tarotai.onrender.com/order/${id}`
+    return `https://tarotai.onrender.com/order/${id}/`
 };
 
 // exports.updateOrder = (id) => {
