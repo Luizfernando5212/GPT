@@ -50,7 +50,8 @@ exports.webHook = async (req, res) => {
                     } catch (err) { }
                 }
                 if (state) {
-                    await axios(request.updateState(from, state));
+                    // await axios(request.updateState(from, state));
+                    await fetch(url.updateState(from), request.updateStateFetch(state));
                 }
             } catch (err) {
                 console.log('Não há estado no momento ')
@@ -95,7 +96,7 @@ exports.webHook = async (req, res) => {
                                 'Primeiro vamos estabelecer uma conexão energética. Me fale o seu *nome*.'));
 
                             // await axios(request.updateState(from, 1));
-                            await fetch(url.updateState, request.updateStateFetch(from, 1))
+                            await fetch(url.updateState(from), request.updateStateFetch(1))
 
                             // await axios(request.interactiveMessage(from, {
                             //     header: `Olá, seja bem vindo ${nome}`,
@@ -118,7 +119,6 @@ exports.webHook = async (req, res) => {
 
                             await axios(request.updateState(from, 4));
                             res.sendStatus(200);
-
                         } catch (err) {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);

@@ -352,7 +352,7 @@ exports.updateOrder = (id, order, phone) => {
     return body;
 }
 
-exports.updateStateFetch = (from, state) => {
+exports.updateStateFetch = (state) => {
     let body = {
         method: "PUT",
         // url: facebook.updateState(from),
