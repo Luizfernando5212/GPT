@@ -3,6 +3,7 @@ const request = require('../util/requestBuilder');
 const axios = require("axios").default;
 const variables = require('../util/variables');
 const url = require('../util/urls');
+import fetch from 'node-fetch';
 
 const token = process.env.WHATSAPP_TOKEN;
 
