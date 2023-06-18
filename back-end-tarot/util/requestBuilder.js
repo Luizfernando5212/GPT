@@ -351,3 +351,17 @@ exports.updateOrder = (id, order, phone) => {
     }
     return body;
 }
+
+exports.updateStateFetch = (from, state) => {
+    let body = {
+        method: "PUT",
+        // url: facebook.updateState(from),
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: {
+            state: state,
+        },
+    }
+    return body;
+}

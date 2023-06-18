@@ -2,6 +2,7 @@ require('dotenv').config();
 const request = require('../util/requestBuilder');
 const axios = require("axios").default;
 const variables = require('../util/variables');
+const url = require('../util/urls');
 
 const token = process.env.WHATSAPP_TOKEN;
 
@@ -93,6 +94,7 @@ exports.webHook = async (req, res) => {
                                 'Primeiro vamos estabelecer uma conexão energética. Me fale o seu *nome*.'));
 
                             await axios(request.updateState(from, 1));
+                            await fetch()
 
                             // await axios(request.interactiveMessage(from, {
                             //     header: `Olá, seja bem vindo ${nome}`,
