@@ -127,8 +127,8 @@ exports.updateState = async (req, res) => {
         oldUser.state = user.state;
 
         const response = await User.findByIdAndUpdate(oldUser._id, oldUser);
-        // res.json(response);
-        res.send(JSON.stringify(response));
+        res.json(response);
+        // res.send(JSON.stringify(response));
     } catch (err) {
         console.log(err);
     }

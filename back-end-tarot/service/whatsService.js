@@ -95,8 +95,8 @@ exports.webHook = async (req, res) => {
                             await axios(request.textMessage(from,
                                 'Primeiro vamos estabelecer uma conexão energética. Me fale o seu *nome*.'));
 
-                            // await axios(request.updateState(from, 1));
-                            const response = await fetch(url.updateState(from), request.updateStateFetch(1))
+                            await axios(request.updateState(from, 1));
+                            // const response = await fetch(url.updateState(from), request.updateStateFetch(1))
 
                             // await axios(request.interactiveMessage(from, {
                             //     header: `Olá, seja bem vindo ${nome}`,
