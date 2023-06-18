@@ -72,7 +72,23 @@ function updateTokens(from, tokens) {
     });
 }
 
-
+// function completion(pergunta, cartas, combinacoes, jogo) {
+//     operation.attempt(async (currentAttempt) => {
+//         try {
+//             if(!pergunta || !cartas || !jogo){
+//                 await axios()
+//             }
+//             if (pergunta && cartas && jogo)
+//             await axios(request.completion(pergunta, cartas, combinacoes, jogo));
+//         } catch (error) {
+//             console.error(`Erro na tentativa ${currentAttempt}: ${error.message}`);
+//             if (operation.retry(error)) {
+//                 return;
+//             }
+//             console.error('A solicitação falhou após as tentativas.');
+//         }
+//     });
+// }
 
 
 exports.webHook = async (req, res) => {
@@ -563,6 +579,7 @@ exports.webHook = async (req, res) => {
                     case 2:
                     case 3:
                         try {
+                            let response;
                             let cartasSorteadas = await axios(request.sorteioCartas(3));
                             cartasSorteadas = cartasSorteadas.data;
                             for (let i = 0; i < cartasSorteadas.maiores.length; i++) {
@@ -572,7 +589,12 @@ exports.webHook = async (req, res) => {
                             await axios(request.mediaMessage(from, `https://i.imgur.com/imYdWbd.jpg`));
                             await axios(request.textMessage(from,
                                 `Agora, deixe-me interpretar o significado das cartas em relação à sua pergunta. Elas revelam caminhos ocultos e possíveis respostas para você 👁️‍🗨️`));
-                            const response = await axios(request.completion(usuario.question, cartasSorteadas, combinacoes));
+                            if(!usuario.question || !cartasSorteadas){
+                                await axios(request.textMessage(from, 'Ocorreu um erro ao tentar interpretar sua pergunta, Selecione uma nova consulta.'));
+                                await axios(request.interactiveListMessage(from, 'Qual consulta você deseja realizar agora ?', botoes, 'Consultas', 100));
+                            } else {
+                                response = await axios(request.completion(usuario.question, cartasSorteadas, combinacoes));
+                            }
                             if (response.status !== 200) {
                                 await axios(request.textMessage(from,
                                     'Ocorreu um erro ao tentar interpretar sua pergunta, tente novamente mais tarde'));
@@ -662,13 +684,19 @@ exports.webHook = async (req, res) => {
                     case 202:
                     case 203:
                         try {
-
+                            let response;
                             let cartasSorteadas = await axios(request.sorteioCartas(7));
                             cartasSorteadas = cartasSorteadas.data;
                             combinacoes = variables.espelho(cartasSorteadas.maiores);
                             // await axios(request.mediaMessage(from, `https://i.imgur.com/xnc1GQf.jpg`));
                             await axios(request.textMessage(from, "*Suas cartas são*\n" + combinacoes));
-                            const response = await axios(request.completion(usuario.question, cartasSorteadas, combinacoes, 'Espelho do amor'));
+                            if (!usuario.question || !cartasSorteadas) {
+                                await axios(request.textMessage(from, 'Ocorreu um erro ao tentar interpretar sua pergunta, Selecione uma nova consulta.'));
+                                await axios(request.interactiveListMessage(from, 'Qual consulta você deseja realizar agora ?', botoes, 'Consultas', 100));
+
+                            } else {
+                                response = await axios(request.completion(usuario.question, cartasSorteadas, combinacoes, 'Espelho do amor'));
+                            }
                             if (response.status !== 200) {
                                 await axios(request.textMessage(from,
                                     'Ocorreu um erro ao tentar interpretar sua pergunta, tente novamente mais tarde'));
@@ -702,6 +730,7 @@ exports.webHook = async (req, res) => {
                     case 302:
                     case 303:
                         try {
+                            let response;
                             let cartasSorteadas = await axios(request.sorteioCartas(11));
                             cartasSorteadas = cartasSorteadas.data;
                             await axios(request.textMessage(from, "Perfeito! Agora, vamos iniciar a leitura das cartas. 🔍"));
@@ -710,7 +739,12 @@ exports.webHook = async (req, res) => {
                             }
                             await axios(request.textMessage(from, '*Suas cartas sorteadas são*\n' + combinacoes));
                             await axios(request.textMessage(from, 'Com base nas cartas reveladas na Cruz Celta, posso lhe fornecer insights valiosos sobre a sua questão. 🎴💫'));
-                            const response = await axios(request.completion(usuario.question, cartasSorteadas, combinacoes, 'Cruz Celta'));
+                            if(!usuario.question || !cartasSorteadas) {
+                                await axios(request.textMessage(from, 'Ocorreu um erro ao tentar interpretar sua pergunta, Selecione uma nova consulta.'));
+                                await axios(request.interactiveListMessage(from, 'Qual consulta você deseja realizar agora ?', botoes, 'Consultas', 100));
+                            } else {
+                                response = await axios(request.completion(usuario.question, cartasSorteadas, combinacoes, 'Cruz Celta'));
+                            }
                             if (response.status !== 200) {
                                 await axios(request.textMessage(from,
                                     'Ocorreu um erro ao tentar interpretar sua pergunta, tente novamente mais tarde'));
@@ -744,6 +778,7 @@ exports.webHook = async (req, res) => {
                     case 402:
                     case 403:
                         try {
+                            let response;
                             let cartasSorteadas = await axios(request.sorteioCartas(10));
                             cartasSorteadas = cartasSorteadas.data;
                             await axios(request.textMessage(from, "Perfeito! Agora, vamos iniciar a leitura das cartas. 🔍"));
@@ -756,7 +791,12 @@ exports.webHook = async (req, res) => {
                                 combinacoes += `${i + 1}ª posição ` + ' -> ' + cartasSorteadas.menores[i] + '\n'
                             }
                             await axios(request.textMessage(from, 'agora vou te mostrar o caminho através dos Arcanos Menores. São eles que apontam a tendência da situação, mostrando os detalhes mais específicos e práticos.\n' + combinacoes));
-                            const response = await axios(request.completion(usuario.question, cartasSorteadas, combinacoes, 'Péladan'));
+                            if(!usuario.question || !cartasSorteadas) {
+                                await axios(request.textMessage(from, 'Ocorreu um erro ao tentar interpretar sua pergunta, Selecione uma nova consulta.'));
+                                await axios(request.interactiveListMessage(from, 'Qual consulta você deseja realizar agora ?', botoes, 'Consultas', 100));
+                            } else {
+                                response = await axios(request.completion(usuario.question, cartasSorteadas, combinacoes, 'Péladan'));
+                            }
                             if (response.status !== 200) {
                                 await axios(request.textMessage(from,
                                     'Ocorreu um erro ao tentar interpretar sua pergunta, tente novamente mais tarde'));
