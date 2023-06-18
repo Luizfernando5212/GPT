@@ -291,7 +291,7 @@ Combinações das Cartas:
       break;
     default:
       prompt = `1ª posição - passado -> ${cartasMaiores[0]}
-2ª posiç~~ao - presente -> ${cartasMaiores[1]}
+2ª posição - presente -> ${cartasMaiores[1]}
 3ª posição - futuro -> ${cartasMaiores[2]}
 Interprete as cartas de acordo com a posição e a pergunta do consulente entre aspas
 "${pergunta}".`
