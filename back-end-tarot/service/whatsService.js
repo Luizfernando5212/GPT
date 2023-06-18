@@ -74,18 +74,6 @@ exports.webHook = async (req, res) => {
                 }
                 if (state) {
 
-                    operation.attempt(async (currentAttempt) => {
-                        try {
-                          const response = await fazerSolicitacao(url);
-                          console.log('Dados da resposta:', response);
-                        } catch (error) {
-                          console.error(`Erro na tentativa ${currentAttempt}: ${error.message}`);
-                          if (operation.retry(error)) {
-                            return;
-                          }
-                          console.error('A solicitação falhou após as tentativas.');
-                        }
-                      });
                       updateState(from, state);
                     // await axios(request.updateState(from, state));
                 }
