@@ -17,8 +17,8 @@
     "http-errors": "~1.6.3",
     "jsonwebtoken": "^9.0.0",
     "mongoose": "^7.1.0",
-    "node-fetch": "^3.3.1",
     "openai": "^3.2.1",
+    "retry": "^0.13.1",
     "stripe": "^12.6.0"
   }
 }

@@ -2,10 +2,33 @@ require('dotenv').config();
 const request = require('../util/requestBuilder');
 const axios = require("axios").default;
 const variables = require('../util/variables');
-const url = require('../util/urls');
-const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+const retry = require('retry');
+
+const options = {
+    retries: 3, // Número máximo de tentativas
+    factor: 2, // Fator de multiplicação do intervalo entre tentativas
+    minTimeout: 1000, // Intervalo mínimo entre tentativas (em milissegundos)
+    maxTimeout: 5000, // Intervalo máximo entre tentativas (em milissegundos)
+};
+
+const operation = retry.operation(options);
+
 
 const token = process.env.WHATSAPP_TOKEN;
+
+ function updateState(from, state) {
+    operation.attempt(async (currentAttempt) => {
+        try {
+          await axios(request.updateState(from, state));
+        } catch (error) {
+          console.error(`Erro na tentativa ${currentAttempt}: ${error.message}`);
+          if (operation.retry(error)) {
+            return;
+          }
+          console.error('A solicitação falhou após as tentativas.');
+        }
+      });
+}
 
 
 exports.webHook = async (req, res) => {
@@ -50,8 +73,21 @@ exports.webHook = async (req, res) => {
                     } catch (err) { }
                 }
                 if (state) {
-                    await axios(request.updateState(from, state));
-                    // await fetch(url.updateState(from), request.updateStateFetch(state));
+
+                    operation.attempt(async (currentAttempt) => {
+                        try {
+                          const response = await fazerSolicitacao(url);
+                          console.log('Dados da resposta:', response);
+                        } catch (error) {
+                          console.error(`Erro na tentativa ${currentAttempt}: ${error.message}`);
+                          if (operation.retry(error)) {
+                            return;
+                          }
+                          console.error('A solicitação falhou após as tentativas.');
+                        }
+                      });
+                      updateState(from, state);
+                    // await axios(request.updateState(from, state));
                 }
             } catch (err) {
                 console.log('Não há estado no momento ')
@@ -95,8 +131,8 @@ exports.webHook = async (req, res) => {
                             await axios(request.textMessage(from,
                                 'Primeiro vamos estabelecer uma conexão energética. Me fale o seu *nome*.'));
 
-                            await axios(request.updateState(from, 1));
-                            // const response = await fetch(url.updateState(from), request.updateStateFetch(1))
+                            // await axios(request.updateState(from, 1));
+                            updateState(from, 1);
 
                             // await axios(request.interactiveMessage(from, {
                             //     header: `Olá, seja bem vindo ${nome}`,
@@ -117,7 +153,8 @@ exports.webHook = async (req, res) => {
                             await axios(request.textMessage(from,
                                 'Escreva sua pergunta para eu poder revelar os caminhos que as cartas mostrarão 🎴Você pode escreve a pergunta da forma que ela vier na sua cabeça, o importante é que faça sentido para você aquilo que deseja saber.'));
 
-                            await axios(request.updateState(from, 4));
+                            // await axios(request.updateState(from, 4));
+                            updateState(from, 4);
                             res.sendStatus(200);
                         } catch (err) {
                             console.log('deu ruim ', err);
@@ -136,7 +173,8 @@ exports.webHook = async (req, res) => {
                                     await axios(request.interactiveListMessage(from,
                                         'Eu embaralhei as cartas. Agora quero que você escolha um cristal:',
                                         variables.cristais, 'Selecione um cristal', 0));
-                                    await axios(request.updateState(from, 500));
+                                    // await axios(request.updateState(from, 500));
+                                    updateState(from, 500);
                                     res.sendStatus(200);
 
                                 } else {
@@ -238,7 +276,8 @@ exports.webHook = async (req, res) => {
                             await axios(request.interactiveListMessage(from,
                                 'Eu embaralhei as cartas. Agora quero que você escolha um cristal:',
                                 variables.cristais, 'Selecione um cristal', 200));
-                            await axios(request.updateState(from, 500));
+                            // await axios(request.updateState(from, 500));
+                            updateState(from, 500);
                             res.sendStatus(200);
                         } catch (err) {
                             console.log('deu ruim ', err);
@@ -255,7 +294,8 @@ exports.webHook = async (req, res) => {
                             await axios(request.interactiveListMessage(from,
                                 'Eu embaralhei as cartas. Agora quero que você escolha um cristal:',
                                 variables.cristais, 'Selecione um cristal', 300));
-                            await axios(request.updateState(from, 500));
+                            // await axios(request.updateState(from, 500));
+                            updateState(from, 500);
                             res.sendStatus(200);
                         } catch (err) {
                             console.log('deu ruim ', err);
@@ -271,7 +311,8 @@ exports.webHook = async (req, res) => {
                             await axios(request.interactiveListMessage(from,
                                 'Eu embaralhei as cartas. Agora quero que você escolha um cristal:',
                                 variables.cristais, 'Selecione um cristal', 400));
-                            await axios(request.updateState(from, 500));
+                            // await axios(request.updateState(from, 500));
+                            updateState(from, 500);
                             res.sendStatus(200);
                         } catch (err) {
                             console.log('deu ruim ', err);
@@ -333,7 +374,8 @@ exports.webHook = async (req, res) => {
                     case 0:
                         await axios(request.textMessage(from,
                             'Fico feliz em ser o seu tarólogo e poder te ajudar nessa jornada. Envie uma mensagem qualquer que te mostro os jogos que podemos tirar para você.'));
-                        await axios(request.updateState(from, 100));
+                        // await axios(request.updateState(from, 100));
+                        updateState(from, 100);
                         res.sendStatus(200);
                         return;
                     // break;
@@ -341,7 +383,8 @@ exports.webHook = async (req, res) => {
                         try {
                             await axios(request.textMessage(from,
                                 '🌟 Antes de encerrarmos, gostaria de compartilhar uma curiosidade: durante uma consulta presencial, as cartas são embaralhadas e escolhidas aleatoriamente. Da mesma forma, ao sortear suas cartas virtualmente, seguimos esse princípio de aleatoriedade. \nAo escrever suas perguntas, você está direcionando sua energia e intenção para a leitura. Essa energia é captada pelo tarô,  permitindo que as respostas e insights se manifestem de forma autêntica. A leitura das cartas do tarot se conecta ao nosso destino e nos guia nas respostas que buscamos. Se você tiver mais perguntas ou quiser uma nova consulta, estou aqui para ajudar. 🌟 É só me mandar um Oi que venho te aconselhar!'));
-                            await axios(request.updateState(from, 100));
+                            // await axios(request.updateState(from, 100));
+                            updateState(from, 100);
                             res.sendStatus(200);
                         } catch (err) {
                             console.log('deu ruim ', err);
@@ -386,19 +429,21 @@ exports.webHook = async (req, res) => {
                                     await axios(request.interactiveListMessage(from,
                                         'Eu embaralhei as cartas. Agora quero que você escolha um cristal:',
                                         variables.cristais, 'Selecione um cristal', 0));
-                                    await axios(request.updateState(from, 500));
+                                    // await axios(request.updateState(from, 500));
+                                    updateState(from, 500);
                                     res.sendStatus(200);
 
                                 } else {
                                     await axios(request.interactiveMessage(from,
                                         `Você possui *${usuario.tokens}* estrelas. Infelizmente não é possível realizar a consulta. Para adquirir estrelas, clique no botão abaixo.`,
                                         ['Comprar estrelas'], 10));
-                                        res.sendStatus(200);
+                                    res.sendStatus(200);
                                 }
                             } else {
                                 try {
                                     await axios(request.textMessage(from, `Por favor, escreva novamente sua pergunta.`));
-                                    await axios(request.updateState(from, 4));
+                                    // await axios(request.updateState(from, 4));
+                                    updateState(from, 4);
                                     res.sendStatus(200);
                                 } catch (err) {
                                     console.log("Deu ruim ", err);
@@ -415,7 +460,8 @@ exports.webHook = async (req, res) => {
                         try {
                             await axios(request.updateQuestion(from, ''));
                             await axios(request.textMessage(from, `Por favor, escreva novamente sua pergunta.`));
-                            await axios(request.updateState(from, 4));
+                            // await axios(request.updateState(from, 4));
+                            updateState(from, 4);
                             res.sendStatus(200);
                         } catch (err) {
                             console.log('deu ruim ', err);
@@ -434,7 +480,8 @@ exports.webHook = async (req, res) => {
                         return;
                     case 30:
                         try {
-                            await axios(request.updateState(from, 0));
+                            // await axios(request.updateState(from, 0));
+                            updateState(from, 0);
                             await axios(request.updateQuestion(from, ''));
                             await axios(request.textMessage(from, `Sessão encerrada com sucesso, envie uma nova menssagem`));
                             res.sendStatus(200);
@@ -504,7 +551,8 @@ exports.webHook = async (req, res) => {
                                 await axios(request.textMessage(from,
                                     'Ocorreu um erro ao tentar interpretar sua pergunta, tente novamente mais tarde'));
                                 // await axios(request.textMessage(from, 'Você quer saber mais alguma coisa?', ['Sim', 'Não'], 0))
-                                await axios(request.updateState(from, 0));
+                                // await axios(request.updateState(from, 0));
+                                updateState(from, 0);
                                 await axios(request.updateQuestion(from, ''));
                                 res.sendStatus(200);
                             } else {
@@ -559,20 +607,23 @@ exports.webHook = async (req, res) => {
                                 await axios(request.textMessage(from, 'Você escolheu o Espelho do Amor. Serão tiradas 7 cartas para essa leitura. Cada carta em sua posição revelará uma mensagem valiosa sobre o seu relacionamento. Vamos iniciar? 💖'));
                                 await axios(request.mediaMessage(from, `https://i.imgur.com/xnc1GQf.jpg`));
                                 await axios(request.textMessage(from, 'Feche os olhos por um momento, respire profundamente e concentre-se na sua relação. Agora, *escreva o nome da pessoa pela qual você está apaixonado(a) ou em um relacionamento amoroso*. Isso nos ajudará a criar a conexão necessária para a leitura 💕'));
-                                await axios(request.updateState(from, 101));
+                                // await axios(request.updateState(from, 101));
+                                updateState(from, 101);
                                 res.sendStatus(200);
                             } else if (message === variables.metodos2[1]) {
                                 await axios(request.textMessage(from, '🎴 Cruz Celta 🎴 - para todos os tipos de perguntas. Com a Cruz Celta, utilizaremos 10 cartas do Tarot Maior para fornecer um panorama completo e esclarecedor sobre a sua questão. Você pode fazer perguntas gerais, como: "Como será o futuro do meu relacionamento? Ele irá progredir?" ou "O que posso esperar do meu trabalho?". As respostas revelarão o caminho e fornecerão previsões sobre os acontecimentos futuros. Vamos começar? 💫'));
                                 await axios(request.mediaMessage(from, 'https://i.imgur.com/7Ay9csP.jpg'));
                                 await axios(request.textMessage(from, 'Feche os olhos por um momento, respire fundo e concentre-se na sua pergunta. Agora, *escreva-a aqui* para que eu possa focar minha energia e intuição nesse objetivo. ✍️🔮'));
-                                await axios(request.updateState(from, 102));
+                                // await axios(request.updateState(from, 102));
+                                updateState(from, 102);
                                 res.sendStatus(200);
                             } else if (message === variables.metodos2[2]) {
                                 await axios(request.textMessage(from, '👁️‍🗨️ Método Peladan 👁️‍🗨️ - para perguntas objetivas. Este método é ideal quando você precisa de uma resposta clara e direta para a sua pergunta. Utilizaremos 5 cartas do Tarot Maior e 5 cartas do Tarot Menor para fornecer uma compreensão mais profunda do momento presente e das possibilidades futuras.'));
                                 await axios(request.mediaMessage(from, `https://i.imgur.com/4SmUIKx.jpg`));
                                 await axios(request.textMessage(from, 'Nesse jogo utilizaremos o baralho completo do Tarot, seguindo o método Europeu de embaralhar. Os Arcanos Maiores oferecerão uma visão ampla e simbólica, enquanto os Arcanos Menores fornecerão detalhes específicos e práticos. Ambos desempenham papéis fundamentais na interpretação do Tarot, Vamos Começar? 💫'));
                                 await axios(request.textMessage(from, 'Pense em uma pergunta objetiva que você gostaria de fazer. Pode ser algo como: "Qual será o desfecho do meu relacionamento nos próximos três meses?" ou "Vou conseguir um trabalho ainda este ano?". *Escreva a sua pergunta para prosseguirmos*.'));
-                                await axios(request.updateState(from, 103));
+                                // await axios(request.updateState(from, 103));
+                                updateState(from, 103);
                                 res.sendStatus(200);
                             }
                         } catch (err) {
@@ -597,7 +648,8 @@ exports.webHook = async (req, res) => {
                                 await axios(request.textMessage(from,
                                     'Ocorreu um erro ao tentar interpretar sua pergunta, tente novamente mais tarde'));
                                 // await axios(request.textMessage(from, 'Você quer saber mais alguma coisa?', ['Sim', 'Não'], 0))
-                                await axios(request.updateState(from, 0));
+                                // await axios(request.updateState(from, 0));
+                                updateState(from, 0);
                                 await axios(request.updateQuestion(from, ''));
                                 res.sendStatus(200);
                             } else {
@@ -661,7 +713,8 @@ exports.webHook = async (req, res) => {
                                 await axios(request.textMessage(from,
                                     'Ocorreu um erro ao tentar interpretar sua pergunta, tente novamente mais tarde'));
                                 // await axios(request.textMessage(from, 'Você quer saber mais alguma coisa?', ['Sim', 'Não'], 0))
-                                await axios(request.updateState(from, 0));
+                                // await axios(request.updateState(from, 0));
+                                updateState(from, 0);
                                 await axios(request.updateQuestion(from, ''));
                                 res.sendStatus(200);
                             } else {
@@ -704,7 +757,8 @@ exports.webHook = async (req, res) => {
                                 await axios(request.textMessage(from,
                                     'Ocorreu um erro ao tentar interpretar sua pergunta, tente novamente mais tarde'));
                                 // await axios(request.textMessage(from, 'Você quer saber mais alguma coisa?', ['Sim', 'Não'], 0))
-                                await axios(request.updateState(from, 0));
+                                // await axios(request.updateState(from, 0));
+                                updateState(from, 0);
                                 await axios(request.updateQuestion(from, ''));
                                 res.sendStatus(200);
                             } else {
