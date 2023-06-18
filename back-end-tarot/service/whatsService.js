@@ -480,8 +480,8 @@ exports.webHook = async (req, res) => {
                 // }
             } else if (body.entry[0].changes[0].value.messages[0].interactive &&
                 body.entry[0].changes[0].value.messages[0].interactive.list_reply &&
-                body.entry[0].changes[0].value.messages[0].interactive.list_reply.id &&
-                body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 5) {
+                body.entry[0].changes[0].value.messages[0].interactive.list_reply.id /* &&
+                body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 5 */) {
                 message = req.body.entry[0].changes[0].value.messages[0].interactive.list_reply.title;
                 let combinacoes = '';
                 switch (state) {
