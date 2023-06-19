@@ -5,7 +5,7 @@ const variables = require('../util/variables');
 const retry = require('retry');
 
 const options = {
-    retries: 3, // Número máximo de tentativas
+    retries: 5, // Número máximo de tentativas
     factor: 2, // Fator de multiplicação do intervalo entre tentativas
     minTimeout: 1000, // Intervalo mínimo entre tentativas (em milissegundos)
     maxTimeout: 5000, // Intervalo máximo entre tentativas (em milissegundos)
@@ -164,6 +164,7 @@ exports.webHook = async (req, res) => {
                 body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 10 */) {
                 message = body.entry[0].changes[0].value.messages[0].text.body;
                 let nome = req.body.entry[0].changes[0].value.contacts[0].profile.name;
+                console.log('Cheguei mensagem')
 
                 // Caso do usuário fazer a pergunta
                 switch (state) {
@@ -416,6 +417,7 @@ exports.webHook = async (req, res) => {
                 body.entry[0].changes[0].value.messages[0].interactive.button_reply.id /* &&
                 body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 5 */) {
                 message = req.body.entry[0].changes[0].value.messages[0].interactive.button_reply.title;
+                console.log('Cheguei botão')
                 switch (state) {
                     case 0:
                         await axios(request.textMessage(from,
@@ -572,6 +574,7 @@ exports.webHook = async (req, res) => {
                 body.entry[0].changes[0].value.messages[0].interactive.list_reply.id /* &&
                 body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 5 */) {
                 message = req.body.entry[0].changes[0].value.messages[0].interactive.list_reply.title;
+                console.log('Cheguei lsita')
                 let combinacoes = '';
                 switch (state) {
                     case 0:
