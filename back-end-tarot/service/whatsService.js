@@ -441,18 +441,18 @@ exports.webHook = async (req, res) => {
                     case 3:
                         try {
                             let response = await axios(request.getUser(from));
-                            let botoes = []
+                            // let botoes = []
 
-                            let teste = false;
-                            for (let metodo in variables.metodos) {
-                                if (response.data.tokens >= variables.metodos[metodo]) {
-                                    botoes.push(metodo);
-                                    teste = true
-                                }
-                            }
+                            // let teste = false;
+                            // for (let metodo in variables.metodos) {
+                            //     if (response.data.tokens >= variables.metodos[metodo]) {
+                            //         botoes.push(metodo);
+                            //         teste = true
+                            //     }
+                            // }
 
                             if (teste) {
-                                await axios(request.interactiveListMessage(from, 'Qual consulta você deseja realizar agora ?', botoes, 'Consultas', 100));
+                                await axios(request.interactiveListMessage(from, 'Qual consulta você deseja realizar agora ?', variables.metodos2, 'Consultas', 100));
                                 res.sendStatus(200);
                             } else {
                                 await axios(request.textMessage(from, 'Você não possui estrelas suficientes para realizar uma consulta, compre mais estrelas para realizar uma consulta'));
@@ -594,7 +594,7 @@ exports.webHook = async (req, res) => {
                                 `Agora, deixe-me interpretar o significado das cartas em relação à sua pergunta. Elas revelam caminhos ocultos e possíveis respostas para você 👁️‍🗨️`));
                             if(!usuario.question || !cartasSorteadas){
                                 await axios(request.textMessage(from, 'Ocorreu um erro ao tentar interpretar sua pergunta, Selecione uma nova consulta.'));
-                                await axios(request.interactiveListMessage(from, 'Qual consulta você deseja realizar agora ?', botoes, 'Consultas', 100));
+                                await axios(request.interactiveListMessage(from, 'Qual consulta você deseja realizar agora ?', variables.metodos2, 'Consultas', 100));
                             } else {
                                 response = await axios(request.completion(usuario.question, cartasSorteadas, combinacoes));
                             }
@@ -628,17 +628,17 @@ exports.webHook = async (req, res) => {
                     case 10:
                         try {
                             let response = await axios(request.getUser(from));
-                            let botoes = []
-                            let teste = false;
-                            for (let metodo in variables.metodos) {
-                                if (response.data.tokens >= variables.metodos[metodo]) {
-                                    botoes.push(metodo);
-                                    teste = true
-                                }
-                            }
+                            // let botoes = []
+                            // let teste = false;
+                            // for (let metodo in variables.metodos) {
+                            //     if (response.data.tokens >= variables.metodos[metodo]) {
+                            //         botoes.push(metodo);
+                            //         teste = true
+                            //     }
+                            // }
 
                             if (teste) {
-                                await axios(request.interactiveListMessage(from, 'Qual consulta você deseja realizar agora ?', botoes, 'Consultas', 100));
+                                await axios(request.interactiveListMessage(from, 'Qual consulta você deseja realizar agora ?', variables.metodos2, 'Consultas', 100));
                                 res.sendStatus(200);
                             } else {
                                 await axios(request.textMessage(from, 'Você não possui estrelas suficientes para realizar uma consulta, compre mais estrelas para realizar uma consulta'));
@@ -695,7 +695,7 @@ exports.webHook = async (req, res) => {
                             await axios(request.textMessage(from, "*Suas cartas são*\n" + combinacoes));
                             if (!usuario.question || !cartasSorteadas) {
                                 await axios(request.textMessage(from, 'Ocorreu um erro ao tentar interpretar sua pergunta, Selecione uma nova consulta.'));
-                                await axios(request.interactiveListMessage(from, 'Qual consulta você deseja realizar agora ?', botoes, 'Consultas', 100));
+                                await axios(request.interactiveListMessage(from, 'Qual consulta você deseja realizar agora ?', variables.metodos2, 'Consultas', 100));
 
                             } else {
                                 response = await axios(request.completion(usuario.question, cartasSorteadas, combinacoes, 'Espelho do amor'));
@@ -744,7 +744,7 @@ exports.webHook = async (req, res) => {
                             await axios(request.textMessage(from, 'Com base nas cartas reveladas na Cruz Celta, posso lhe fornecer insights valiosos sobre a sua questão. 🎴💫'));
                             if(!usuario.question || !cartasSorteadas) {
                                 await axios(request.textMessage(from, 'Ocorreu um erro ao tentar interpretar sua pergunta, Selecione uma nova consulta.'));
-                                await axios(request.interactiveListMessage(from, 'Qual consulta você deseja realizar agora ?', botoes, 'Consultas', 100));
+                                await axios(request.interactiveListMessage(from, 'Qual consulta você deseja realizar agora ?', variables.metodos2, 'Consultas', 100));
                             } else {
                                 response = await axios(request.completion(usuario.question, cartasSorteadas, combinacoes, 'Cruz Celta'));
                             }
@@ -796,7 +796,7 @@ exports.webHook = async (req, res) => {
                             await axios(request.textMessage(from, 'agora vou te mostrar o caminho através dos Arcanos Menores. São eles que apontam a tendência da situação, mostrando os detalhes mais específicos e práticos.\n' + combinacoes));
                             if(!usuario.question || !cartasSorteadas) {
                                 await axios(request.textMessage(from, 'Ocorreu um erro ao tentar interpretar sua pergunta, Selecione uma nova consulta.'));
-                                await axios(request.interactiveListMessage(from, 'Qual consulta você deseja realizar agora ?', botoes, 'Consultas', 100));
+                                await axios(request.interactiveListMessage(from, 'Qual consulta você deseja realizar agora ?', variables.metodos2, 'Consultas', 100));
                             } else {
                                 response = await axios(request.completion(usuario.question, cartasSorteadas, combinacoes, 'Péladan'));
                             }
