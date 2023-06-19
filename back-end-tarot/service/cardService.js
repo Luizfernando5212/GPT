@@ -72,6 +72,7 @@ exports.sorteioCartas = async (req, res) => {
     try {
         const numCartas = req.params.num;
         const cards = await Card.find();
+        console.log(numCartas)
 
         let arcanosMaiores = cards.slice(0, 22);
         let arcanosMenores = cards.slice(22)
@@ -102,6 +103,7 @@ exports.sorteioCartas = async (req, res) => {
                     cartasMenores.push(arcanosMenores[j].name);
                 }
             }
+            console.log(cartasMaiores, cartasMenores)
             res.status(200).json({ maiores: cartasMaiores, menores: cartasMenores });
         }
     } catch (err) {
