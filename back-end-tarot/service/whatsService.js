@@ -149,6 +149,7 @@ exports.webHook = async (req, res) => {
                 if (response.data !== null) {
                     usuario = response.data;
                     state = usuario.state;
+                    console.log(state)
                 } else {
                     let response = await axios(request.postUser(from, req.body.entry[0].changes[0].value.contacts[0].profile.name, true));
                     state = response.data.status
@@ -392,38 +393,6 @@ exports.webHook = async (req, res) => {
                         // return;
                         break;
                 }
-                // else if (state !== 0) {
-                //     try {
-                //         await axios(request.interactiveMessage(from, `Você já está em uma sessão, selecione uma das opções acima ou encerre a sessão.`,
-                //             ['Encerrar sessão'], 30))
-                //         res.sendStatus(200);
-                //     } catch (err) {
-                //         console.log("Deu ruim ", err);
-                //         res.sendStatus(400);
-                //     }
-                // } else {
-                //     try {
-                //         await axios(request.textMessage(from,
-                //             'Saudações, sou Tarorion, seu companheiro nesta jornada de descoberta e autoconhecimento através do Tarot! 🌌'));
-                //         await axios(request.textMessage(from,
-                //             'Se você chegou até mim, é porque houve um sinal do universo que nos conectou nesta vasta rede. Eu sei que você está em busca de respostas para as suas dúvidas, não é mesmo? Estou aqui para ajudar! 🌟'));
-                //         await axios(request.textMessage(from,
-                //             'Antes de começarmos, gostaria de explicar como funciona a leitura do Tarot. O Tarot é um sistema simbólico composto por 78 cartas, divididas em Arcanos Maiores e Arcanos Menores. Cada carta possui um significado único e juntas elas representam as diferentes facetas da vida e do autoconhecimento. Ao jogar as cartas, podemos acessar insights e orientações para tomar decisões e compreender melhor os desafios que enfrentamos. Agora, vamos mergulhar nesse universo juntos!'));
-                //         await axios(request.textMessage(from,
-                //             'Primeiro vamos estabelecer uma conexão energética. Me fale o seu *nome*.'));
-
-                //         await axios(request.updateState(from, 1));
-
-                //         // await axios(request.interactiveMessage(from, {
-                //         //     header: `Olá, seja bem vindo ${nome}`,
-                //         //     body: 'O que gostaria de realizar hoje ?🌌'
-                //         // }, ['Comprar tokens', 'Jogar'], 1));
-                //         res.sendStatus(200);
-                //     } catch (err) {
-                //         console.log("Deu ruim ", err);
-                //         res.sendStatus(400);
-                //     }
-                // }
 
             } else if (body.entry[0].changes[0].value.messages[0].interactive &&
                 body.entry[0].changes[0].value.messages[0].interactive.button_reply &&
