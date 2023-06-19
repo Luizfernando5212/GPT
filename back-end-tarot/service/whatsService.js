@@ -145,7 +145,8 @@ exports.webHook = async (req, res) => {
 
             try {
                 let response = await axios(request.getUser(from));
-                // console.log(response)
+                console.log(response.data)
+                console.log('estado antes de atualizar');
                 if (response.data !== null) {
                     usuario = response.data;
                     state = usuario.state;
