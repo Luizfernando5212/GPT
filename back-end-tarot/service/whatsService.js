@@ -165,7 +165,7 @@ exports.webHook = async (req, res) => {
                 message = body.entry[0].changes[0].value.messages[0].text.body;
                 let nome = req.body.entry[0].changes[0].value.contacts[0].profile.name;
                 console.log('Cheguei mensagem')
-
+                console.log(state)
                 // Caso do usuário fazer a pergunta
                 switch (state) {
                     case 0:
@@ -418,6 +418,7 @@ exports.webHook = async (req, res) => {
                 body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 5 */) {
                 message = req.body.entry[0].changes[0].value.messages[0].interactive.button_reply.title;
                 console.log('Cheguei botão')
+                console.log(state)
                 switch (state) {
                     case 0:
                         await axios(request.textMessage(from,
@@ -575,6 +576,7 @@ exports.webHook = async (req, res) => {
                 body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 5 */) {
                 message = req.body.entry[0].changes[0].value.messages[0].interactive.list_reply.title;
                 console.log('Cheguei lsita')
+                console.log(state)
                 let combinacoes = '';
                 switch (state) {
                     case 0:
