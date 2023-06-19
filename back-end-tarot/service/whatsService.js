@@ -461,9 +461,17 @@ exports.webHook = async (req, res) => {
                         try {
                             console.log('3')
                             let response = await axios(request.getUser(from));
+                            let botoes = []
+                            let teste = false;
+                            for (let metodo in variables.metodos) {
+                                if (response.data.tokens >= variables.metodos[metodo]) {
+                                    botoes.push(metodo);
+                                    teste = true
+                                }
+                            }
 
                             if (teste) {
-                                await axios(request.interactiveListMessage(from, 'Qual consulta você deseja realizar agora ?', variables.metodos2, 'Consultas', 100));
+                                await axios(request.interactiveListMessage(from, 'Qual consulta você deseja realizar agora ?', botoes, 'Consultas', 100));
                                 res.sendStatus(200);
                             } else {
                                 await axios(request.textMessage(from, 'Você não possui estrelas suficientes para realizar uma consulta, compre mais estrelas para realizar uma consulta'));
@@ -650,17 +658,17 @@ exports.webHook = async (req, res) => {
                         try {
                             console.log('10')
                             let response = await axios(request.getUser(from));
-                            // let botoes = []
-                            // let teste = false;
-                            // for (let metodo in variables.metodos) {
-                            //     if (response.data.tokens >= variables.metodos[metodo]) {
-                            //         botoes.push(metodo);
-                            //         teste = true
-                            //     }
-                            // }
+                            let botoes = []
+                            let teste = false;
+                            for (let metodo in variables.metodos) {
+                                if (response.data.tokens >= variables.metodos[metodo]) {
+                                    botoes.push(metodo);
+                                    teste = true
+                                }
+                            }
 
                             if (teste) {
-                                await axios(request.interactiveListMessage(from, 'Qual consulta você deseja realizar agora ?', variables.metodos2, 'Consultas', 100));
+                                await axios(request.interactiveListMessage(from, 'Qual consulta você deseja realizar agora ?', botoes, 'Consultas', 100));
                                 res.sendStatus(200);
                             } else {
                                 await axios(request.textMessage(from, 'Você não possui estrelas suficientes para realizar uma consulta, compre mais estrelas para realizar uma consulta'));
