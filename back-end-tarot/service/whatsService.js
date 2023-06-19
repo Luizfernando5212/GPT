@@ -165,11 +165,12 @@ exports.webHook = async (req, res) => {
                 message = body.entry[0].changes[0].value.messages[0].text.body;
                 let nome = req.body.entry[0].changes[0].value.contacts[0].profile.name;
                 console.log('Cheguei mensagem')
-                console.log(state)
+                console.log('estado' + state)
                 // Caso do usuário fazer a pergunta
                 switch (state) {
                     case 0:
                         try {
+                            console.log('0')
                             await axios(request.textMessage(from,
                                 'Saudações, sou Tarorion, seu companheiro nesta jornada de descoberta e autoconhecimento através do Tarot! 🌌'));
                             await axios(request.textMessage(from,
@@ -190,10 +191,11 @@ exports.webHook = async (req, res) => {
                             console.log("Deu ruim ", err);
                             res.sendStatus(400);
                         };
-                        return;
-                    // break;
+                        // return;
+                        break;
                     case 1:
                         try {
+                            console.log('1')
                             // await axios(request.updateUser(from, message, true));
                             updateUser(from, message, true);
                             await axios(request.textMessage(from,
@@ -207,10 +209,11 @@ exports.webHook = async (req, res) => {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
                         };
-                        return;
-                    // break;
+                        // return;
+                        break;
                     case 2:
                         try {
+                            console.log('2')
                             if (usuario.question === '') {
                                 // await axios(request.updateQuestion(from, message));
                                 updateQuestion(from, message);
@@ -245,10 +248,11 @@ exports.webHook = async (req, res) => {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
                         };
-                        return;
-                    // break;
+                        // return;
+                        break;
                     case 3:
                         try {
+                            console.log('3')
                             if (usuario.question === '') {
                                 await axios(request.interactiveMessage(from, `Você já está em uma sessão, selecione uma das opções acima ou encerre a sessão.`,
                                     ['Encerrar sessão'], 30))
@@ -274,10 +278,11 @@ exports.webHook = async (req, res) => {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
                         }
-                        // break;
-                        return;
+                        break;
+                    // return;
                     case 4:
                         try {
+                            console.log('4')
                             if (usuario.question === '') {
                                 // await axios(request.updateQuestion(from, message));
                                 updateQuestion(from, message);
@@ -295,6 +300,7 @@ exports.webHook = async (req, res) => {
                         return;
                     case 100:
                         try {
+                            console.log('100')
                             await axios(request.textMessage(from, `Fico feliz em ser o seu tarólogo e poder te ajudar nessa jornada. Vou te mostrar os jogos que podemos tirar para você.`));
                             await axios(request.mediaMessage(from, 'https://i.imgur.com/xnc1GQf.jpg'));
                             await axios(request.textMessage(from, `💖Espelho do Amor💖 - para relacionamento amoroso: Esse jogo utiliza o poder do espelho para revelar como você se sente em relação à pessoa e como ela se sente em relação a você. Tirarei a carta do futuro e darei um conselho para a relação. São necessárias 7 cartas para essa leitura. Nessa método não faremos perguntas diretas, deixaremos que cada carta em sua devida posição revele a mensagem necessária ✨`,));
@@ -313,10 +319,11 @@ exports.webHook = async (req, res) => {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
                         }
-                        return;
-                    // break;
+                        // return;
+                        break;
                     case 101:
                         try {
+                            console.log('101')
                             // await axios(request.updateQuestion(from, message));
                             updateQuestion(from, message);
                             await axios(request.textMessage(from, `Agora relaxe sua mente e coração, e se pergunte: o que eu posso descobrir sobre essa relação ? 🔮`));
@@ -330,10 +337,11 @@ exports.webHook = async (req, res) => {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
                         };
-                        return;
-                    // break;
+                        // return;
+                        break;
                     case 102:
                         try {
+                            console.log('102')
                             // await axios(request.updateQuestion(from, message));
                             updateQuestion(from, message);
                             await axios(request.textMessage(from, `Ótimo! Agora, vou embaralhar as cartas para criar um vínculo energético com a sua pergunta. 🌌✨`));
@@ -348,10 +356,11 @@ exports.webHook = async (req, res) => {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
                         };
-                        return;
-                    // break;
+                        // return;
+                        break;
                     case 103:
                         try {
+                            console.log('103')
                             // await axios(request.updateQuestion(from, message));
                             updateQuestion(from, message);
                             await axios(request.textMessage(from, 'Agora firme sua intenção em sua pergunta e escolha uma das opções abaixo:'));
@@ -365,10 +374,11 @@ exports.webHook = async (req, res) => {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
                         };
-                        return;
-                    // break;
+                        // return;
+                        break;
                     default:
                         try {
+                            console.log('default')
                             await axios(request.interactiveMessage(from, `Você já está em uma sessão, selecione uma das opções acima ou encerre a sessão.`,
                                 ['Encerrar sessão'], 30))
                             res.sendStatus(200);
@@ -376,8 +386,8 @@ exports.webHook = async (req, res) => {
                             console.log("Deu ruim ", err);
                             res.sendStatus(400);
                         }
-                        return;
-                    // break;
+                        // return;
+                        break;
                 }
                 // else if (state !== 0) {
                 //     try {
@@ -418,17 +428,25 @@ exports.webHook = async (req, res) => {
                 body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 5 */) {
                 message = req.body.entry[0].changes[0].value.messages[0].interactive.button_reply.title;
                 console.log('Cheguei botão')
-                console.log(state)
+                console.log('estado' + state)
                 switch (state) {
                     case 0:
-                        await axios(request.textMessage(from,
-                            'Fico feliz em ser o seu tarólogo e poder te ajudar nessa jornada. Envie uma mensagem qualquer que te mostro os jogos que podemos tirar para você.'));
-                        updateState(from, 100);
-                        res.sendStatus(200);
-                        return;
-                    // break;
+                        try {
+                            console.log('0')
+                            await axios(request.textMessage(from,
+                                'Fico feliz em ser o seu tarólogo e poder te ajudar nessa jornada. Envie uma mensagem qualquer que te mostro os jogos que podemos tirar para você.'));
+                            updateState(from, 100);
+                            res.sendStatus(200);
+                            // return;
+                        } catch (err) {
+                            console.log('deu ruim ', err);
+                            res.sendStatus(400);
+                        };
+
+                    break;
                     case 1:
                         try {
+                            console.log('1')
                             await axios(request.textMessage(from,
                                 '🌟 Antes de encerrarmos, gostaria de compartilhar uma curiosidade: durante uma consulta presencial, as cartas são embaralhadas e escolhidas aleatoriamente. Da mesma forma, ao sortear suas cartas virtualmente, seguimos esse princípio de aleatoriedade. \nAo escrever suas perguntas, você está direcionando sua energia e intenção para a leitura. Essa energia é captada pelo tarô,  permitindo que as respostas e insights se manifestem de forma autêntica. A leitura das cartas do tarot se conecta ao nosso destino e nos guia nas respostas que buscamos. Se você tiver mais perguntas ou quiser uma nova consulta, estou aqui para ajudar. 🌟 É só me mandar um Oi que venho te aconselhar!'));
                             updateState(from, 100);
@@ -437,20 +455,12 @@ exports.webHook = async (req, res) => {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
                         }
-                        return;
-                    // break;
+                        // return;
+                        break;
                     case 3:
                         try {
+                            console.log('3')
                             let response = await axios(request.getUser(from));
-                            // let botoes = []
-
-                            // let teste = false;
-                            // for (let metodo in variables.metodos) {
-                            //     if (response.data.tokens >= variables.metodos[metodo]) {
-                            //         botoes.push(metodo);
-                            //         teste = true
-                            //     }
-                            // }
 
                             if (teste) {
                                 await axios(request.interactiveListMessage(from, 'Qual consulta você deseja realizar agora ?', variables.metodos2, 'Consultas', 100));
@@ -464,9 +474,11 @@ exports.webHook = async (req, res) => {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
                         }
-                        return;
+                        // return;
+                        break;
                     case 4:
                         try {
+                            console.log('4')
                             if (usuario.question !== '') {
                                 // await axios(request.updateQuestion(from, message));
                                 if (usuario.tokens >= 3) {
@@ -500,9 +512,11 @@ exports.webHook = async (req, res) => {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
                         };
-                        return;
+                        // return;
+                        break;
                     case 5:
                         try {
+                            console.log('5')
                             // await axios(request.updateQuestion(from, ''));
                             updateQuestion(from, '');
                             await axios(request.textMessage(from, `Por favor, escreva novamente sua pergunta.`));
@@ -512,9 +526,11 @@ exports.webHook = async (req, res) => {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
                         }
-                        return;
+                        // return;
+                        break;
                     case 10:
                         try {
+                            console.log('10')
                             await axios(request.textMessage(from, `*Link de compra*\n` +
                                 'Entre no link abaixo para realizar a compra, após a compra você receberá uma mensagem de confirmação e poderá iniciar a consulta.\n' +
                                 'https://buy.stripe.com/test_cN2bKD3dibja1os000'));
@@ -522,9 +538,11 @@ exports.webHook = async (req, res) => {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
                         }
-                        return;
+                        // return;
+                        break;
                     case 30:
                         try {
+                            console.log('30')
                             updateState(from, 0);
                             // await axios(request.updateQuestion(from, ''));
                             updateQuestion(from, '');
@@ -534,8 +552,8 @@ exports.webHook = async (req, res) => {
                             console.log("Deu ruim ", err);
                             res.sendStatus(400);
                         }
-                        return;
-                    // break;
+                        // return;
+                        break;
                 }
                 // if (state === 30) {
                 //     try {
@@ -576,7 +594,7 @@ exports.webHook = async (req, res) => {
                 body.entry[0].changes[0].value.messages[0].timestamp > Date.now() / 1000 - 5 */) {
                 message = req.body.entry[0].changes[0].value.messages[0].interactive.list_reply.title;
                 console.log('Cheguei lsita')
-                console.log(state)
+                console.log('estado' + state)
                 let combinacoes = '';
                 switch (state) {
                     case 0:
@@ -584,6 +602,7 @@ exports.webHook = async (req, res) => {
                     case 2:
                     case 3:
                         try {
+                            console.log('0,1,2,3');
                             let response;
                             let cartasSorteadas = await axios(request.sorteioCartas(3));
                             cartasSorteadas = cartasSorteadas.data;
@@ -594,7 +613,7 @@ exports.webHook = async (req, res) => {
                             await axios(request.mediaMessage(from, `https://i.imgur.com/imYdWbd.jpg`));
                             await axios(request.textMessage(from,
                                 `Agora, deixe-me interpretar o significado das cartas em relação à sua pergunta. Elas revelam caminhos ocultos e possíveis respostas para você 👁️‍🗨️`));
-                            if(!usuario.question || !cartasSorteadas){
+                            if (!usuario.question || !cartasSorteadas) {
                                 await axios(request.textMessage(from, 'Ocorreu um erro ao tentar interpretar sua pergunta, Selecione uma nova consulta.'));
                                 await axios(request.interactiveListMessage(from, 'Qual consulta você deseja realizar agora ?', variables.metodos2, 'Consultas', 100));
                             } else {
@@ -625,10 +644,11 @@ exports.webHook = async (req, res) => {
                             console.log("Deu ruim ", err);
                             res.sendStatus(400);
                         }
-                        return;
-                    // break;
+                        // return;
+                        break;
                     case 10:
                         try {
+                            console.log('10')
                             let response = await axios(request.getUser(from));
                             // let botoes = []
                             // let teste = false;
@@ -652,12 +672,13 @@ exports.webHook = async (req, res) => {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
                         }
-                        return;
-                    // break;
+                        // return;
+                        break;
                     case 100:
                     case 101:
                     case 102:
                         try {
+                            console.log('100,101,102')
                             if (message === variables.metodos2[0]) {
                                 await axios(request.textMessage(from, 'Você escolheu o Espelho do Amor. Serão tiradas 7 cartas para essa leitura. Cada carta em sua posição revelará uma mensagem valiosa sobre o seu relacionamento. Vamos iniciar? 💖'));
                                 await axios(request.mediaMessage(from, `https://i.imgur.com/xnc1GQf.jpg`));
@@ -682,13 +703,14 @@ exports.webHook = async (req, res) => {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
                         }
-                        return;
-                    // break;
+                        // return;
+                        break;
                     case 200:
                     case 201:
                     case 202:
                     case 203:
                         try {
+                            console.log('200,201,202,203')
                             let response;
                             let cartasSorteadas = await axios(request.sorteioCartas(7));
                             cartasSorteadas = cartasSorteadas.data;
@@ -728,13 +750,14 @@ exports.webHook = async (req, res) => {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
                         };
-                        return;
-                    // break;
+                        // return;
+                        break;
                     case 300:
                     case 301:
                     case 302:
                     case 303:
                         try {
+                            console.log('300,301,302,303')
                             let response;
                             let cartasSorteadas = await axios(request.sorteioCartas(11));
                             cartasSorteadas = cartasSorteadas.data;
@@ -744,7 +767,7 @@ exports.webHook = async (req, res) => {
                             }
                             await axios(request.textMessage(from, '*Suas cartas sorteadas são*\n' + combinacoes));
                             await axios(request.textMessage(from, 'Com base nas cartas reveladas na Cruz Celta, posso lhe fornecer insights valiosos sobre a sua questão. 🎴💫'));
-                            if(!usuario.question || !cartasSorteadas) {
+                            if (!usuario.question || !cartasSorteadas) {
                                 await axios(request.textMessage(from, 'Ocorreu um erro ao tentar interpretar sua pergunta, Selecione uma nova consulta.'));
                                 await axios(request.interactiveListMessage(from, 'Qual consulta você deseja realizar agora ?', variables.metodos2, 'Consultas', 100));
                             } else {
@@ -776,13 +799,14 @@ exports.webHook = async (req, res) => {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
                         };
-                        return;
-                    // break;
+                        // return;
+                        break;
                     case 400:
                     case 401:
                     case 402:
                     case 403:
                         try {
+                            console.log('400,401,402,403')
                             let response;
                             let cartasSorteadas = await axios(request.sorteioCartas(10));
                             cartasSorteadas = cartasSorteadas.data;
@@ -796,7 +820,7 @@ exports.webHook = async (req, res) => {
                                 combinacoes += `${i + 1}ª posição ` + ' -> ' + cartasSorteadas.menores[i] + '\n'
                             }
                             await axios(request.textMessage(from, 'agora vou te mostrar o caminho através dos Arcanos Menores. São eles que apontam a tendência da situação, mostrando os detalhes mais específicos e práticos.\n' + combinacoes));
-                            if(!usuario.question || !cartasSorteadas) {
+                            if (!usuario.question || !cartasSorteadas) {
                                 await axios(request.textMessage(from, 'Ocorreu um erro ao tentar interpretar sua pergunta, Selecione uma nova consulta.'));
                                 await axios(request.interactiveListMessage(from, 'Qual consulta você deseja realizar agora ?', variables.metodos2, 'Consultas', 100));
                             } else {
@@ -827,8 +851,8 @@ exports.webHook = async (req, res) => {
                             console.log('deu ruim ', err);
                             res.sendStatus(400);
                         };
-                        return;
-                    // break;
+                        // return;
+                        break;
                 }
 
             } // extract the message text from the webhook payload
