@@ -135,8 +135,9 @@ exports.webHook = async (req, res) => {
                     } catch (err) { }
                 }
                 if (state) {
-
+                    console.log(state)
                     updateState(from, state);
+                    console.log(state + ' Novo')
                 }
             } catch (err) {
                 console.log('Não há estado no momento ')
