@@ -717,7 +717,7 @@ exports.webHook = async (req, res) => {
                             let response;
                             let cartasSorteadas = await axios(request.sorteioCartas(7));
                             cartasSorteadas = cartasSorteadas.data;
-                            combinacoes = variables.espelho(cartasSorteadas.maiores);
+                            combinacoes = variables.espelho(cartasSorteadas.maiores, usuario.question);
                             // await axios(request.mediaMessage(from, `https://i.imgur.com/xnc1GQf.jpg`));
                             await axios(request.textMessage(from, "*Suas cartas são*\n" + combinacoes));
                             if (!usuario.question || !cartasSorteadas) {
