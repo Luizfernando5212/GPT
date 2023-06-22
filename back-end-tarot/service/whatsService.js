@@ -5,7 +5,7 @@ const variables = require('../util/variables');
 const retry = require('retry');
 
 const options = {
-    retries: 5, // Número máximo de tentativas
+    retries: 10, // Número máximo de tentativas
     factor: 2, // Fator de multiplicação do intervalo entre tentativas
     minTimeout: 1000, // Intervalo mínimo entre tentativas (em milissegundos)
     maxTimeout: 5000, // Intervalo máximo entre tentativas (em milissegundos)
@@ -36,44 +36,56 @@ function updateState(from, state) {
 }
 
 function updateQuestion(from, question) {
-    operation.attempt(async (currentAttempt) => {
-        try {
-            await axios(request.updateQuestion(from, question));
-        } catch (error) {
-            console.error(`Erro na tentativa ${currentAttempt}: ${error.message}`);
-            if (operation.retry(error)) {
-                return;
+    return new Promise(async (resolve, reject) => {
+        operation.attempt(async (currentAttempt) => {
+            try {
+                await axios(request.updateQuestion(from, question));
+                resolve();
+            } catch (error) {
+                console.error(`Erro na tentativa ${currentAttempt}: ${error.message}`);
+                if (operation.retry(error)) {
+                    return;
+                }
+                reject('A solicitação falhou após as tentativas.');
+                // console.error('A solicitação falhou após as tentativas.');
             }
-            console.error('A solicitação falhou após as tentativas.');
-        }
+        });
     });
 }
 
 function updateUser(from, user, bool) {
-    operation.attempt(async (currentAttempt) => {
-        try {
-            await axios(request.updateUser(from, user, bool));
-        } catch (error) {
-            console.error(`Erro na tentativa ${currentAttempt}: ${error.message}`);
-            if (operation.retry(error)) {
-                return;
+    return new Promise(async (resolve, reject) => {
+        operation.attempt(async (currentAttempt) => {
+            try {
+                await axios(request.updateUser(from, user, bool));
+                resolve();
+            } catch (error) {
+                console.error(`Erro na tentativa ${currentAttempt}: ${error.message}`);
+                if (operation.retry(error)) {
+                    return;
+                }
+                reject('A solicitação falhou após as tentativas.');
+                // console.error('A solicitação falhou após as tentativas.');
             }
-            console.error('A solicitação falhou após as tentativas.');
-        }
+        });
     });
 }
 
 function updateTokens(from, tokens) {
-    operation.attempt(async (currentAttempt) => {
-        try {
-            await axios(request.updateTokens(from, tokens));
-        } catch (error) {
-            console.error(`Erro na tentativa ${currentAttempt}: ${error.message}`);
-            if (operation.retry(error)) {
-                return;
+    return new Promise(async (resolve, reject) => {
+        operation.attempt(async (currentAttempt) => {
+            try {
+                await axios(request.updateTokens(from, tokens));
+                resolve();
+            } catch (error) {
+                console.error(`Erro na tentativa ${currentAttempt}: ${error.message}`);
+                if (operation.retry(error)) {
+                    return;
+                }
+                reject('A solicitação falhou após as tentativas.');
+                // console.error('A solicitação falhou após as tentativas.');
             }
-            console.error('A solicitação falhou após as tentativas.');
-        }
+        });
     });
 }
 
@@ -211,7 +223,7 @@ exports.webHook = async (req, res) => {
                         try {
                             console.log('1')
                             // await axios(request.updateUser(from, message, true));
-                            updateUser(from, message, true);
+                            await updateUser(from, message, true);
                             await axios(request.textMessage(from,
                                 `${message}, feche os olhos por alguns instantes, respire profundamente e concentre-se em sua pergunta. Sinta a energia fluindo entre nós. Agora iremos iniciar a sua primeira consulta.`));
                             await axios(request.textMessage(from,
@@ -230,7 +242,7 @@ exports.webHook = async (req, res) => {
                             console.log('2')
                             if (usuario.question === '') {
                                 // await axios(request.updateQuestion(from, message));
-                                updateQuestion(from, message);
+                                await updateQuestion(from, message);
                                 if (usuario.tokens >= 3) {
                                     await axios(request.textMessage(from,
                                         'Agora relaxe sua mente e coração, e se pergunte: o que eu posso descobrir sobre essa situação? 🔮'));
@@ -299,7 +311,7 @@ exports.webHook = async (req, res) => {
                             console.log('4')
                             if (usuario.question === '') {
                                 // await axios(request.updateQuestion(from, message));
-                                updateQuestion(from, message);
+                                await updateQuestion(from, message);
                                 await axios(request.interactiveMessage(from, `Sua pergunta é "${message}". Podemos prosseguir ?`, ['Sim', 'Mudar pergunta'], 4));
                             } else {
                                 await axios(request.interactiveMessage(from, `Você já está em uma sessão, selecione uma das opções acima ou encerre a sessão.`,
@@ -339,7 +351,7 @@ exports.webHook = async (req, res) => {
                         try {
                             console.log('101')
                             // await axios(request.updateQuestion(from, message));
-                            updateQuestion(from, message);
+                            await updateQuestion(from, message);
                             await axios(request.textMessage(from, `Agora relaxe sua mente e coração, e se pergunte: o que eu posso descobrir sobre essa relação ? 🔮`));
                             await axios(request.mediaMessage(from, 'https://i.imgur.com/q57SM0Z.jpg'));
                             await axios(request.interactiveListMessage(from,
@@ -357,7 +369,7 @@ exports.webHook = async (req, res) => {
                         try {
                             console.log('102')
                             // await axios(request.updateQuestion(from, message));
-                            updateQuestion(from, message);
+                            await updateQuestion(from, message);
                             await axios(request.textMessage(from, `Ótimo! Agora, vou embaralhar as cartas para criar um vínculo energético com a sua pergunta. 🌌✨`));
                             await axios(request.textMessage(from, `Quando estiver pronto, me avise para que eu possa tirar as cartas.`));
                             await axios(request.mediaMessage(from, 'https://i.imgur.com/q57SM0Z.jpg'));
@@ -376,7 +388,7 @@ exports.webHook = async (req, res) => {
                         try {
                             console.log('103')
                             // await axios(request.updateQuestion(from, message));
-                            updateQuestion(from, message);
+                            await updateQuestion(from, message);
                             await axios(request.textMessage(from, 'Agora firme sua intenção em sua pergunta e escolha uma das opções abaixo:'));
                             await axios(request.mediaMessage(from, 'https://i.imgur.com/q57SM0Z.jpg'));
                             await axios(request.interactiveListMessage(from,
@@ -508,7 +520,7 @@ exports.webHook = async (req, res) => {
                         try {
                             console.log('5')
                             // await axios(request.updateQuestion(from, ''));
-                            updateQuestion(from, '');
+                            await updateQuestion(from, '');
                             await axios(request.textMessage(from, `Por favor, escreva novamente sua pergunta.`));
                             await updateState(from, 4);
                             res.sendStatus(200);
@@ -535,7 +547,7 @@ exports.webHook = async (req, res) => {
                             console.log('30')
                             await updateState(from, 0);
                             // await axios(request.updateQuestion(from, ''));
-                            updateQuestion(from, '');
+                            await updateQuestion(from, '');
                             await axios(request.textMessage(from, `Sessão encerrada com sucesso, envie uma nova menssagem`));
                             res.sendStatus(200);
                         } catch (err) {
@@ -616,7 +628,7 @@ exports.webHook = async (req, res) => {
                                 // await axios(request.textMessage(from, 'Você quer saber mais alguma coisa?', ['Sim', 'Não'], 0))
                                 await updateState(from, 0);
                                 // await axios(request.updateQuestion(from, ''));
-                                updateQuestion(from, '');
+                                await updateQuestion(from, '');
                                 res.sendStatus(200);
                             } else {
                                 await axios(request.textMessage(from, response.data.result));
@@ -625,10 +637,10 @@ exports.webHook = async (req, res) => {
                                 await axios(request.textMessage(from,
                                     '🌟 Se você deseja explorar mais aspectos de sua vida ou fazer outras perguntas, estou aqui para auxiliá-lo. O conhecimento do Tarot é vasto e podemos desvendar juntos muitos segredos ocultos 🔮'));
                                 // await axios(request.updateTokens(from, -3));
-                                updateTokens(from, -3);
+                                await updateTokens(from, -3);
                                 await axios(request.interactiveMessage(from, 'Você quer saber mais alguma coisa?', ['Sim', 'Não'], 0));
                                 // await axios(request.updateQuestion(from, ''));
-                                updateQuestion(from, '');
+                                await updateQuestion(from, '');
                                 res.sendStatus(200);
                             }
                         } catch (err) {
@@ -722,7 +734,7 @@ exports.webHook = async (req, res) => {
                                 // await axios(request.textMessage(from, 'Você quer saber mais alguma coisa?', ['Sim', 'Não'], 0))
                                 await updateState(from, 0);
                                 // await axios(request.updateQuestion(from, ''));
-                                updateQuestion(from, '');
+                                await updateQuestion(from, '');
                                 res.sendStatus(200);
                             } else {
                                 await axios(request.textMessage(from, response.data.result));
@@ -731,10 +743,10 @@ exports.webHook = async (req, res) => {
                                 await axios(request.textMessage(from,
                                     'Espero que essa leitura tenha fornecido insights valiosos sobre o seu relacionamento amoroso. Se você tiver mais perguntas ou quiser explorar outros aspectos da sua vida, estou aqui para ajudar. 🔮'));
                                 // await axios(request.updateTokens(from, -7));
-                                updateTokens(from, -7);
+                                await updateTokens(from, -7);
                                 await axios(request.interactiveMessage(from, 'Você quer saber mais alguma coisa?', ['Sim', 'Não'], 0));
                                 // await axios(request.updateQuestion(from, ''));
-                                updateQuestion(from, '');
+                                await updateQuestion(from, '');
                                 res.sendStatus(200);
                             }
 
@@ -772,7 +784,7 @@ exports.webHook = async (req, res) => {
                                 // await axios(request.textMessage(from, 'Você quer saber mais alguma coisa?', ['Sim', 'Não'], 0))
                                 await updateState(from, 0);
                                 // await axios(request.updateQuestion(from, ''));
-                                updateQuestion(from, '');
+                                await updateQuestion(from, '');
                                 res.sendStatus(200);
                             } else {
                                 await axios(request.textMessage(from, response.data.result));
@@ -781,10 +793,10 @@ exports.webHook = async (req, res) => {
                                 await axios(request.textMessage(from,
                                     '🌟 Se você deseja explorar mais aspectos de sua vida ou fazer outras perguntas, estou aqui para auxiliá-lo. O conhecimento do Tarot é vasto e podemos desvendar juntos muitos segredos ocultos 🔮'));
                                 // await axios(request.updateTokens(from, -10));
-                                updateTokens(from, -10);
+                                await updateTokens(from, -10);
                                 await axios(request.interactiveMessage(from, 'Você quer saber mais alguma coisa?', ['Sim', 'Não'], 0));
                                 // await axios(request.updateQuestion(from, ''));
-                                updateQuestion(from, '');
+                                await updateQuestion(from, '');
                                 res.sendStatus(200);
                             }
 
@@ -826,7 +838,7 @@ exports.webHook = async (req, res) => {
                                 // await axios(request.textMessage(from, 'Você quer saber mais alguma coisa?', ['Sim', 'Não'], 0))
                                 await updateState(from, 0);
                                 // await axios(request.updateQuestion(from, ''));
-                                updateQuestion(from, '');
+                                await updateQuestion(from, '');
                                 res.sendStatus(200);
                             } else {
                                 await axios(request.textMessage(from, response.data.result));
@@ -835,10 +847,10 @@ exports.webHook = async (req, res) => {
                                 await axios(request.textMessage(from,
                                     '🌟 Se você deseja explorar mais aspectos de sua vida ou fazer outras perguntas, estou aqui para auxiliá-lo. O conhecimento do Tarot é vasto e podemos desvendar juntos muitos segredos ocultos 🔮'));
                                 // await axios(request.updateTokens(from, -10));
-                                updateTokens(from, -10);
+                                await updateTokens(from, -10);
                                 await axios(request.interactiveMessage(from, 'Você quer saber mais alguma coisa?', ['Sim', 'Não'], 0));
                                 // await axios(request.updateQuestion(from, ''));
-                                updateQuestion(from, '');
+                                await updateQuestion(from, '');
                                 res.sendStatus(200);
                             }
                         } catch (err) {
