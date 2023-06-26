@@ -115,9 +115,10 @@ function completion(pergunta, cartas, combinacoes, jogo) {
                 // if (!pergunta || !cartas || !jogo) {
                 //     await axios(request.textMessage('Algo deu errado'))
                 // }
-                if (pergunta && cartas && jogo)
+                console.log(pergunta, cartas, combinacoes, jogo)
+                if (pergunta && cartas && jogo){
                     response = await axios(request.completion(pergunta, cartas, combinacoes, jogo));
-
+                }
                 resolve(response);
             } catch (error) {
                 console.error(`Erro na tentativa ${currentAttempt}: ${error.message}`);
