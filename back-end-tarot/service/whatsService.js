@@ -109,27 +109,27 @@ function updateTokens(from, tokens) {
 
 function completion(pergunta, cartas, combinacoes, jogo) {
     return new Promise(async (resolve, reject) => {
-        try {
-            operation.attempt(async (currentAttempt) => {
-                try {
-                    let response;
-                    if (pergunta && cartas) {
-                        response = await axios(request.completion(pergunta, cartas, combinacoes, jogo));
-                        console.log(response)
-                    }
-                    resolve(response);
-                } catch (error) {
-                    console.error(`Erro na tentativa ${currentAttempt}: ${error.message}`);
-                    if (operation.retry(error)) {
-                        return;
-                    }
-                    reject('A solicitação falhou após as tentativas.');
-                    // console.error('A solicitação falhou após as tentativas.');
+        operation.attempt(async (currentAttempt) => {
+            try {
+                let response;
+                // if (!pergunta || !cartas || !jogo) {
+                //     await axios(request.textMessage('Algo deu errado'))
+                // }
+                // console.log(pergunta, cartas, combinacoes, jogo)
+                if (pergunta && cartas){
+                    response = await axios(request.completion(pergunta, cartas, combinacoes, jogo));
+                    console.log(response)
                 }
-            });
-        } catch (err) {
-            reject('A solicitação falhou após as tentativas.');
-        }
+                resolve(response);
+            } catch (error) {
+                console.error(`Erro na tentativa ${currentAttempt}: ${error.message}`);
+                if (operation.retry(error)) {
+                    return;
+                }
+                reject('A solicitação falhou após as tentativas.');
+                // console.error('A solicitação falhou após as tentativas.');
+            }
+        });
     });
 }
 
