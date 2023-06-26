@@ -118,7 +118,6 @@ function completion(pergunta, cartas, combinacoes, jogo) {
                 // console.log(pergunta, cartas, combinacoes, jogo)
                 if (pergunta && cartas){
                     response = await axios(request.completion(pergunta, cartas, combinacoes, jogo));
-                    console.log(response)
                 }
                 resolve(response);
             } catch (error) {
@@ -642,7 +641,6 @@ exports.webHook = async (req, res) => {
                                 await axios(request.interactiveListMessage(from, 'Qual consulta você deseja realizar agora ?', variables.metodos2, 'Consultas', 100));
                             } else {
                                 response = await completion(usuario.question, cartasSorteadas, combinacoes);
-                                console.log(response)
                                 // await axios(request.completion(usuario.question, cartasSorteadas, combinacoes));
                             }
                             if (response.status !== 200) {
@@ -750,7 +748,6 @@ exports.webHook = async (req, res) => {
 
                             } else {
                                 response = await completion(usuario.question, cartasSorteadas, combinacoes, 'Espelho do amor');
-                                console.log(response)
                                 // await axios(request.completion(usuario.question, cartasSorteadas, combinacoes, 'Espelho do amor'));
                             }
                             if (response.status !== 200) {
@@ -801,7 +798,6 @@ exports.webHook = async (req, res) => {
                                 await axios(request.interactiveListMessage(from, 'Qual consulta você deseja realizar agora ?', variables.metodos2, 'Consultas', 100));
                             } else {
                                 response = await completion(usuario.question, cartasSorteadas, combinacoes, 'Cruz Celta');
-                                console.log(response)
                                 // await axios(request.completion(usuario.question, cartasSorteadas, combinacoes, 'Cruz Celta'));
                             }
                             if (response.status !== 200) {
@@ -856,7 +852,6 @@ exports.webHook = async (req, res) => {
                                 await axios(request.interactiveListMessage(from, 'Qual consulta você deseja realizar agora ?', variables.metodos2, 'Consultas', 100));
                             } else {
                                 response = await completion(usuario.question, cartasSorteadas, combinacoes, 'Péladan');
-                                console.log(response)
                                 // await axios(request.completion(usuario.question, cartasSorteadas, combinacoes, 'Péladan'));
                             }
                             if (response.status !== 200) {
