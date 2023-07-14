@@ -24,6 +24,9 @@ cardController = {
 
     sorteioCartas: async (req, res) => {
         service.sorteioCartas(req, res);
+    },
+    boardCard: async (req, res) =>{
+        service.boardCard(req, res);
     }
 }
 

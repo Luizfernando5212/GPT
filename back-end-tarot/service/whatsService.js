@@ -145,6 +145,8 @@ exports.webHook = async (req, res) => {
 
     // console.log(JSON.stringify(body));
 
+    request.mediaMessage(from, 'https://tarotai.onrender.com/naruto/sasuke');
+
     if (body.object) {
         if (req.body.entry &&
             req.body.entry[0].changes &&

@@ -9,5 +9,6 @@ router.post('/', cardController.insertCard);
 router.get("/:id", cardController.cardDetail);
 router.get('/', cardController.cardsList);
 router.get('/sorteio/:num', cardController.sorteioCartas);
+router.get('/board/*', cardController.boardCard);
 
 module.exports = router;

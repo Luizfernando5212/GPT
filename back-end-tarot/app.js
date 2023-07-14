@@ -29,6 +29,8 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
+app.use(express.static('images'));
+
 // Routers
 app.use('/model', modelRouter);
 app.use('/card', cardRouter);

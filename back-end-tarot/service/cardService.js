@@ -110,3 +110,56 @@ exports.sorteioCartas = async (req, res) => {
         console.log(err);
     }
 }
+
+exports.boardCard = async (req, res) => {
+    try {
+        const images = {
+            naruto: 'https://tarotai.onrender.com/tarot_img1.jpeg',
+            sasuke: 'https://tarotai.onrender.com/tarot_img1.jpg',
+          }
+          console.log(req.path)
+          const parameters = req.path.split('/');
+          parameters.splice(0, 2);
+        
+          console.log({
+            images,
+            parameters,
+            possible: images[parameters[0]],
+            firstParameter: parameters[0],
+            req: req.path
+          });
+        
+        
+          const board = `<svg width="682" height="565" viewBox="0 0 682 565" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <rect width="682" height="565" fill="white"/>
+        <rect x="62" y="45" width="134" height="219" fill="url(#pattern0)"/>
+        <rect x="274" y="45" width="134" height="219" fill="url(#pattern1)"/>
+        <rect x="470" y="45" width="134" height="219" fill="url(#pattern2)"/>
+        <rect x="274" y="299" width="134" height="219" fill="url(#pattern3)"/>
+        <defs>
+        <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
+        <use xlink:href="#image0_1_2" transform="matrix(0.0255364 0 0 0.015625 -0.317164 0)"/>
+        </pattern>
+        <pattern id="pattern1" patternContentUnits="objectBoundingBox" width="1" height="1">
+        <use xlink:href="#image0_1_3" transform="matrix(0.0255364 0 0 0.015625 -0.317164 0)"/>
+        </pattern>
+        <pattern id="pattern2" patternContentUnits="objectBoundingBox" width="1" height="1">
+        <use xlink:href="#image0_1_4" transform="matrix(0.0255364 0 0 0.015625 -0.317164 0)"/>
+        </pattern>
+        <pattern id="pattern3" patternContentUnits="objectBoundingBox" width="1" height="1">
+        <use xlink:href="#image0_1_5" transform="matrix(0.0255364 0 0 0.015625 -0.317164 0)"/>
+        </pattern>
+        <image id="image0_1_2" width="64" height="64" xlink:href="${images[parameters[0]]}"/>
+        <image id="image0_1_3" width="64" height="64" xlink:href="${images[parameters[1]]}"/>
+        <image id="image0_1_4" width="64" height="64" xlink:href="${images[parameters[0]]}"/>
+        <image id="image0_1_5" width="64" height="64" xlink:href="${images[parameters[1]]}"/>
+        </defs>
+        </svg>`;
+        
+          res.setHeader('Content-Type', 'image/svg+xml');
+          res.send(board);
+    } catch(err) {
+        console.log(err)
+    }
+    
+}
