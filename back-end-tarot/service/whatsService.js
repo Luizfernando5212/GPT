@@ -158,7 +158,7 @@ exports.webHook = async (req, res) => {
             console.log(Math.round(Date.now() / 1000))
             let from = req.body.entry[0].changes[0].value.messages[0].from; // extract the phone number from the webhook payload
             console.log('antes')
-            await axios(request.mediaMessage(from, 'https://tarotai.onrender.com/naruto/sasuke'));
+            await axios(request.mediaMessage(from, 'https://tarotai.onrender.com/card/board/naruto/sasuke'));
             console.log('depois')
             // console.log(cheguei)
 
