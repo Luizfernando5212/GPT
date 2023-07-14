@@ -145,7 +145,7 @@ exports.webHook = async (req, res) => {
 
     // console.log(JSON.stringify(body));
 
-    request.mediaMessage(from, 'https://tarotai.onrender.com/naruto/sasuke');
+    
 
     if (body.object) {
         if (req.body.entry &&
@@ -157,6 +157,8 @@ exports.webHook = async (req, res) => {
             console.log(body.entry[0].changes[0].value.messages[0].timestamp);
             console.log(Math.round(Date.now() / 1000))
             let from = req.body.entry[0].changes[0].value.messages[0].from; // extract the phone number from the webhook payload
+
+            await axios(request.mediaMessage(from, 'https://tarotai.onrender.com/naruto/sasuke'));
             // console.log(cheguei)
 
             // console.log(body.entry[0].changes[0].value.messages[0].timestamp);
