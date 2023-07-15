@@ -168,8 +168,8 @@ exports.webHook = async (req, res) => {
                     }, time);
                 });
             }
-            
-            await sleep(5000);
+
+            await sleep(10000);
             // console.log(cheguei)
 
             // console.log(body.entry[0].changes[0].value.messages[0].timestamp);
