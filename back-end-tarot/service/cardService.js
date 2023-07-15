@@ -1,7 +1,6 @@
 const Card = require('../models/cards');
-var fs = require('fs');
+const puppeteer = require('puppeteer');
 
-var x;
 
 exports.getCards = async (req, res) => {
     try {
@@ -91,15 +90,15 @@ exports.sorteioCartas = async (req, res) => {
             res.status(200).json({ maiores: cartasMaiores });
             return;
         } else {
-            while (cartasMaiores.length < numCartas/2 || cartasMenores < numCartas/2) {
+            while (cartasMaiores.length < numCartas / 2 || cartasMenores < numCartas / 2) {
                 let i = Math.floor(Math.random() * 22);
                 let j = Math.floor(Math.random() * 22);
 
-                if (!cartasMaiores.includes(arcanosMaiores[i].name) && cartasMaiores.length < numCartas/2) {
+                if (!cartasMaiores.includes(arcanosMaiores[i].name) && cartasMaiores.length < numCartas / 2) {
                     cartasMaiores.push(arcanosMaiores[i].name);
                 }
-    
-                if (!cartasMenores.includes(arcanosMenores[j].name) && cartasMenores.length < numCartas/2) {
+
+                if (!cartasMenores.includes(arcanosMenores[j].name) && cartasMenores.length < numCartas / 2) {
                     cartasMenores.push(arcanosMenores[j].name);
                 }
             }
@@ -111,26 +110,66 @@ exports.sorteioCartas = async (req, res) => {
     }
 }
 
+exports.boardNew = async (req, res) => {
+    try {
+        const browser = await puppeteer.launch({
+            
+        });
+        const page = await browser.newPage();
+        page.setViewport({ width: 682, height: 565 });
+
+        const url = 'https://tarotai.onrender.com';
+
+        const parameters = req.path.replace('/image/', 'board/');
+
+        console.log(parameters)
+
+        await page.goto(`${url}/card/${parameters}`, {
+            waitUntil: 'networkidle2'
+        });
+
+        page.on('error', err => {
+            console.error('err', err, err.stack)
+            browser.close();
+            res.status(500).end(err);
+        });
+
+        await page.evaluateHandle('document.fonts.ready');
+
+        const image = await page.screenshot({
+            fullPage: true,
+        });
+
+        await browser.close();
+
+        res.setHeader('Content-Type', 'image/png');
+
+        res.status(200).send(image);
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 exports.boardCard = async (req, res) => {
     try {
         const images = {
-            naruto: 'https://tarotai.onrender.com/tarot_img1.jpeg',
-            sasuke: 'https://tarotai.onrender.com/tarot_img1.jpg',
-          }
-          console.log(req.path)
-          const parameters = req.path.split('/');
-          parameters.splice(0, 2);
-        
-          console.log({
+            naruto: 'https://tarotai.onrender.com/a01.jpg',
+            sasuke: 'https://tarotai.onrender.com/a02.jpg',
+        }
+        console.log(req.path)
+        const parameters = req.path.split('/');
+        parameters.splice(0, 2);
+
+        console.log({
             images,
             parameters,
             possible: images[parameters[0]],
             firstParameter: parameters[0],
             req: req.path
-          });
-        
-        
-          const board = `<svg width="682" height="565" viewBox="0 0 682 565" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        });
+
+
+        const board = `<svg width="682" height="565" viewBox="0 0 682 565" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
         <rect width="682" height="565" fill="white"/>
         <rect x="62" y="45" width="134" height="219" fill="url(#pattern0)"/>
         <rect x="274" y="45" width="134" height="219" fill="url(#pattern1)"/>
@@ -155,11 +194,15 @@ exports.boardCard = async (req, res) => {
         <image id="image0_1_5" width="64" height="64" xlink:href="${images[parameters[1]]}"/>
         </defs>
         </svg>`;
-        
-          res.setHeader('Content-Type', 'image/svg+xml');
-          res.send(board);
-    } catch(err) {
+
+
+
+        res.setHeader('Content-Type', 'image/svg+xml');
+        // res.setHeader('Content-Type', 'image/png');
+        res.send(board);
+        // res.send(pixelArray);
+    } catch (err) {
         console.log(err)
     }
-    
+
 }

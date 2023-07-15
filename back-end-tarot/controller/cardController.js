@@ -27,6 +27,9 @@ cardController = {
     },
     boardCard: async (req, res) =>{
         service.boardCard(req, res);
+    },
+    boardNew: async (req, res) =>{
+        service.boardNew(req, res);
     }
 }
 
