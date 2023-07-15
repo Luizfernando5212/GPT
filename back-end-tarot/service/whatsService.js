@@ -160,6 +160,16 @@ exports.webHook = async (req, res) => {
             console.log('antes')
             await axios(request.mediaMessage(from, 'https://tarotai.onrender.com/card/image/naruto/sasuke'));
             console.log('depois')
+
+            let sleep = async (time) => {
+                return new Promise((resolve, reject) => {
+                    setTimeout(() => {
+                        resolve();
+                    }, time);
+                });
+            }
+            
+            await sleep(5000);
             // console.log(cheguei)
 
             // console.log(body.entry[0].changes[0].value.messages[0].timestamp);
