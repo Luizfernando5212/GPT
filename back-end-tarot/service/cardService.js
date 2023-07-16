@@ -2,7 +2,7 @@ const Card = require('../models/cards');
 // const puppeteer = require('puppeteer');
 // const svg = require('../util/svgDict');
 const b = require('../util/boards');
-const svg2img = require('svg2img');
+// const svg2img = require('svg2img');
 const { convert } = require('convert-svg-to-png');
 
 
