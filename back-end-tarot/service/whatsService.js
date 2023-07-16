@@ -132,6 +132,9 @@ function completion(pergunta, cartas, combinacoes, jogo) {
     });
 }
 
+function buildPath(cartas, combinacoes, jogo) {
+}
+
 let sleep = async (time) => {
     return new Promise((resolve, reject) => {
         setTimeout(() => {
@@ -146,6 +149,7 @@ exports.webHook = async (req, res) => {
     let message;
     let usuario;
     let state;
+    let path = '';
     // var possibilidades = [1, 2, 3, 4, 5, 6, 8, 10, 20]
     // console.log(body.entry[0].changes[0].value.messages[0].timestamp);
     // console.log(Date.now() / 1000)
@@ -165,11 +169,11 @@ exports.webHook = async (req, res) => {
             console.log(body.entry[0].changes[0].value.messages[0].timestamp);
             console.log(Math.round(Date.now() / 1000))
             let from = req.body.entry[0].changes[0].value.messages[0].from; // extract the phone number from the webhook payload
-            console.log('antes')
-            await axios(request.mediaMessage(from, 'https://tarotai.onrender.com/card/board/a01/a02/a03/a04/a05/a06/a07/a08/a09/a10/m2'));
-            console.log('depois')
+            // console.log('antes')
+            // await axios(request.mediaMessage(from, 'https://tarotai.onrender.com/card/board/a01/a02/a03/a04/a05/a06/a07/a08/a09/a10/m2'));
+            // console.log('depois')
 
-            await sleep(10000);
+            // await sleep(10000);
             // console.log(cheguei)
 
             // console.log(body.entry[0].changes[0].value.messages[0].timestamp);
@@ -643,12 +647,21 @@ exports.webHook = async (req, res) => {
                             console.log('0,1,2,3');
                             let response;
                             let cartasSorteadas = await axios(request.sorteioCartas(3));
+                            
                             cartasSorteadas = cartasSorteadas.data;
                             for (let i = 0; i < cartasSorteadas.maiores.length; i++) {
                                 combinacoes += `${i + 1}ª posição *${variables.posicoes[i]}*` + ' -> ' + cartasSorteadas.maiores[i] + '\n'
+                                for (let carta in variables.cards) {
+                                    if (carta === cartasSorteadas.maiores[i]) {
+                                        path += variables.cards[carta][1] + '/'
+                                    }
+                                }
                             }
+                            path += 'm4';
                             await axios(request.textMessage(from, "*Suas cartas são*\n" + combinacoes));
-                            await axios(request.mediaMessage(from, `https://i.imgur.com/imYdWbd.jpg`));
+                            // await axios(request.mediaMessage(from, `https://i.imgur.com/imYdWbd.jpg`));
+                            await axios(request.mediaMessage(from, process.env.URL + path));
+                            await sleep(15000);
                             await axios(request.textMessage(from,
                                 `Agora, deixe-me interpretar o significado das cartas em relação à sua pergunta. Elas revelam caminhos ocultos e possíveis respostas para você 👁️‍🗨️`));
                             if (!usuario.question || !cartasSorteadas) {
@@ -755,8 +768,18 @@ exports.webHook = async (req, res) => {
                             let cartasSorteadas = await axios(request.sorteioCartas(7));
                             cartasSorteadas = cartasSorteadas.data;
                             combinacoes = variables.espelho(cartasSorteadas.maiores, usuario.question);
+                            for (let i = 0; i < cartasSorteadas.maiores.length; i++) {
+                                for (let carta in variables.cards) {
+                                    if (carta === cartasSorteadas.maiores[i]) {
+                                        path += variables.cards[carta][1] + '/'
+                                    }
+                                }
+                            }
+                            path += 'm1'
                             // await axios(request.mediaMessage(from, `https://i.imgur.com/xnc1GQf.jpg`));
                             await axios(request.textMessage(from, "*Suas cartas são*\n" + combinacoes));
+                            await axios(request.mediaMessage(from, process.env.URL + path));
+                            await sleep(15000);
                             if (!usuario.question || !cartasSorteadas) {
                                 await axios(request.textMessage(from, 'Ocorreu um erro ao tentar interpretar sua pergunta, Selecione uma nova consulta.'));
                                 await axios(request.interactiveListMessage(from, 'Qual consulta você deseja realizar agora ?', variables.metodos2, 'Consultas', 100));
@@ -804,9 +827,17 @@ exports.webHook = async (req, res) => {
                             cartasSorteadas = cartasSorteadas.data;
                             await axios(request.textMessage(from, "Perfeito! Agora, vamos iniciar a leitura das cartas. 🔍"));
                             for (let i = 0; i < cartasSorteadas.maiores.length; i++) {
-                                combinacoes += `${i + 1}ª posição ` + ' -> ' + cartasSorteadas.maiores[i] + '\n'
+                                combinacoes += `${i + 1}ª posição ` + ' -> ' + cartasSorteadas.maiores[i] + '\n';
+                                for (let carta in variables.cards) {
+                                    if (carta === cartasSorteadas.maiores[i]) {
+                                        path += variables.cards[carta][1] + '/'
+                                    }
+                                }
                             }
+                            path += 'm2'
                             await axios(request.textMessage(from, '*Suas cartas sorteadas são*\n' + combinacoes));
+                            await axios(request.mediaMessage(from, process.env.URL + path));
+                            await sleep(15000);
                             await axios(request.textMessage(from, 'Com base nas cartas reveladas na Cruz Celta, posso lhe fornecer insights valiosos sobre a sua questão. 🎴💫'));
                             if (!usuario.question || !cartasSorteadas) {
                                 await axios(request.textMessage(from, 'Ocorreu um erro ao tentar interpretar sua pergunta, Selecione uma nova consulta.'));
@@ -855,12 +886,25 @@ exports.webHook = async (req, res) => {
                             await axios(request.textMessage(from, "Perfeito! Agora, vamos iniciar a leitura das cartas. 🔍"));
                             for (let i = 0; i < cartasSorteadas.maiores.length; i++) {
                                 combinacoes += `${i + 1}ª posição ` + ' -> ' + cartasSorteadas.maiores[i] + '\n'
+                                for (let carta in variables.cards) {
+                                    if (carta === cartasSorteadas.maiores[i]) {
+                                        path += variables.cards[carta][1] + '/'
+                                    }
+                                }
                             }
                             await axios(request.textMessage(from, 'Agora vou revelar suas cartas dos Arcanos Maiores, que são os arcanos principais e trazem uma visão ampla e simbólica da situação. \n' + combinacoes));
                             combinacoes = '';
                             for (let i = 0; i < cartasSorteadas.menores.length; i++) {
                                 combinacoes += `${i + 1}ª posição ` + ' -> ' + cartasSorteadas.menores[i] + '\n'
+                                for (let carta in variables.cards) {
+                                    if (carta === cartasSorteadas.menores[i]) {
+                                        path += variables.cards[carta][1] + '/'
+                                    }
+                                }
                             }
+                            
+                            await axios(request.mediaMessage(from, process.env.URL + path));
+                            await sleep(15000);
                             await axios(request.textMessage(from, 'agora vou te mostrar o caminho através dos Arcanos Menores. São eles que apontam a tendência da situação, mostrando os detalhes mais específicos e práticos.\n' + combinacoes));
                             if (!usuario.question || !cartasSorteadas) {
                                 await axios(request.textMessage(from, 'Ocorreu um erro ao tentar interpretar sua pergunta, Selecione uma nova consulta.'));
