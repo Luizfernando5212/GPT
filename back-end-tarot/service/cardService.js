@@ -3,7 +3,8 @@ const Card = require('../models/cards');
 // const svg = require('../util/svgDict');
 const b = require('../util/boards');
 // const svg2img = require('svg2img');
-const { convert } = require('convert-svg-to-png');
+// const { convert } = require('convert-svg-to-png');
+const { Resvg } = require('@resvg/resvg-js')
 
 
 exports.getCards = async (req, res) => {
@@ -190,9 +191,44 @@ exports.boardCard = async (req, res) => {
 
         // res.setHeader('Content-Type', 'image/svg+xml');
         // res.status(200).send(board);
-        const png = await convert(board);
-        res.setHeader('Content-Type', 'image/png');
-        res.status(200).send(png);
+        // const png = await convert(board);
+        // res.setHeader('Content-Type', 'image/png');
+        // res.status(200).send(png);
+
+        const opts = {
+            fitTo: {
+              mode: 'width',
+              value: 1200,
+            },
+            font: {
+              loadSystemFonts: false,
+            },
+          }
+          const resvg = new Resvg(board, opts);
+          const pngData = resvg.render();
+          const pngBuffer = pngData.asPng();
+        
+        
+          res.setHeader('Content-Type', 'image/png');
+          res.setHeader('Cache-Control', 'immutable, no-transform, s-max-age=2592000, max-age=2592000');
+        
+          res.status(200).send(pngBuffer);
+
+        // const opts = {
+        //     fitTo: {
+        //       mode: 'width',
+        //       value: 500,
+        //     },
+        //   }
+        //   const resvg = new Resvg(board, opts);
+        //   const pngData = resvg.render();
+        //   const pngBuffer = pngData.asPng();
+        
+        
+        //   res.setHeader('Content-Type', 'image/png');
+        //   res.setHeader('Cache-Control', 'immutable, no-transform, s-max-age=2592000, max-age=2592000');
+        
+        //   res.status(200).send(pngBuffer);
     
         // svg2img(board, function (error, buffer) {
         //     if (error) {
