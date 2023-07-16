@@ -666,6 +666,7 @@ exports.webHook = async (req, res) => {
                             let response;
                             // let cartasSorteadas = await axios(request.sorteioCartas(3));
                             let cartasSorteadas = await sorteioCartas(3);
+                            console.log(cartasSorteadas)
 
                             cartasSorteadas = cartasSorteadas.data;
                             for (let i = 0; i < cartasSorteadas.maiores.length; i++) {
@@ -677,8 +678,10 @@ exports.webHook = async (req, res) => {
                                 }
                             }
                             path += 'm4';
+                            console.log(path)
                             await axios(request.textMessage(from, "*Suas cartas são*\n" + combinacoes));
                             // await axios(request.mediaMessage(from, `https://i.imgur.com/imYdWbd.jpg`));
+                            console.log(process.env.URL + path);
                             await axios(request.mediaMessage(from, process.env.URL + path));
                             await sleep(15000);
                             await axios(request.textMessage(from,
