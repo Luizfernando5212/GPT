@@ -132,13 +132,21 @@ function completion(pergunta, cartas, combinacoes, jogo) {
     });
 }
 
+let sleep = async (time) => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve();
+        }, time);
+    });
+}
+
 
 exports.webHook = async (req, res) => {
     let body = req.body;
     let message;
     let usuario;
     let state;
-    var possibilidades = [1, 2, 3, 4, 5, 6, 8, 10, 20]
+    // var possibilidades = [1, 2, 3, 4, 5, 6, 8, 10, 20]
     // console.log(body.entry[0].changes[0].value.messages[0].timestamp);
     // console.log(Date.now() / 1000)
     // id = await axios()
@@ -158,16 +166,8 @@ exports.webHook = async (req, res) => {
             console.log(Math.round(Date.now() / 1000))
             let from = req.body.entry[0].changes[0].value.messages[0].from; // extract the phone number from the webhook payload
             console.log('antes')
-            await axios(request.mediaMessage(from, 'https://tarotai.onrender.com/card/image/naruto/sasuke'));
+            await axios(request.mediaMessage(from, 'http://localhost:3000/card/board/a01/a02/a03/a04/a05/a06/a07/a08/a09/a10/m2'));
             console.log('depois')
-
-            let sleep = async (time) => {
-                return new Promise((resolve, reject) => {
-                    setTimeout(() => {
-                        resolve();
-                    }, time);
-                });
-            }
 
             await sleep(10000);
             // console.log(cheguei)
