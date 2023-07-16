@@ -902,6 +902,7 @@ exports.webHook = async (req, res) => {
                                     }
                                 }
                             }
+                            path += 'm3'
                             
                             await axios(request.mediaMessage(from, process.env.URL + path));
                             await sleep(15000);
