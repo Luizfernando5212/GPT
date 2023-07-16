@@ -666,7 +666,7 @@ exports.webHook = async (req, res) => {
                             let response;
                             // let cartasSorteadas = await axios(request.sorteioCartas(3));
                             let cartasSorteadas = await sorteioCartas(3);
-                            console.log(cartasSorteadas)
+                            // console.log(cartasSorteadas)
 
                             cartasSorteadas = cartasSorteadas.data;
                             for (let i = 0; i < cartasSorteadas.maiores.length; i++) {
@@ -800,6 +800,8 @@ exports.webHook = async (req, res) => {
                                 }
                             }
                             path += 'm1'
+                            console.log(path)
+                            console.log(process.env.URL + path)
                             // await axios(request.mediaMessage(from, `https://i.imgur.com/xnc1GQf.jpg`));
                             await axios(request.textMessage(from, "*Suas cartas são*\n" + combinacoes));
                             await axios(request.mediaMessage(from, process.env.URL + path));
@@ -861,6 +863,8 @@ exports.webHook = async (req, res) => {
                                 }
                             }
                             path += 'm2'
+                            console.log(path)
+                            console.log(process.env.URL + path)
                             await axios(request.textMessage(from, '*Suas cartas sorteadas são*\n' + combinacoes));
                             await axios(request.mediaMessage(from, process.env.URL + path));
                             await sleep(15000);
@@ -931,6 +935,8 @@ exports.webHook = async (req, res) => {
                                 }
                             }
                             path += 'm3'
+                            console.log(path)
+                            console.log(process.env.URL + path)
 
                             await axios(request.mediaMessage(from, process.env.URL + path));
                             await sleep(15000);
