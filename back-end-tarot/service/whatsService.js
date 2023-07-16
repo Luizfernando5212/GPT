@@ -107,6 +107,24 @@ function updateTokens(from, tokens) {
     });
 }
 
+function sorteioCartas(qtd) {
+    return new Promise(async (resolve, reject) => {
+        operation.attempt(async (currentAttempt) => {
+            try {
+                let response = await axios(request.sorteioCartas(qtd));
+                resolve(response);
+            } catch (error) {
+                console.error(`Erro na tentativa ${currentAttempt}: ${error.message}`);
+                if (operation.retry(error)) {
+                    return;
+                }
+                reject('A solicitação falhou após as tentativas.');
+                // console.error('A solicitação falhou após as tentativas.');
+            }
+        });
+    })
+}
+
 function completion(pergunta, cartas, combinacoes, jogo) {
     return new Promise(async (resolve, reject) => {
         operation.attempt(async (currentAttempt) => {
@@ -116,7 +134,7 @@ function completion(pergunta, cartas, combinacoes, jogo) {
                 //     await axios(request.textMessage('Algo deu errado'))
                 // }
                 // console.log(pergunta, cartas, combinacoes, jogo)
-                if (pergunta && cartas){
+                if (pergunta && cartas) {
                     response = await axios(request.completion(pergunta, cartas, combinacoes, jogo));
                 }
                 resolve(response);
@@ -157,7 +175,7 @@ exports.webHook = async (req, res) => {
 
     // console.log(JSON.stringify(body));
 
-    
+
 
     if (body.object) {
         if (req.body.entry &&
@@ -646,8 +664,9 @@ exports.webHook = async (req, res) => {
                         try {
                             console.log('0,1,2,3');
                             let response;
-                            let cartasSorteadas = await axios(request.sorteioCartas(3));
-                            
+                            // let cartasSorteadas = await axios(request.sorteioCartas(3));
+                            let cartasSorteadas = await sorteioCartas(3);
+
                             cartasSorteadas = cartasSorteadas.data;
                             for (let i = 0; i < cartasSorteadas.maiores.length; i++) {
                                 combinacoes += `${i + 1}ª posição *${variables.posicoes[i]}*` + ' -> ' + cartasSorteadas.maiores[i] + '\n'
@@ -765,7 +784,9 @@ exports.webHook = async (req, res) => {
                         try {
                             console.log('200,201,202,203')
                             let response;
-                            let cartasSorteadas = await axios(request.sorteioCartas(7));
+                            // let cartasSorteadas = await axios(request.sorteioCartas(7));
+                            let cartasSorteadas = await sorteioCartas(7);
+
                             cartasSorteadas = cartasSorteadas.data;
                             combinacoes = variables.espelho(cartasSorteadas.maiores, usuario.question);
                             for (let i = 0; i < cartasSorteadas.maiores.length; i++) {
@@ -823,7 +844,9 @@ exports.webHook = async (req, res) => {
                         try {
                             console.log('300,301,302,303')
                             let response;
-                            let cartasSorteadas = await axios(request.sorteioCartas(11));
+                            // let cartasSorteadas = await axios(request.sorteioCartas(11));
+                            let cartasSorteadas = await sorteioCartas(11);
+
                             cartasSorteadas = cartasSorteadas.data;
                             await axios(request.textMessage(from, "Perfeito! Agora, vamos iniciar a leitura das cartas. 🔍"));
                             for (let i = 0; i < cartasSorteadas.maiores.length; i++) {
@@ -881,7 +904,9 @@ exports.webHook = async (req, res) => {
                         try {
                             console.log('400,401,402,403')
                             let response;
-                            let cartasSorteadas = await axios(request.sorteioCartas(10));
+                            // let cartasSorteadas = await axios(request.sorteioCartas(10));
+                            let cartasSorteadas = await sorteioCartas(10);
+
                             cartasSorteadas = cartasSorteadas.data;
                             await axios(request.textMessage(from, "Perfeito! Agora, vamos iniciar a leitura das cartas. 🔍"));
                             for (let i = 0; i < cartasSorteadas.maiores.length; i++) {
@@ -903,7 +928,7 @@ exports.webHook = async (req, res) => {
                                 }
                             }
                             path += 'm3'
-                            
+
                             await axios(request.mediaMessage(from, process.env.URL + path));
                             await sleep(15000);
                             await axios(request.textMessage(from, 'agora vou te mostrar o caminho através dos Arcanos Menores. São eles que apontam a tendência da situação, mostrando os detalhes mais específicos e práticos.\n' + combinacoes));
