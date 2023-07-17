@@ -44,16 +44,16 @@ exports.cruzCelta = (p) => {
 <pattern id="pattern9" patternContentUnits="objectBoundingBox" width="1" height="1">
 <use xlink:href="#image0_1_10" transform="matrix(0.0302169 0 0 0.015625 -0.466942 0)"/>
 </pattern>
-<image id="image0_1_1" width="64" height="64" xlink:href="${svg[p[0]]}"/>
-<image id="image0_1_2" width="64" height="64" xlink:href="${svg[p[1]]}"/>
+<image id="image0_1_1" width="64" height="64" xlink:href="${svg[p[9]]}"/>
+<image id="image0_1_2" width="64" height="64" xlink:href="${svg[p[8]]}"/>
 <image id="image0_1_3" width="64" height="64" xlink:href="${svg[p[2]]}"/>
-<image id="image0_1_4" width="64" height="64" xlink:href="${svg[p[3]]}"/>
-<image id="image0_1_5" width="64" height="64" xlink:href="${svg[p[4]]}"/>
-<image id="image0_1_6" width="64" height="64" xlink:href="${svg[p[5]]}"/>
-<image id="image0_1_7" width="64" height="64" xlink:href="${svg[p[6]]}"/>
-<image id="image0_1_8" width="64" height="64" xlink:href="${svg[p[7]]}"/>
-<image id="image0_1_9" width="64" height="64" xlink:href="${svg[p[8]]}"/>
-<image id="image0_1_10" width="64" height="64" xlink:href="${svg[p[9]]}"/>
+<image id="image0_1_4" width="64" height="64" xlink:href="${svg[p[0]]}"/>
+<image id="image0_1_5" width="64" height="64" xlink:href="${svg[p[1]]}"/>
+<image id="image0_1_6" width="64" height="64" xlink:href="${svg[p[4]]}"/>
+<image id="image0_1_7" width="64" height="64" xlink:href="${svg[p[5]]}"/>
+<image id="image0_1_8" width="64" height="64" xlink:href="${svg[p[3]]}"/>
+<image id="image0_1_9" width="64" height="64" xlink:href="${svg[p[7]]}"/>
+<image id="image0_1_10" width="64" height="64" xlink:href="${svg[p[6]]}"/>
 </defs>
 </svg>`
 }
@@ -90,13 +90,13 @@ exports.espelhoAmor = (p) => {
 <pattern id="pattern6" patternContentUnits="objectBoundingBox" width="1" height="1">
 <use xlink:href="#image0_2_7" transform="matrix(0.0302169 0 0 0.015625 -0.466942 0)"/>
 </pattern>
-<image id="image0_2_1" width="64" height="64" xlink:href="${svg[p[0]]}"/>
-<image id="image0_2_2" width="64" height="64" xlink:href="${svg[p[1]]}"/>
-<image id="image0_2_3" width="64" height="64" xlink:href="${svg[p[2]]}"/>
-<image id="image0_2_4" width="64" height="64" xlink:href="${svg[p[3]]}"/>
-<image id="image0_2_5" width="64" height="64" xlink:href="${svg[p[4]]}"/>
-<image id="image0_2_6" width="64" height="64" xlink:href="${svg[p[5]]}"/>
-<image id="image0_2_7" width="64" height="64" xlink:href="${svg[p[6]]}"/>
+<image id="image0_2_1" width="64" height="64" xlink:href="${svg[p[3]]}"/>
+<image id="image0_2_2" width="64" height="64" xlink:href="${svg[p[4]]}"/>
+<image id="image0_2_3" width="64" height="64" xlink:href="${svg[p[6]]}"/>
+<image id="image0_2_4" width="64" height="64" xlink:href="${svg[p[5]]}"/>
+<image id="image0_2_5" width="64" height="64" xlink:href="${svg[p[0]]}"/>
+<image id="image0_2_6" width="64" height="64" xlink:href="${svg[p[1]]}"/>
+<image id="image0_2_7" width="64" height="64" xlink:href="${svg[p[2]]}"/>
 </defs>
 </svg>`
 }
@@ -146,16 +146,16 @@ exports.peladan = (p) => {
 <pattern id="pattern9" patternContentUnits="objectBoundingBox" width="1" height="1">
 <use xlink:href="#image0_2_10" transform="matrix(0.0302169 0 0 0.015625 -0.466942 0)"/>
 </pattern>
-<image id="image0_2_1" width="64" height="64" xlink:href="${svg[p[0]]}"/>
-<image id="image0_2_2" width="64" height="64" xlink:href="${svg[p[1]]}"/>
-<image id="image0_2_3" width="64" height="64" xlink:href="${svg[p[2]]}"/>
-<image id="image0_2_4" width="64" height="64" xlink:href="${svg[p[3]]}"/>
-<image id="image0_2_5" width="64" height="64" xlink:href="${svg[p[4]]}"/>
-<image id="image0_2_6" width="64" height="64" xlink:href="${svg[p[5]]}"/>
-<image id="image0_2_7" width="64" height="64" xlink:href="${svg[p[6]]}"/>
-<image id="image0_2_8" width="64" height="64" xlink:href="${svg[p[7]]}"/>
-<image id="image0_2_9" width="64" height="64" xlink:href="${svg[p[8]]}"/>
-<image id="image0_2_10" width="64" height="64" xlink:href="${svg[p[9]]}"/>
+<image id="image0_2_1" width="64" height="64" xlink:href="${svg[p[2]]}"/>
+<image id="image0_2_2" width="64" height="64" xlink:href="${svg[p[4]]}"/>
+<image id="image0_2_3" width="64" height="64" xlink:href="${svg[p[0]]}"/>
+<image id="image0_2_4" width="64" height="64" xlink:href="${svg[p[1]]}"/>
+<image id="image0_2_5" width="64" height="64" xlink:href="${svg[p[3]]}"/>
+<image id="image0_2_6" width="64" height="64" xlink:href="${svg[p[7]]}"/>
+<image id="image0_2_7" width="64" height="64" xlink:href="${svg[p[9]]}"/>
+<image id="image0_2_8" width="64" height="64" xlink:href="${svg[p[5]]}"/>
+<image id="image0_2_9" width="64" height="64" xlink:href="${svg[p[6]]}"/>
+<image id="image0_2_10" width="64" height="64" xlink:href="${svg[p[8]]}"/>
 </defs>
 </svg>`
 }
