@@ -181,6 +181,8 @@ exports.boardCard = async (req, res) => {
         //     req: req.path
         // });
 
+        console.log(parameters)
+
         switch (metodo) {
             case 'm1': board = b.espelhoAmor(parameters); break;
             case 'm2': board = b.cruzCelta(parameters); break;

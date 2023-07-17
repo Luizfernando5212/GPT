@@ -177,9 +177,9 @@ exports.tres = (p) => {
 <pattern id="pattern2" patternContentUnits="objectBoundingBox" width="1" height="1">
 <use xlink:href="#image0_2_3" transform="matrix(0.0302169 0 0 0.015625 -0.466942 0)"/>
 </pattern>
-<image id="image0_2_1" width="64" height="64" xlink:href="${svg[p[0]]}"/>
-<image id="image0_2_2" width="64" height="64" xlink:href="${svg[p[1]]}"/>
-<image id="image0_2_3" width="64" height="64" xlink:href="${svg[p[2]]}"/>
+<image id="image0_2_1" width="64" height="64" xlink:href="${svg[p[1]]}"/>
+<image id="image0_2_2" width="64" height="64" xlink:href="${svg[p[2]]}"/>
+<image id="image0_2_3" width="64" height="64" xlink:href="${svg[p[0]]}"/>
 </defs>
 </svg>`
 }
