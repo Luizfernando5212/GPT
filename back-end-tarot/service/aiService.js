@@ -322,10 +322,10 @@ exports.completionWhats = async (req, res) => {
   try {
 
     const completion = await openai.createChatCompletion({
-      model: "gpt-3.5-turbo",
+      model: "gpt-3.5-turbo-16k",
       messages: generatePromptWhats(cartasMaiores, cartasMenores, pergunta/* , combinacoes */, metodo),
-      temperature: 0.4,
-      max_tokens: 1000
+      temperature: 0.0,
+      max_tokens: 16000
     });
     // res.status(200).json({ result: completion.data.choices[0].text });
     console.log(completion.data.usage)
@@ -370,10 +370,10 @@ exports.completion = async (req, res) => {
   try {
 
     const completion = await openai.createChatCompletion({
-      model: "gpt-3.5-turbo",
+      model: "gpt-3.5-turbo-16k",
       messages: generatePrompt(metodo, cartasMaiores, cartasMenores, pergunta),
-      temperature: 0.4,
-      max_tokens: 1000
+      temperature: 0.0,
+      max_tokens: 16000
     });
     // res.status(200).json({ result: completion.data.choices[0].text });
     console.log(completion.data.usage)
@@ -451,7 +451,7 @@ exports.verificaQtdAfirmacoes = async (req, res) => {
 
   try {
     const completion = await openai.createChatCompletion({
-      model: 'gpt-3.5-turbo',
+      model: 'gpt-3.5-turbo-16k',
       messages: messages,
       temperature: 0
     })
@@ -516,10 +516,10 @@ exports.agenda = async (req, res) => {
   try {
 
     const completion = await openai.createChatCompletion({
-      model: "gpt-3.5-turbo",
+      model: "gpt-3.5-turbo-16k",
       messages: generateAgendaPrompt(message),
-      temperature: 0.2,
-      max_tokens: 1000
+      temperature: 0.0,
+      max_tokens: 16000
     });
     // res.status(200).json({ result: completion.data.choices[0].text });
     console.log(completion.data.usage)
