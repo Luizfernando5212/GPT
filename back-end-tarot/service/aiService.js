@@ -171,27 +171,27 @@ Finalize fazendo um resumo do jogo de acordo com a pergunta do consulente entre 
 Método Péladan para Interpretação das Cartas de Tarot.
 
 Posição 1 - Presente: O que está favorável no presente?  
-Arcano Maior ${carta1}: Simbologia, significado e relação com a pergunta.
-Arcano Menor ${carta6}: Simbologia, significado e direcionamento para o Arcano Maior.
+Arcano Maior ${cartasMaiores[0]}: Simbologia, significado e relação com a pergunta.
+Arcano Menor ${cartasMenores[0]}: Simbologia, significado e direcionamento para o Arcano Maior.
 
 Posição 2 - Inverso: Aspectos negativos ou obstáculos no presente.
-Arcano Maior Invertido ${carta2}: Simbologia, significado e relação com a pergunta.
-Arcano Menor Invertido ${carta7}: Simbologia, significado e direcionamento para o Arcano Maior Invertido.
+Arcano Maior Invertido ${cartasMaiores[1]}: Simbologia, significado e relação com a pergunta.
+Arcano Menor Invertido ${cartasMenores[1]}: Simbologia, significado e direcionamento para o Arcano Maior Invertido.
 
 Paralelo entre Posições 1 e 2: Como o momento atual e seus obstáculos interagem.
       
 Posição 3 - Direção Futura: Qual direção a questão tomará?
-Arcano Maior ${carta3}: Simbologia, significado e relação com a pergunta.
-Arcano Menor ${carta8}: Simbologia, significado e direcionamento para o Arcano Maior.
+Arcano Maior ${cartasMaiores[2]}: Simbologia, significado e relação com a pergunta.
+Arcano Menor ${cartasMenores[2]}: Simbologia, significado e direcionamento para o Arcano Maior.
       
 Posição 4 - Resultado: Qual será o resultado final?
-Arcano Maior ${carta4}: Simbologia, significado e relação com a pergunta.
-Arcano Menor ${carta9}: Simbologia, significado e direcionamento para o Arcano Maior.
+Arcano Maior ${cartasMaiores[3]}: Simbologia, significado e relação com a pergunta.
+Arcano Menor ${cartasMenores[3]}: Simbologia, significado e direcionamento para o Arcano Maior.
 Inter-relação entre Posições 3 e 4: Como o direcionamento futuro e o resultado final estão ligados.
 
 Posição 5 - Síntese: Como você percebe e age sobre a questão?      
-Arcano Maior ${carta5}: Simbologia, significado e relação com a pergunta.
-Arcano Menor ${carta10}: Simbologia, significado e direcionamento para o Arcano Maior.
+Arcano Maior ${cartasMaiores[4]}: Simbologia, significado e relação com a pergunta.
+Arcano Menor ${cartasMenores[4]}: Simbologia, significado e direcionamento para o Arcano Maior.
 Resumo do Jogo: Interpretação geral com a combinação do jogo e conclusão. Responda com sim, não ou talvez, e explique o motivo.
 [Pergunta do consulente: ${pergunta}]`
       break;
