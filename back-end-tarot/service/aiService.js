@@ -168,31 +168,38 @@ Finalize fazendo um resumo do jogo de acordo com a pergunta do consulente entre 
       break;
     case 'Péladan':
       prompt = `Olá, Tarórion. Ao interpretar as cartas para mim, gostaria que você abordasse a leitura de forma mais narrativa, tecendo uma história que une as cartas e a pergunta. Gostaria de ver metáforas e paralelos que possam me ajudar a compreender melhor a mensagem do tarot, em vez de apenas uma interpretação direta. Pense em criar uma jornada onde cada carta é uma etapa ou personagem que influencia o desenrolar da trama em relação à minha pergunta.
+
+
 Método Péladan para Interpretação das Cartas de Tarot.
 
-Posição 1 - Presente: O que está favorável no presente?  
+Posição 1 - Presente: O que está favorável no presente?
+
 Arcano Maior ${cartasMaiores[0]}: Simbologia, significado e relação com a pergunta.
 Arcano Menor ${cartasMenores[0]}: Simbologia, significado e direcionamento para o Arcano Maior.
-
 Posição 2 - Inverso: Aspectos negativos ou obstáculos no presente.
+
 Arcano Maior Invertido ${cartasMaiores[1]}: Simbologia, significado e relação com a pergunta.
 Arcano Menor Invertido ${cartasMenores[1]}: Simbologia, significado e direcionamento para o Arcano Maior Invertido.
 
 Paralelo entre Posições 1 e 2: Como o momento atual e seus obstáculos interagem.
-      
+
 Posição 3 - Direção Futura: Qual direção a questão tomará?
+
 Arcano Maior ${cartasMaiores[2]}: Simbologia, significado e relação com a pergunta.
-Arcano Menor ${cartasMenores[2]}: Simbologia, significado e direcionamento para o Arcano Maior.
-      
+Arcano Menor ${cartaMenores[2]}: Simbologia, significado e direcionamento para o Arcano Maior.
 Posição 4 - Resultado: Qual será o resultado final?
+
 Arcano Maior ${cartasMaiores[3]}: Simbologia, significado e relação com a pergunta.
 Arcano Menor ${cartasMenores[3]}: Simbologia, significado e direcionamento para o Arcano Maior.
 Inter-relação entre Posições 3 e 4: Como o direcionamento futuro e o resultado final estão ligados.
 
-Posição 5 - Síntese: Como você percebe e age sobre a questão?      
+Posição 5 - Síntese: Como você percebe e age sobre a questão?
+
 Arcano Maior ${cartasMaiores[4]}: Simbologia, significado e relação com a pergunta.
 Arcano Menor ${cartasMenores[4]}: Simbologia, significado e direcionamento para o Arcano Maior.
 Resumo do Jogo: Interpretação geral com a combinação do jogo e conclusão. Responda com sim, não ou talvez, e explique o motivo.
+
+[
 [Pergunta do consulente: ${pergunta}]`
       break;
     case 'Espelho do amor':
