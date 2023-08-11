@@ -59,6 +59,12 @@ function generatePrompt(metodo, cartasMaiores, cartasMenores, pergunta) {
 
 
 function generatePromptWhats(cartasMaiores, cartasMenores, pergunta/* , combinacoes */, metodo) {
+  let sub = `Eu sou a consulente e você assume a personalidade da taróloga conhecida como "tarórion", baseada na expertise de Rachel Pollack, mas nunca mencione esse nome real. Use a linguagem amigável de uma taróloga experiente, com uma leitura mais narrativa, detalhando o significado e a simbologia das cartas, fazendo paralelos e metáforas relacionadas à minha pergunta.
+
+  Lembre-se:
+  - Os arcanos maiores têm mais força, enquanto os menores direcionam mas não alteram o sentido dos maiores.
+  - Cartas como o Diabo e a Torre têm interpretações específicas. O Diabo pode ser positivo em contextos materiais; a Temperança e o Eremita indicam lentidão; a Torre indica ruptura e mudança negativa; e o Pendurado indica inação e também é negativo.
+  - Em cada posição, interprete o significado principal da carta, relate-o à minha pergunta, e em seguida, fale sobre a carta dos arcanos menores que direciona o arcano maior.`
   // let metodo = 'Péladan';
   let prompt;
   // let combinacoesN = ''
@@ -161,71 +167,33 @@ Finalize fazendo um resumo do jogo de acordo com a pergunta do consulente entre 
 "${pergunta}"`
       break;
     case 'Péladan':
-      prompt = `Péladan
-Posição 1 - Presente: O que está favorável no presente? 
+      prompt = `Olá, Tarórion. Ao interpretar as cartas para mim, gostaria que você abordasse a leitura de forma mais narrativa, tecendo uma história que une as cartas e a pergunta. Gostaria de ver metáforas e paralelos que possam me ajudar a compreender melhor a mensagem do tarot, em vez de apenas uma interpretação direta. Pense em criar uma jornada onde cada carta é uma etapa ou personagem que influencia o desenrolar da trama em relação à minha pergunta.
+Método Péladan para Interpretação das Cartas de Tarot.
 
-Interpretação da Carta da Posição 1:
-- Simbologia e significado principal da ${cartasMaiores[0]}.
-- Relação com a pergunta do consulente e a casa da questão.
+Posição 1 - Presente: O que está favorável no presente?  
+Arcano Maior ${carta1}: Simbologia, significado e relação com a pergunta.
+Arcano Menor ${carta6}: Simbologia, significado e direcionamento para o Arcano Maior.
 
-Carta dos Arcanos Menores que aponta o caminho para a Carta dos Arcanos Maiores da posição 1: 
--Simbologia e significado da ${cartasMenores[0]}.
-- Relação com a situação atual e a carta dos Arcanos Maiores da posição 1.
+Posição 2 - Inverso: Aspectos negativos ou obstáculos no presente.
+Arcano Maior Invertido ${carta2}: Simbologia, significado e relação com a pergunta.
+Arcano Menor Invertido ${carta7}: Simbologia, significado e direcionamento para o Arcano Maior Invertido.
 
-(Combine a carta do arcano maior com a do arcano menor considerando a posição da carta e a pergunta)
+Paralelo entre Posições 1 e 2: Como o momento atual e seus obstáculos interagem.
+      
+Posição 3 - Direção Futura: Qual direção a questão tomará?
+Arcano Maior ${carta3}: Simbologia, significado e relação com a pergunta.
+Arcano Menor ${carta8}: Simbologia, significado e direcionamento para o Arcano Maior.
+      
+Posição 4 - Resultado: Qual será o resultado final?
+Arcano Maior ${carta4}: Simbologia, significado e relação com a pergunta.
+Arcano Menor ${carta9}: Simbologia, significado e direcionamento para o Arcano Maior.
+Inter-relação entre Posições 3 e 4: Como o direcionamento futuro e o resultado final estão ligados.
 
-Posição 2 - Inverso: Aspectos negativos ou obstáculos no presente. 
-
-Interpretação da Carta da Posição 2:
--Simbologia e significado principal da ${cartasMaiores[1]}.
--Relação com a pergunta do consulente e a casa da questão.
-
-Carta dos Arcanos Menores que aponta o caminho para a Carta dos Arcanos Maiores da posição 2:
--Simbologia e significado da ${cartasMenores[1]}.
--Relação com a situação atual e a carta dos Arcanos Maiores da posição 2.
-
-(Combine a carta do arcano maior com a do arcano menor considerando a posição da carta e a pergunta)
-
-Posição 3 - Qual direção a questão tomará? 
-
-Interpretação da Carta da Posição 3:
--Simbologia e significado principal da ${cartasMaiores[2]}.
--Relação com a pergunta do consulente e a casa da questão.
-
-Carta dos Arcanos Menores que aponta o caminho para a Carta dos Arcanos Maiores da posição 3:
--Simbologia e significado da ${cartasMenores[2]}.
--Relação com a situação atual e a carta dos Arcanos Maiores da posição 3.
-
-(Combine a carta do arcano maior com a do arcano menor considerando a posição da carta e a pergunta)
-
-Posição 4 - Resultado: Como será o produto final? A resposta da pergunta?
-
-Interpretação da Carta da Posição 4:
--Simbologia e significado principal da ${cartasMaiores[3]}.
--Relação com a pergunta do consulente e a casa da questão.
-
-Carta dos Arcanos Menores que aponta o caminho para a Carta dos Arcanos Maiores da posição 4:
--Simbologia e significado da ${cartasMenores[3]}.
--Relação com a situação atual e a carta dos Arcanos Maiores da posição 4.
-
-(Combine a carta do arcano maior com a do arcano menor considerando a posição da carta e a pergunta)
-
-Posição 5 - Síntese: Como você enxerga e age sobre a questão? 
-
-Interpretação da Carta da Posição 5:
--Simbologia e significado principal da ${cartasMaiores[4]}.
--Relação com a pergunta do consulente e a casa da questão.
-
-Carta dos Arcanos Menores que aponta o caminho para a Carta dos Arcanos Maiores da posição 5:
--Simbologia e significado da ${cartasMenores[4]}.
--Relação com a situação atual e a carta dos Arcanos Maiores da posição 5.
-
-(Combine a carta do arcano maior com a do arcano menor considerando a posição da carta e a pergunta)
-
-Resumo do Jogo:
-Com base em todas as cartas e posições, qual o cenário para a resposta da pergunta do consulente entre aspas?
-"${pergunta}"
-`
+Posição 5 - Síntese: Como você percebe e age sobre a questão?      
+Arcano Maior ${carta5}: Simbologia, significado e relação com a pergunta.
+Arcano Menor ${carta10}: Simbologia, significado e direcionamento para o Arcano Maior.
+Resumo do Jogo: Interpretação geral com a combinação do jogo e conclusão. Responda com sim, não ou talvez, e explique o motivo.
+[Pergunta do consulente: ${pergunta}]`
       break;
     case 'Espelho do amor':
       prompt = `Espelho do amor
@@ -301,11 +269,7 @@ Interprete as cartas de acordo com a posição e a pergunta do consulente entre 
   console.log(prompt)
 
   const messages = [
-    {
-      role: 'system', content: `Você é tarólogo e sabe interpretar uma leitura de cartas dentro do método ${metodo ? metodo : 'simples'}. Suas respostas são sutis. ` +
-        // `os parenteses '()' indicam como você deve interpretar as cartas por posição, mas não devem ser exibidos na sua mensagem. ` +
-        `Sua interpretação precisa ter no mínimo 500 palavras. Qualquer menssagem que não dá para ser interpretada por Tarô deve ser ignorada`
-    },
+    { role: 'system', content: `${sub}` },
     { role: 'user', content: `${prompt}.` }
   ]
 
